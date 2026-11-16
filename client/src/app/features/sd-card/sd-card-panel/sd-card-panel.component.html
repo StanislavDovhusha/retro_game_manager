@@ -1,0 +1,37 @@
+<div class="flex items-center justify-between gap-2">
+  <p class="muted flex items-center gap-1 text-xs"><app-icon name="hard-drive" [size]="13" /> {{ 'sdCard.title' | translate }}</p>
+  @if (devices.active(); as device) {
+    <span class="badge" [title]="'sdCard.device' | translate: { name: device.name }">{{ device.name }}</span>
+  }
+</div>
+@if (!card.root()) {
+  <p class="muted mt-2 text-xs">{{ 'sdCard.noRoot' | translate }}</p>
+} @else {
+  <p class="mt-1 break-all font-mono text-xs" [title]="card.root()">{{ card.root() }}</p>
+  @if (card.state()?.error; as err) { <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ err }}</p> }
+  <label class="label mt-2" for="sd-platform">{{ 'sdCard.platform' | translate }}</label>
+  <div class="flex items-center gap-2">
+    <select id="sd-platform" class="input" [disabled]="busy() || !card.state()?.platforms?.length" (change)="choose(val($event))">
+      <option value="" disabled [selected]="!card.state()?.platform">{{ 'sdCard.choosePlatform' | translate }}</option>
+      @for (p of card.state()?.platforms ?? []; track p.name) {
+        <option [value]="p.name" [selected]="p.name === card.state()?.platform">{{ p.label ? p.name + ' — ' + p.label : p.name }}</option>
+      }
+    </select>
+    @if (selecting()) { <app-icon name="loader" [size]="15" class="animate-spin" /> }
+  </div>
+  @if (card.state() && !card.state()?.error && card.state()?.platforms?.length === 0) {
+    <p class="muted mt-1 text-xs">{{ 'sdCard.noPlatforms' | translate }}</p>
+  }
+  @if (settings()?.platform) {
+    <dl class="mt-2 space-y-1 text-xs">
+      <div><dt class="muted">{{ 'sdCard.imagesDir' | translate }}</dt><dd class="break-all font-mono" [title]="settings()?.imagesDir">{{ settings()?.imagesDir }}</dd></div>
+      <div><dt class="muted">{{ 'sdCard.csvFile' | translate }}</dt><dd class="break-all font-mono" [title]="settings()?.csvPath">{{ settings()?.csvPath }}</dd></div>
+    </dl>
+  }
+  <button type="button" class="muted mt-2 flex items-center gap-1 text-xs hover:underline" [attr.aria-expanded]="card.treeOpen()" (click)="card.toggleTree()">
+    <app-icon [name]="card.treeOpen() ? 'chevron-down' : 'chevron-right'" [size]="13" /> {{ 'sdCard.contents' | translate }}
+  </button>
+  @if (card.treeOpen()) {
+    <app-sd-card-tree [rows]="card.rows()" [platform]="card.platform()" [busy]="busy()" (toggleNode)="card.toggle($event)" (choosePlatform)="choose($event)" />
+  }
+}

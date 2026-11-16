@@ -1,0 +1,30 @@
+<button #trigger type="button" class="btn" id="lang-menu-button" aria-haspopup="menu" aria-controls="lang-menu" [attr.aria-expanded]="open()"
+  [attr.aria-label]="('header.language' | translate) + ': ' + currentMeta().name" [title]="'header.language' | translate"
+  (click)="toggle()" (keydown)="onTriggerKeydown($event)">
+  <app-icon name="globe" [size]="15" />
+  <span [attr.lang]="currentMeta().code">{{ currentMeta().name }}</span>
+  <app-icon name="chevron-down" [size]="13" class="chevron muted" [class.chevron-open]="open()" />
+</button>
+
+@if (open()) {
+  <!-- Drawn under the button by its right edge first, then moved inside the window once measured (placement). -->
+  <div #menu class="menu panel z-50 overflow-y-auto overflow-x-hidden rounded-md border py-1 shadow-lg" id="lang-menu" role="menu"
+    aria-labelledby="lang-menu-button" [style.left.px]="placement()?.left" [style.top.px]="placement()?.top"
+    [style.right]="placement() ? 'auto' : null" [style.max-width.px]="placement()?.maxWidth" [style.max-height.px]="placement()?.maxHeight"
+    [style.grid-template-columns]="'repeat(' + columnItems().length + ', auto)'" (keydown)="onMenuKeydown($event)">
+    @for (column of columnItems(); track $index; let first = $first) {
+      <div role="none" class="border-shell-200 dark:border-shell-800" [class.border-l]="!first">
+        @for (language of column; track language.code) {
+          <button #item type="button" role="menuitemradio" [attr.aria-checked]="language.code === current()" [attr.lang]="language.code" tabindex="-1"
+            class="flex w-full items-center gap-2 whitespace-nowrap px-3 py-1.5 text-left hover:bg-shell-100 focus:bg-shell-100 focus:outline-none dark:hover:bg-shell-800 dark:focus:bg-shell-800"
+            [class.font-semibold]="language.code === current()" (click)="choose(language.code)">
+            <span class="grid w-4 shrink-0 place-items-center text-btn-500">
+              @if (language.code === current()) { <app-icon name="check" [size]="14" /> }
+            </span>
+            {{ language.name }}
+          </button>
+        }
+      </div>
+    }
+  </div>
+}

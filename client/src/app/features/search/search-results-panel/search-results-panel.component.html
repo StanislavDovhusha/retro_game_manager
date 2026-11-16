@@ -1,0 +1,20 @@
+<div class="flex h-9 shrink-0 items-center gap-2 border-b border-inherit px-3">
+  <app-icon [name]="loading() ? 'loader' : 'search'" [size]="13" class="muted shrink-0" [class.animate-spin]="loading()" />
+  <span class="min-w-0 flex-1 truncate text-xs" role="status">{{ 'searchResults.title' | translate: { query: term(), count: results().length } }}</span>
+  <button type="button" class="btn btn-icon h-6 w-6 shrink-0 border-transparent bg-transparent dark:bg-transparent" (click)="closed.emit()"
+    [title]="'searchResults.close' | translate" [attr.aria-label]="'searchResults.close' | translate"><app-icon name="x" [size]="14" /></button>
+</div>
+<app-virtual-list [count]="results().length" [rowHeight]="rowHeight" className="px-1 pb-2" [resetKey]="term()" [itemKey]="itemKey">
+  <ng-template #empty>
+    <p class="muted p-4 text-center">{{ (loading() ? 'header.search.searching' : 'header.search.nothing') | translate }}</p>
+  </ng-template>
+  <ng-template #row let-i>
+    @let game = results()[i];
+    @if (game) {
+      <button type="button" (click)="openResult.emit(game)" [title]="game.folder + '/' + game.rel"
+        class="flex h-full w-full items-center rounded px-2 text-left {{ selectedKey() === keyOf(game) ? 'bg-btn-500/15 ring-1 ring-btn-500/60' : 'hover:bg-shell-100 dark:hover:bg-shell-800' }}">
+        <app-search-result [game]="game" [term]="term()" />
+      </button>
+    }
+  </ng-template>
+</app-virtual-list>

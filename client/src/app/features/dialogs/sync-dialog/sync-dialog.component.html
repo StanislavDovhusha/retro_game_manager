@@ -1,0 +1,25 @@
+<app-modal [title]="'sync.title' | translate" [wide]="true" (closed)="close()">
+  @if (state.error(); as error) {
+    <p class="rounded-md border border-red-500/40 bg-red-500/10 p-3 text-red-700 dark:text-red-300">{{ error }}</p>
+  }
+  @if (!state.preview() && !state.error()) {
+    <p class="muted flex items-center gap-2"><app-icon name="loader" [size]="15" class="animate-spin" /> {{ 'sync.comparing' | translate }}</p>
+  }
+
+  @if (state.report(); as report) {
+    <app-sync-report [report]="report" />
+  } @else if (state.preview(); as preview) {
+    <app-sync-preview [preview]="preview" [upToDate]="state.upToDate()" />
+  }
+
+  <div footer class="contents">
+    @if (state.report()) {
+      <button type="button" class="btn btn-primary" (click)="closed.emit()">{{ 'buttons.done' | translate }}</button>
+    } @else {
+      <button type="button" class="btn" (click)="closed.emit()" [disabled]="state.applying()">{{ 'buttons.cancel' | translate }}</button>
+      <button type="button" class="btn btn-primary" (click)="state.apply()" [disabled]="!state.preview() || state.applying() || state.upToDate()">
+        <app-icon [name]="state.applying() ? 'loader' : 'file-spreadsheet'" [size]="15" [class.animate-spin]="state.applying()" /> {{ 'buttons.sync' | translate }}
+      </button>
+    }
+  </div>
+</app-modal>

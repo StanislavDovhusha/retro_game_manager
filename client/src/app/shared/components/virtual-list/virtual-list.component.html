@@ -1,0 +1,18 @@
+<div #scroller (scroll)="onScroll()" class="relative min-h-0 flex-1 overflow-auto {{ className() }}">
+  @if (headerTpl(); as header) {
+    <div class="sticky top-0 z-10" [style.height.px]="headerHeight()" [style.min-width.px]="minWidth()">
+      <ng-container [ngTemplateOutlet]="header" />
+    </div>
+  }
+  @if (count() === 0) {
+    @if (emptyTpl(); as empty) { <ng-container [ngTemplateOutlet]="empty" /> }
+  } @else {
+    <div class="relative" [style.height.px]="count() * rowHeight()" [style.min-width.px]="minWidth()">
+      @for (i of indices(); track itemKey()(i)) {
+        <div class="absolute left-0 right-0" [style.top.px]="i * rowHeight()" [style.height.px]="rowHeight()">
+          <ng-container [ngTemplateOutlet]="rowTpl()" [ngTemplateOutletContext]="{ $implicit: i }" />
+        </div>
+      }
+    </div>
+  }
+</div>

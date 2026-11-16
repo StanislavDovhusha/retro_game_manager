@@ -1,0 +1,232 @@
+{
+  "$comment": "Shared card layout of the SF3000 family. Abstract: not offered as a model, the models extend it.",
+  "id": "sf3000-family",
+  "abstract": true,
+  "name": "SF3000 family",
+  "detect": {
+    "anyOf": ["cubegm", "rootfs"],
+    "allOf": []
+  },
+  "folders": {
+    "system": ["rootfs", "cubegm"],
+    "saves": "cubegm",
+    "media": ["ebook", "photo", "bgm", "music", "movie"]
+  },
+  "saves": {
+    "saves": "saves",
+    "states": "states",
+    "lists": ["allfiles.lst", "favorites.lst", "recent.lst"],
+    "mainList": "allfiles.lst",
+    "listFormat": {
+      "separator": "|",
+      "fields": ["path", "title", "titleUpper", "short", "shortUpper"]
+    },
+    "cores": "cores/filelist.xml"
+  },
+  "csv": {
+    "fileName": "filelist.csv",
+    "delimiter": ",",
+    "encoding": "utf8",
+    "header": false,
+    "bom": true,
+    "lineEnding": "crlf"
+  },
+  "covers": {
+    "folder": "images",
+    "width": 640,
+    "height": 480
+  },
+  "extensions": [
+    "gba",
+    "gb",
+    "gbc",
+    "nes",
+    "fds",
+    "sfc",
+    "smc",
+    "md",
+    "gen",
+    "smd",
+    "sms",
+    "gg",
+    "pce",
+    "nds",
+    "n64",
+    "z64",
+    "v64",
+    "bin",
+    "iso",
+    "img",
+    "cue",
+    "zip",
+    "7z",
+    "ws",
+    "wsc",
+    "ngp",
+    "ngc",
+    "a26",
+    "pbp"
+  ],
+  "platforms": [
+    {
+      "folder": "FC",
+      "name": "Nintendo (NES / Famicom)",
+      "zip": true,
+      "cover": {
+        "from": "#c0392b",
+        "to": "#4a1410",
+        "accent": "#f2c14e",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "SFC",
+      "name": "Super Nintendo (SNES)",
+      "zip": true,
+      "cover": {
+        "from": "#5b3fa0",
+        "to": "#1f1240",
+        "accent": "#c9b8ff",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "GBA",
+      "name": "Game Boy Advance",
+      "zip": true,
+      "cover": {
+        "from": "#3b3fb6",
+        "to": "#121452",
+        "accent": "#8fd3ff",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "GB",
+      "name": "Game Boy",
+      "zip": true,
+      "cover": {
+        "from": "#5f7d2a",
+        "to": "#1f2b0c",
+        "accent": "#d6e89a",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "GBC",
+      "name": "Game Boy Color",
+      "zip": true,
+      "cover": {
+        "from": "#0f8a8a",
+        "to": "#0a2f38",
+        "accent": "#ffd166",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "MD",
+      "name": "Sega Mega Drive / Genesis",
+      "zip": true,
+      "cover": {
+        "from": "#1f3c88",
+        "to": "#080d20",
+        "accent": "#ff4d4d",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "PS",
+      "name": "PlayStation",
+      "zip": false,
+      "cover": {
+        "from": "#4a5568",
+        "to": "#141820",
+        "accent": "#9ad1ff",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "PCE",
+      "name": "PC Engine / TurboGrafx-16",
+      "zip": true,
+      "cover": {
+        "from": "#c75a1a",
+        "to": "#4a1c05",
+        "accent": "#ffe0b2",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "SMS",
+      "name": "Sega Master System",
+      "zip": true,
+      "cover": {
+        "from": "#2e2e2e",
+        "to": "#0b0b0b",
+        "accent": "#e63946",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "GG",
+      "name": "Sega Game Gear",
+      "zip": true,
+      "cover": {
+        "from": "#11698e",
+        "to": "#04263a",
+        "accent": "#a8e6cf",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "NGPC",
+      "name": "Neo Geo Pocket Color",
+      "zip": true,
+      "cover": {
+        "from": "#55647f",
+        "to": "#191f2d",
+        "accent": "#ffcf56",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "WSC",
+      "name": "WonderSwan Color",
+      "zip": true,
+      "cover": {
+        "from": "#a4307a",
+        "to": "#3a0e29",
+        "accent": "#ffd6ec",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "ATARI",
+      "name": "Atari",
+      "zip": true,
+      "cover": {
+        "from": "#8b5a2b",
+        "to": "#341d09",
+        "accent": "#f4a261",
+        "text": "#ffffff"
+      }
+    },
+    {
+      "folder": "MAME",
+      "name": "Arcade (MAME)",
+      "zip": true,
+      "cover": {
+        "from": "#2a1a5e",
+        "to": "#05030f",
+        "accent": "#00e5c7",
+        "text": "#ffffff"
+      }
+    }
+  ],
+  "tips": {
+    "cpu": "MIPS",
+    "incompatibleFirmware": "ArkOS, JELOS, EmuELEC",
+    "firmwareLink": "",
+    "communityLink": "https://r36sx-hub.neocities.org/"
+  }
+}

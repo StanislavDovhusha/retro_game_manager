@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+// Vertical scrolling of the window stays with the browser; sideways moves are the slider's.
+.viewport {
+  touch-action: pan-y;
+
+  &:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+}
+
+.track {
+  transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+// While a finger or the mouse drags the track it follows at once, and text is not selected by the drag.
+.dragging {
+  cursor: grabbing;
+  user-select: none;
+
+  .track {
+    transition: none;
+  }
+}
+
+.address {
+  user-select: all; // one click selects the whole address
+}
+
+.dot span {
+  transition: width 200ms ease-out, background-color 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .dot span {
+    transition: none;
+  }
+}

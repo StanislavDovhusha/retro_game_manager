@@ -1,0 +1,52 @@
+<app-modal [title]="'renameGame.title' | translate" [wide]="true" (closed)="close()">
+  <div class="space-y-4">
+    <div>
+      <label class="label" for="rename-title">{{ 'renameGame.newTitle' | translate }}</label>
+      <input id="rename-title" class="input" appLatinInput [value]="state.title()" maxlength="200" [disabled]="state.busy()"
+        [attr.aria-invalid]="state.titleError() ? 'true' : null" (input)="state.title.set(valueOf($event))" (keydown.enter)="submit()" />
+      @if (state.titleError(); as key) {
+        <p class="mt-1 text-xs text-red-600 dark:text-red-400" role="alert">{{ key | translate }}</p>
+      }
+      <p class="muted mt-1 text-xs">
+        {{ 'renameGame.fileNameHint' | translate }}
+        @if (state.fileBase()) { <span class="font-mono">{{ state.fileBase() }}</span> } @else { — }
+        · {{ 'fields.shortName' | translate }}: <span class="font-mono">{{ state.shortName() || '—' }}</span>
+      </p>
+    </div>
+
+    @if (state.loading()) {
+      <p class="muted flex items-center gap-2"><app-icon name="loader" [size]="14" class="animate-spin" /> {{ 'renameGame.checking' | translate }}</p>
+    }
+    @if (state.error(); as error) {
+      <p class="rounded-md border border-red-500/40 bg-red-500/10 p-3 text-red-700 dark:text-red-300" role="alert">{{ error }}</p>
+    }
+
+    @if (state.plan(); as plan) {
+      <div>
+        <p class="label">{{ 'renameGame.willBeRenamed' | translate }}</p>
+        <ul class="max-h-56 space-y-1 overflow-auto rounded-md bg-shell-100 p-3 text-xs dark:bg-shell-950">
+          @for (step of plan.steps; track $index) {
+            <li class="break-all">
+              <span class="muted">{{ 'renameGame.kinds.' + step.kind | translate }}:</span>
+              <span class="font-mono"> {{ step.from }}</span>@if (step.to) { <span class="font-mono"> → {{ step.to }}</span> }
+              @if (step.count) { <span class="muted"> ({{ 'renameGame.replacements' | translate }}: {{ step.count }})</span> }
+            </li>
+          }
+        </ul>
+      </div>
+      @for (error of plan.listErrors ?? []; track error) {
+        <p class="flex items-start gap-2 text-xs text-red-600 dark:text-red-400" role="alert"><app-icon name="alert" [size]="14" class="mt-0.5" /> {{ error }}</p>
+      }
+      @for (warning of plan.warnings; track warning) {
+        <p class="flex items-start gap-2 text-xs text-amber-600 dark:text-amber-400"><app-icon name="alert" [size]="14" class="mt-0.5" /> {{ warning }}</p>
+      }
+      <p class="muted text-xs">{{ 'renameGame.note' | translate }}</p>
+    }
+  </div>
+  <div footer class="contents">
+    <button type="button" class="btn" (click)="closed.emit()" [disabled]="state.busy()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="!state.plan() || state.busy() || state.loading()">
+      <app-icon [name]="state.busy() ? 'loader' : 'pencil'" [size]="15" [class.animate-spin]="state.busy()" /> {{ 'buttons.rename' | translate }}
+    </button>
+  </div>
+</app-modal>

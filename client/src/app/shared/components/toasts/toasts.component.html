@@ -1,0 +1,9 @@
+<div class="pointer-events-none fixed bottom-10 right-4 z-50 flex w-96 max-w-[calc(100vw-2rem)] flex-col gap-2" aria-live="polite">
+  @for (toast of toasts(); track toast.id) {
+    <div class="panel pointer-events-auto flex items-start gap-2 rounded-md border-l-4 border p-3 shadow-lg {{ tone[toast.kind] }}">
+      <app-icon [name]="icon[toast.kind]" class="mt-0.5" />
+      <p class="min-w-0 flex-1 break-words text-shell-800 dark:text-shell-100">{{ toast.text }}</p>
+      <button type="button" (click)="service.dismiss(toast.id)" [attr.aria-label]="'buttons.dismiss' | translate" class="muted"><app-icon name="x" [size]="14" /></button>
+    </div>
+  }
+</div>

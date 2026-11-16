@@ -1,0 +1,164 @@
+name: Release Retro Game Manager
+
+# Two ways to run it:
+# - a version tag (v1.2.3) is pushed: the desktop app is built on all three systems and the installers are attached
+#   to the GitHub Release of that tag, with SHA256SUMS.txt;
+# - by hand (Actions → Release Retro Game Manager → Run workflow): the installers of the chosen systems are built
+#   from the chosen branch and attached to the run as one downloadable artifact. Nothing is published.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: Systems to build
+        type: choice
+        options: [all, windows, macos, linux]
+        default: all
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check that the tag matches the version in package.json
+        if: github.event_name == 'push'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if [ "v${VERSION}" != "${GITHUB_REF_NAME}" ]; then
+            echo "Tag ${GITHUB_REF_NAME} does not match package.json version ${VERSION}" >&2
+            exit 1
+          fi
+
+      - name: Systems to build
+        id: matrix
+        env:
+          CHOSEN: ${{ github.event_name == 'workflow_dispatch' && inputs.platforms || 'all' }}
+        run: |
+          all='[{"name":"Windows","key":"windows","os":"windows-latest","script":"build:win"},{"name":"macOS","key":"macos","os":"macos-latest","script":"build:mac"},{"name":"Linux","key":"linux","os":"ubuntu-latest","script":"build:linux"}]'
+          if [ "$CHOSEN" = "all" ]; then list="$all"; else list="$(echo "$all" | jq -c --arg key "$CHOSEN" 'map(select(.key == $key))')"; fi
+          echo "matrix={\"include\":$list}" >> "$GITHUB_OUTPUT"
+          echo "Building: $(echo "$list" | jq -r 'map(.name) | join(", ")')"
+
+  test:
+    name: Checks and tests
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+
+  build:
+    name: Build (${{ matrix.name }})
+    needs: [plan, test]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      # sharp (cover conversion) keeps one prebuilt binary package per system and CPU, and npm installs only the ones
+      # for the machine it runs on. The macOS runner is arm64, but the .dmg for Intel Macs is built there too, so the
+      # binaries of both architectures are installed into separate folders and copied in: a second `npm install` with
+      # another --cpu would remove the first ones. See https://sharp.pixelplumbing.com/install#cross-platform.
+      - name: Add the sharp binaries for both Mac architectures
+        if: matrix.key == 'macos'
+        run: |
+          version="$(node -p "require('./node_modules/sharp/package.json').version")"
+          for cpu in x64 arm64; do
+            dir="$RUNNER_TEMP/sharp-$cpu"
+            mkdir -p "$dir"
+            (cd "$dir" && echo '{"private":true}' > package.json && npm install --no-audit --no-fund --os=darwin --cpu="$cpu" "sharp@$version")
+            cp -R "$dir"/node_modules/@img/sharp-* node_modules/@img/
+          done
+          ls node_modules/@img
+          test -d node_modules/@img/sharp-darwin-x64 && test -d node_modules/@img/sharp-darwin-arm64
+
+      - name: Build the application
+        run: npm run ${{ matrix.script }}
+        env:
+          # Code signing is off unless the certificates are added to the repository secrets (see the README).
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+
+      - name: Collect the installers
+        shell: bash
+        run: |
+          mkdir -p upload
+          find release -maxdepth 1 -type f \( -name '*.exe' -o -name '*.dmg' -o -name '*.AppImage' -o -name '*.deb' \) -exec cp {} upload/ \;
+          ls -la upload
+          test -n "$(ls -A upload)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: installers-${{ matrix.key }}
+          path: upload/*
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    name: ${{ github.event_name == 'push' && 'Publish the release' || 'Collect the build' }}
+    needs: [plan, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to create the release and attach files (tag runs only)
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: installers-*
+          path: files
+          merge-multiple: true
+
+      - name: List the files
+        run: ls -la files
+
+      - name: SHA-256 checksums of every file
+        working-directory: files
+        run: |
+          sha256sum -- * > SHA256SUMS.txt
+          cat SHA256SUMS.txt
+
+      # A run by hand: one artifact with every installer and the checksums, downloadable from the run's page.
+      - uses: actions/upload-artifact@v4
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          name: Retro-Game-Manager-${{ needs.plan.outputs.version }}-build-${{ github.run_number }}
+          path: files/*
+          if-no-files-found: error
+          retention-days: 30
+
+      - uses: softprops/action-gh-release@v2
+        if: github.event_name == 'push'
+        with:
+          name: Retro Game Manager ${{ github.ref_name }}
+          files: files/*
+          generate_release_notes: true
+          fail_on_unmatched_files: true

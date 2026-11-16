@@ -1,0 +1,33 @@
+<app-virtual-list [count]="rows().length" [rowHeight]="rowHeight" className="px-1 pb-2" [resetKey]="resetKey()" [itemKey]="itemKey">
+  <ng-template #empty>
+    <p class="muted p-4 text-center">{{ (tree().total === 0 ? 'gameTree.noFiles' : 'gameTree.nothingFound') | translate }}</p>
+  </ng-template>
+  <ng-template #row let-i>
+    @let row = rows()[i];
+    @if (row) {
+      @if (row.kind === 'file') {
+        <button type="button" (click)="selectFile.emit(row.file.rel)" [title]="row.file.rel" [style.padding-left.px]="8 + row.depth * 14"
+          class="flex h-full w-full items-center gap-2 rounded px-2 text-left {{ selectedRel() === row.file.rel ? 'bg-btn-500/15 ring-1 ring-btn-500/60' : 'hover:bg-shell-100 dark:hover:bg-shell-800' }}">
+          <app-game-thumb [rel]="row.file.rel" [hasImage]="row.file.hasImage" [version]="version()" [size]="22" />
+          <span class="min-w-0 flex-1 truncate">
+            <app-highlight [text]="row.file.name" [query]="nameQuery()" />
+            <span class="muted">.<app-highlight [text]="row.file.ext" [query]="scope() === 'ext' ? query() : ''" /></span>
+          </span>
+          <span class="muted shrink-0 text-[11px] tabular-nums">{{ fmt.size(row.file.size) }}</span>
+        </button>
+      } @else {
+        <div [style.padding-left.px]="4 + row.depth * 14"
+          class="flex h-full items-center gap-1 rounded pr-2 {{ selectedDir() === row.node.path ? 'bg-shell-200 dark:bg-shell-800' : 'hover:bg-shell-100 dark:hover:bg-shell-800' }}">
+          <button type="button" class="muted grid h-5 w-5 place-items-center" (click)="toggle(row.node.path)" [attr.aria-label]="(row.open ? 'buttons.collapse' : 'buttons.expand') | translate" [attr.aria-expanded]="row.open">
+            <app-icon [name]="row.open ? 'chevron-down' : 'chevron-right'" [size]="14" />
+          </button>
+          <button type="button" class="flex min-w-0 flex-1 items-center gap-1.5 text-left" [title]="row.node.path" (click)="clickDir(row.node.path, row.open)">
+            <app-icon [name]="row.open ? 'folder-open' : 'folder'" [size]="15" class="text-btn-500" />
+            <span class="truncate font-medium"><app-highlight [text]="row.node.name" [query]="scope() === 'dir' ? query() : ''" /></span>
+          </button>
+          <span class="badge">{{ row.node.total }}</span>
+        </div>
+      }
+    }
+  </ng-template>
+</app-virtual-list>

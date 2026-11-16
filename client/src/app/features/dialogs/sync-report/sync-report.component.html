@@ -1,0 +1,20 @@
+<div class="space-y-2">
+  <p class="flex items-center gap-2 text-base font-semibold text-emerald-600 dark:text-emerald-400"><app-icon name="check-circle" [size]="18" /> {{ 'sync.done' | translate }}</p>
+  <ul class="space-y-1 text-sm">
+    <li>{{ 'sync.added' | translate }} <b>{{ report().toAdd }}</b></li>
+    <li>{{ 'sync.removed' | translate }} <b>{{ report().toRemove }}</b></li>
+    <li>{{ 'sync.unchanged' | translate }} <b>{{ report().unchanged }}</b></li>
+    @if (report().lists; as lists) {
+      <li>{{ 'sync.lists' | translate: { added: lists.added, removed: lists.removed } }}</li>
+    }
+  </ul>
+  @for (error of report().lists?.errors ?? []; track $index) {
+    <p class="text-xs text-red-600 dark:text-red-400" role="alert">{{ error }}</p>
+  }
+  @for (warning of report().lists?.warnings ?? []; track $index) {
+    <p class="text-xs text-amber-600 dark:text-amber-400">{{ warning }}</p>
+  }
+  @if (report().backupPath) {
+    <p class="muted break-all text-xs">{{ 'sync.backup' | translate }} <span class="font-mono">{{ report().backupPath }}</span></p>
+  }
+</div>

@@ -1,0 +1,25 @@
+<div class="grid h-full items-center gap-x-2 border-b border-shell-200 bg-shell-50 px-2 text-xs dark:border-shell-800 dark:bg-shell-950"
+  [style.grid-template-columns]="gridTemplate()" role="row">
+  <span></span>
+  @for (key of columns; track key) {
+    <div role="columnheader" class="relative flex h-full min-w-0 items-center">
+      @if (key === 'name' || key === 'size' || key === 'csv') {
+        <button type="button" (click)="sortBy.emit(asSortKey(key))" [title]="sortTitleKey(key) | translate: { direction: (sortDirectionKey() | translate) }"
+          class="flex w-full min-w-0 items-center gap-1 text-left font-medium hover:text-inherit {{ key === 'size' ? 'justify-end' : '' }} {{ sort().key === key ? '' : 'muted' }}">
+          <span class="truncate">{{ labelKeys[key] | translate }}</span>
+          <app-icon [name]="sortIcon(key)" [size]="13" class="{{ sort().key === key ? 'text-btn-500' : 'opacity-60' }}" />
+        </button>
+      } @else {
+        <span class="muted truncate font-medium">{{ labelKeys[key] | translate }}</span>
+      }
+      <div role="separator" aria-orientation="vertical" tabindex="0"
+        [attr.aria-label]="'gameList.resizeLabel' | translate: { label: (labelKeys[key] | translate), width: widths()[key] }"
+        [attr.title]="'gameList.resizeHint' | translate"
+        (pointerdown)="onHandleDown(key, $event)" (pointermove)="onHandleMove($event)" (pointerup)="onHandleUp($event)" (pointercancel)="onHandleUp($event)"
+        (dblclick)="commit(key, defaults[key])" (keydown)="onHandleKey(key, $event)"
+        class="group absolute -right-[10px] top-0 z-20 flex h-full w-3 cursor-col-resize touch-none select-none justify-center">
+        <span class="h-full w-px bg-shell-200 group-hover:w-0.5 group-hover:bg-btn-500 group-focus-visible:bg-btn-500 dark:bg-shell-700"></span>
+      </div>
+    </div>
+  }
+</div>

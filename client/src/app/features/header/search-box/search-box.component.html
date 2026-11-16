@@ -1,0 +1,54 @@
+<div #box class="relative min-w-[220px] flex-1 basis-64" data-tour="search" (focusout)="onFocusOut($event, box)">
+  <app-icon name="search" [size]="14" class="muted absolute left-2.5 top-1/2 -translate-y-1/2" />
+  <input #field class="input pl-8 pr-8" role="combobox" autocomplete="off" spellcheck="false" aria-autocomplete="list"
+    [placeholder]="'header.search.placeholder' | translate" [attr.aria-label]="'header.search.placeholder' | translate"
+    [attr.aria-expanded]="expanded()" [attr.aria-controls]="listId" [attr.aria-activedescendant]="activeId()"
+    [value]="query()" (input)="onInput($event)" (focus)="wanted.set(true)" (click)="wanted.set(true)" (keydown)="onKeydown($event)" />
+  @if (query()) {
+    <button type="button" class="muted absolute right-2 top-1/2 -translate-y-1/2" (click)="clear()"
+      [attr.aria-label]="'header.search.clear' | translate"><app-icon name="x" [size]="14" /></button>
+  }
+
+  @if (expanded()) {
+    <div class="dropdown panel absolute left-0 right-0 top-full z-30 mt-1 min-w-[22rem] overflow-hidden rounded-md border shadow-xl">
+      <ul [id]="listId" role="listbox" [attr.aria-label]="'header.search.results' | translate" class="max-h-[min(28rem,70vh)] overflow-y-auto p-1">
+        @for (game of results(); track game.platform + '/' + game.rel; let i = $index) {
+          <li [id]="optionId(i)" role="option" [attr.aria-selected]="active() === i" [title]="game.folder + '/' + game.rel"
+            class="flex h-12 cursor-pointer items-center rounded px-2 {{ active() === i ? 'bg-btn-500/15' : 'hover:bg-shell-100 dark:hover:bg-shell-800' }}"
+            (mousedown)="$event.preventDefault()" (mousemove)="active.set(i)" (click)="choose(i)">
+            <app-search-result [game]="game" [term]="term()" />
+          </li>
+        }
+        @if (total() > 0) {
+          <li [id]="optionId(results().length)" role="option" [attr.aria-selected]="active() === results().length"
+            class="flex h-9 cursor-pointer items-center gap-1.5 rounded px-2 font-medium text-btn-600 dark:text-btn-400 {{ active() === results().length ? 'bg-btn-500/15' : 'hover:bg-shell-100 dark:hover:bg-shell-800' }}"
+            (mousedown)="$event.preventDefault()" (mousemove)="active.set(results().length)" (click)="choose(results().length)">
+            <app-icon name="search" [size]="13" /> {{ 'header.search.showAll' | translate: { count: total() } }}
+          </li>
+        }
+      </ul>
+      @if (total() === 0) {
+        <p class="muted px-3 py-3 text-center" role="status">
+          @if (loading()) { <app-icon name="loader" [size]="13" class="mr-1 inline animate-spin" />{{ 'header.search.searching' | translate }} }
+          @else if (error(); as message) { <span class="text-red-600 dark:text-red-400">{{ message }}</span> }
+          @else { {{ 'header.search.nothing' | translate }} }
+        </p>
+      } @else if (loading()) {
+        <p class="muted border-t border-inherit px-3 py-1.5 text-[11px]"><app-icon name="loader" [size]="11" class="mr-1 inline animate-spin" />{{ 'header.search.updating' | translate }}</p>
+      }
+      @if (unreadable().length) {
+        <p class="border-t border-inherit px-3 py-1.5 text-[11px] text-amber-600 dark:text-amber-400">{{ 'header.search.unreadable' | translate: { folders: unreadable().join(', ') } }}</p>
+      }
+    </div>
+  }
+</div>
+
+<select class="input w-auto" [value]="scope()" (change)="scopeChange.emit(asScope(val($event)))"
+  [attr.aria-label]="'header.search.scopeLabel' | translate" [title]="'header.search.scopeHint' | translate">
+  @for (item of scopes; track item.value) {
+    <option [value]="item.value" [selected]="scope() === item.value">{{ item.labelKey | translate }}</option>
+  }
+</select>
+@if (query().trim() && resultCount() !== null) {
+  <span class="muted whitespace-nowrap" [title]="'header.search.foundHint' | translate">{{ 'header.search.found' | translate }} {{ resultCount() }}</span>
+}

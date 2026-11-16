@@ -1,0 +1,32 @@
+<app-modal [title]="'donate.title' | translate" (closed)="closed.emit()">
+  <div class="space-y-4">
+    <!-- The joke: its height is reserved so the window does not jump when the text changes. -->
+    <!-- The icon stays; only the text fades when it changes. -->
+    <div class="joke rounded-md bg-shell-100 px-4 py-3 text-center dark:bg-shell-950" aria-live="off">
+      <app-donate-icon class="mx-auto mb-2 text-btn-500" [size]="32" />
+      <div class="joke-body" [class.joke-hidden]="hidden()">
+        <p class="muted mb-1 text-xs font-medium">{{ 'donate.kinds.' + kind() | translate }}</p>
+        <p class="joke-text text-sm leading-relaxed">{{ textKey() | translate }}</p>
+      </div>
+    </div>
+
+    <!-- Support links: open in the system browser (desktop) or in a new tab (browser). -->
+    @if (links.length) {
+      <div class="grid gap-2 sm:grid-cols-2">
+        @for (link of links; track link.id) {
+          <a class="btn w-full" [class.btn-primary]="$first" [href]="link.url" target="_blank" rel="noopener noreferrer">
+            <app-icon [name]="link.icon" [size]="15" /> {{ 'donate.links.' + link.id | translate }}
+          </a>
+        }
+      </div>
+    }
+
+    @if (crypto.length) {
+      <app-crypto-slider [coins]="crypto" />
+    }
+  </div>
+
+  <div footer class="contents">
+    <button type="button" class="btn" (click)="closed.emit()">{{ 'buttons.close' | translate }}</button>
+  </div>
+</app-modal>

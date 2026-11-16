@@ -1,0 +1,26 @@
+<p class="label">{{ label() }}</p>
+<div (dragover)="onOver($event)" (dragleave)="over.set(false)" (drop)="onDrop($event)"
+  class="flex items-center gap-3 rounded-md border border-dashed px-3 py-2.5 transition-colors {{ over() ? 'border-btn-500 bg-btn-500/10' : 'border-shell-300 dark:border-shell-700' }}">
+  @if (preview()) {
+    <img [src]="preview()" alt="" class="h-10 w-10 shrink-0 rounded bg-shell-200 object-cover dark:bg-shell-800" />
+  } @else {
+    <span class="grid h-10 w-10 shrink-0 place-items-center rounded bg-shell-200 text-shell-400 dark:bg-shell-800 dark:text-shell-500"><app-icon [name]="icon()" [size]="20" /></span>
+  }
+  <div class="min-w-0 flex-1">
+    @if (picked().length === 1) {
+      <p class="truncate font-medium" [title]="firstTitle()">{{ firstName() }}</p>
+      <p class="muted text-xs">{{ fmt.size(firstSize()) }}</p>
+    } @else if (picked().length > 1) {
+      <p class="truncate font-medium" [title]="names().join('\n')">{{ names().join(', ') }}</p>
+      <p class="muted text-xs">{{ 'dropZone.summary' | translate: { count: picked().length, size: fmt.size(totalSize()) } }}</p>
+    } @else {
+      <p class="muted">{{ hint() }}</p>
+    }
+  </div>
+  <button #browseBtn type="button" class="btn" (click)="browse.emit()" [disabled]="disabled()"
+    [attr.aria-label]="'dropZone.browseLabel' | translate: { label: label() }">{{ 'buttons.browse' | translate }}</button>
+  @if (picked().length > 0) {
+    <button type="button" class="btn btn-icon" (click)="clear.emit()" [disabled]="disabled()" [attr.aria-label]="'dropZone.clear' | translate"><app-icon name="x" [size]="15" /></button>
+  }
+</div>
+@if (error(); as err) { <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ err }}</p> }

@@ -1,0 +1,70 @@
+// Above the page and the header menus, below the toasts (z-50): "the tour goes on once you choose a card" stays readable.
+$z: 45;
+$dim: rgb(0 0 0 / 0.6);
+$move: 250ms cubic-bezier(0.16, 1, 0.3, 1);
+
+:host {
+  display: contents;
+}
+
+.blocker {
+  position: fixed;
+  z-index: $z;
+}
+
+.dim {
+  position: fixed;
+  inset: 0;
+  z-index: $z;
+  background: $dim;
+  pointer-events: none;
+}
+
+// The highlight: a clear window in a huge shadow that dims everything around it. It lets the clicks through, so the
+// highlighted element can be used.
+.spotlight {
+  position: fixed;
+  z-index: $z;
+  border-radius: 8px;
+  // A ring in the accent colour (btn-500), then the dimming.
+  box-shadow:
+    0 0 0 2px rgb(207 47 98 / 0.95),
+    0 0 0 100vmax $dim;
+  pointer-events: none;
+  transition:
+    left $move,
+    top $move,
+    width $move,
+    height $move;
+}
+
+.tip {
+  position: fixed;
+  z-index: $z + 1;
+  width: 20rem;
+  max-width: calc(100vw - 16px);
+  border-width: 1px;
+  border-radius: 0.5rem;
+  padding: 0.75rem 0.875rem;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 0.35);
+  opacity: 0;
+}
+
+.tip-placed {
+  opacity: 1;
+}
+
+// Between the steps (not on the first appearance) the tooltip glides to its new place.
+.tip-moving {
+  transition:
+    left $move,
+    top $move;
+}
+
+// No movement between the steps: the highlight and the tooltip jump to their new place.
+@media (prefers-reduced-motion: reduce) {
+  .spotlight,
+  .tip-moving {
+    transition: none;
+  }
+}

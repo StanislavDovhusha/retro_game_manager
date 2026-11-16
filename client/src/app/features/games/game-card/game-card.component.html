@@ -1,0 +1,73 @@
+@if (game(); as g) {
+  <div class="flex h-full flex-col overflow-auto p-4">
+    <div class="mb-4 aspect-square w-full overflow-hidden rounded-lg bg-shell-100 dark:bg-shell-950 game-image">
+      @if (g.hasImage) {
+        <img [src]="api.imageUrl(g.rel, version())" [alt]="'gameCard.coverAlt' | translate: { title: g.title }" class="h-full w-full object-contain" />
+      } @else {
+        <div class="flex h-full w-full items-center justify-center"><app-game-thumb [rel]="g.rel" [hasImage]="false" [version]="version()" [size]="96" /></div>
+      }
+    </div>
+
+    <h2 class="mb-3 break-words text-base font-semibold leading-snug">{{ g.title }}</h2>
+
+    <dl class="space-y-2.5">
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.file' | translate }}</dt><dd class="break-all font-mono text-xs">{{ g.fileName }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.csvTitle' | translate }}</dt><dd class="break-all font-mono text-xs">{{ g.csvName ?? ('gameCard.csvTitleFallback' | translate) }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.shortName' | translate }}</dt><dd class="break-all font-mono text-xs">{{ g.csvShort ?? '—' }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.tags' | translate }}</dt><dd class="break-words font-mono text-xs">{{ g.tags.length ? g.tags.join(' ') : '—' }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.relativePath' | translate }}</dt><dd class="break-all font-mono text-xs">{{ g.rel }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.fullPath' | translate }}</dt><dd class="break-all font-mono text-xs">{{ g.abs }}</dd></div>
+      <div class="flex gap-6">
+        <div><dt class="muted text-xs">{{ 'gameCard.fields.extension' | translate }}</dt><dd class="break-all font-mono text-xs">.{{ g.ext }}</dd></div>
+        <div><dt class="muted text-xs">{{ 'gameCard.fields.size' | translate }}</dt><dd class="break-all font-mono text-xs">{{ fmt.size(g.size) }} ({{ fmt.number(g.size) }} {{ 'units.bytes' | translate }})</dd></div>
+      </div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.modified' | translate }}</dt><dd class="break-all font-mono text-xs">{{ fmt.dateTime(g.mtime) }}</dd></div>
+      <div><dt class="muted text-xs">{{ 'gameCard.fields.image' | translate }}</dt><dd class="break-all font-mono text-xs">{{ imageText() }}</dd></div>
+      <div>
+        <dt class="muted text-xs">{{ 'gameCard.fields.csv' | translate }}</dt>
+        <dd class="break-all font-mono text-xs">
+          @if (!csvReady()) {
+            {{ 'gameCard.csv.notConfigured' | translate }}
+          } @else if (g.inCsv) {
+            <span class="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400"><app-icon name="check" [size]="12" /> {{ 'gameCard.csv.present' | translate }}</span>
+          } @else {
+            <span class="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400"><app-icon name="x" [size]="12" /> {{ 'gameCard.csv.missing' | translate }}</span>
+          }
+        </dd>
+      </div>
+    </dl>
+
+    <div class="mt-auto flex flex-col gap-2 pt-5">
+      @if (emulator(); as emu) {
+        @if (emu.installed) {
+          <!-- A disabled button shows no tooltip: the wrapper carries it, and the reason is written under the button. -->
+          <span class="flex flex-col" [title]="emu.note ? emu.reason + '\n' + emu.note : (emu.reason ?? '')">
+            <button type="button" class="btn btn-primary w-full" (click)="play.emit()" [disabled]="!emu.launchable || emu.launching || emu.checking">
+              <app-icon [name]="emu.launching ? 'loader' : 'play'" [size]="15" [class.animate-spin]="emu.launching" /> {{ 'gameCard.actions.play' | translate }}
+            </button>
+          </span>
+          @if (emu.reason && !emu.checking) {
+            <div class="space-y-0.5">
+              <p class="muted text-xs leading-snug">{{ emu.reason }}</p>
+              <!-- Secondary: smaller and dimmer, so the reason itself stays the line that is read. -->
+              @if (emu.note) { <p class="text-[11px] italic leading-snug text-shell-400 dark:text-shell-500">{{ emu.note }}</p> }
+            </div>
+          }
+        } @else {
+          <a class="btn w-full" [href]="emu.downloadUrl" target="_blank" rel="noopener noreferrer">
+            <app-icon name="external-link" [size]="15" /> {{ 'gameCard.emulator.download' | translate: { emulator: emu.name } }}
+          </a>
+          <p class="muted text-xs leading-snug">{{ 'gameCard.emulator.notInstalled' | translate: { emulator: emu.name } }}</p>
+        }
+      }
+      <button type="button" class="btn" (click)="renameGame.emit()" [disabled]="busy()"><app-icon name="pencil" [size]="15" /> {{ 'gameCard.actions.rename' | translate }}</button>
+      <button type="button" class="btn" (click)="chooseImage.emit()" [disabled]="busy()">
+        <app-icon name="image-plus" [size]="15" /> {{ (g.hasImage ? 'gameCard.actions.replaceImage' : 'gameCard.actions.chooseImage') | translate }}
+      </button>
+      <button type="button" class="btn btn-danger" (click)="deleteImage.emit()" [disabled]="busy() || !g.hasImage"><app-icon name="image-off" [size]="15" /> {{ 'gameCard.actions.deleteImage' | translate }}</button>
+      <button type="button" class="btn btn-danger" data-tour="delete-game" (click)="deleteGame.emit()" [disabled]="busy()"><app-icon name="trash" [size]="15" /> {{ 'gameCard.actions.deleteGame' | translate }}</button>
+    </div>
+  </div>
+} @else {
+  <div class="muted flex h-full items-center justify-center p-6 text-center">{{ 'gameCard.empty' | translate }}</div>
+}

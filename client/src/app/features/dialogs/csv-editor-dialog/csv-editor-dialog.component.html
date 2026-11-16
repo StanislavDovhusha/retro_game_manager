@@ -1,0 +1,31 @@
+<app-modal [title]="'csvEditor.title' | translate" [full]="true" (closed)="requestClose()">
+  @if (state.loading()) {
+    <p class="muted flex items-center gap-2"><app-icon name="loader" [size]="15" class="animate-spin" /> {{ 'common.readingFile' | translate }}</p>
+  }
+  @if (!state.loading() && state.headers().length === 0 && state.error()) { <p class="text-red-600 dark:text-red-400">{{ state.error() }}</p> }
+
+  @if (!state.loading() && state.headers().length > 0) {
+    <div class="flex h-full min-h-0 flex-col gap-3">
+      <app-csv-editor-toolbar [filter]="state.filter()" [rowCount]="state.rows().length" [shownCount]="state.visible().length"
+        [duplicateCount]="state.duplicates().size" [keyName]="state.keyName()" [dirty]="state.dirty()" [checking]="state.checking()" [removing]="state.removing()"
+        (filterChange)="state.setFilter($event)" (addRow)="state.addRow()" (removeDuplicates)="state.removeDuplicates()" (removeMissing)="state.checkMissing()" />
+      <app-csv-editor-table [headers]="state.headers()" [rows]="state.shown()" [totalVisible]="state.visible().length" [limit]="state.limit()"
+        [keyColumn]="state.keyColumn()" [duplicates]="state.duplicates()" (cellChange)="state.setCell($event.id, $event.column, $event.value)"
+        (rowRemove)="state.removeRow($event)" (showMore)="state.showMore()" />
+    </div>
+  }
+
+  <app-missing-games-dialog *appPresent="state.missing() as missing" [missing]="missing" [removing]="state.removing()" (confirmed)="confirmRemoveMissing()" (cancelled)="state.closeMissing()" />
+
+  <div footer class="contents">
+    <span class="mr-auto self-center text-xs">
+      @if (state.error()) { <span class="text-red-600 dark:text-red-400">{{ state.error() }}</span> }
+      @else if (state.info()) { <span class="text-emerald-600 dark:text-emerald-400">{{ state.info() }}</span> }
+      @else if (state.dirty()) { <span class="text-amber-600 dark:text-amber-400">{{ 'csvEditor.unsaved' | translate }}</span> }
+    </span>
+    <button type="button" class="btn" (click)="close()">{{ 'buttons.close' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!state.dirty() || state.saving()">
+      <app-icon [name]="state.saving() ? 'loader' : 'save'" [size]="15" [class.animate-spin]="state.saving()" /> {{ 'buttons.save' | translate }}
+    </button>
+  </div>
+</app-modal>

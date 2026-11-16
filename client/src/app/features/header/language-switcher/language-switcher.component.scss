@@ -1,0 +1,39 @@
+:host {
+  position: relative;
+  display: inline-flex;
+}
+
+.chevron {
+  transition: transform 150ms ease-out;
+}
+
+.chevron-open {
+  transform: rotate(180deg);
+}
+
+/* Under the button by its right edge until it is measured; then `left`/`top` from the placement keep it in the window. */
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  display: grid;
+  width: max-content;
+  min-width: 100%;
+  animation: lang-menu-in 120ms ease-out;
+  transform-origin: top right;
+}
+
+@keyframes lang-menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron,
+  .menu {
+    transition: none;
+    animation: none;
+  }
+}

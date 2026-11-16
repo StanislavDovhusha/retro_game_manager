@@ -1,0 +1,9 @@
+<div class="max-w-sm">
+  <app-icon name="folder-open" [size]="36" class="mx-auto mb-3 text-btn-500" />
+  <h2 class="mb-1 text-base font-semibold">{{ 'main.empty.title' | translate }}</h2>
+  <p class="muted mb-4">{{ 'main.empty.description' | translate }}</p>
+  <div class="flex flex-wrap justify-center gap-2">
+    <button type="button" class="btn" (click)="selectGamesFolder.emit()"><app-icon name="folder-open" [size]="15" /> {{ 'buttons.selectGamesFolder' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="selectSdCard.emit()"><app-icon name="hard-drive" [size]="15" /> {{ 'buttons.selectSdCard' | translate }}</button>
+  </div>
+</div>

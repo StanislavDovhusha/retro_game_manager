@@ -1,0 +1,671 @@
+{
+  "addGame": {
+    "discTarget": "Z .bin + .cue vznikne obraz:",
+    "errors": {
+      "binNeedsCue": "Soubor .bin potřebuje soubor .cue – vyber je společně (vznikne obraz .img).",
+      "binRequired": "Přidej k souboru .cue soubor(y) .bin.",
+      "cueRequired": "Soubory .bin potřebují soubor .cue, který popisuje stopy.",
+      "emptyFile": "Jeden ze souborů je prázdný",
+      "emptyImage": "Soubor je prázdný",
+      "extensionNotAllowed": "Přípona .{{ext}} není v seznamu přípon her ({{extensions}}).",
+      "imageFormats": "Podporované obrázky: PNG, JPG, JPEG, WEBP.",
+      "imageTooLarge": "Obrázek je příliš velký (nejvýše 20 MB).",
+      "isImage": "Tohle je obrázek. Do prvního pole patří soubor hry, obrázek do třetího.",
+      "multipleCue": "Vybráno několik souborů .cue. Přidávej hry po jedné: jeden .cue a jeho soubory .bin.",
+      "onlyDiscFormats": "Společně lze přidat jen části jednoho obrazu disku: .bin + .cue, .ccd + .img + .sub nebo jejich archivy .ecm.",
+      "tooManyFiles": "Příliš mnoho souborů (nejvýše {{max}}).",
+      "unknownType": "Typ souboru se nepodařilo určit. Přetáhni soubory hry, ne složku.",
+      "multipleCcd": "Vybráno několik souborů .ccd. Přidávej hry po jedné: jeden .ccd s jeho .img a .sub.",
+      "missingFiles": "Sada souborů obrazu disku není úplná. Chybí: {{files}}. Soubor .img nebo .bin může být i archiv .ecm.",
+      "duplicateFiles": "Soubory {{files}} obsahují stejná data – vyber jen jeden z nich.",
+      "extraFiles": "Soubory {{files}} k tomuto obrazu disku nepatří – odeber je."
+    },
+    "fileTarget": "Soubor se uloží jako",
+    "gameFile": "Soubor hry",
+    "gameHint": "Přetáhni sem soubor nebo sadu obrazu disku (.bin + .cue, .ccd + .img + .sub, .ecm), nebo klikni na „Procházet“",
+    "imageDefault": "Bez obrázku se vygeneruje obal: název platformy a název hry na krabici v barvách platformy. Později ho můžeš nahradit vlastním obrázkem.",
+    "imageHint": "Přetáhni sem PNG, JPG, JPEG nebo WEBP, nebo klikni na „Procházet“",
+    "imageLabel": "Obrázek hry (nepovinné)",
+    "imageNameInvalid": "Z tohoto názvu nelze vytvořit název souboru – změň název.",
+    "imageTarget": "Uloží se do složky obrázků jako",
+    "progress": {
+      "copying": "Kopírování souborů a aktualizace CSV…",
+      "creatingDisc": "Vytváření obrazu .img a aktualizace CSV…",
+      "uploadingFile": "Nahrávání souboru {{current}} z {{total}}…",
+      "uploadingGame": "Nahrávání souboru hry…",
+      "uploadingImage": "Nahrávání obrázku…",
+      "copyingFile": "Kopírování souboru hry…",
+      "unpacking": "Rozbalování ECM…",
+      "building": "Sestavování IMG…",
+      "finishing": "Ukládání obalu a aktualizace CSV…",
+      "compressing": "Komprimace do .zip a aktualizace CSV…",
+      "compressingFile": "Komprimace souboru hry do .zip…"
+    },
+    "shortNeedsLetter": "Název musí obsahovat aspoň jedno písmeno nebo číslici.",
+    "shortPlaceholder": "Vytvoří se automaticky",
+    "shortReadonly": "camelCase bez mezer; nelze upravit.",
+    "title": "Přidat hru",
+    "titleHint": "Doplní se z názvu souboru; můžeš ho změnit. Název musí být jedinečný.",
+    "titleLabel": "Název hry",
+    "titlePipe": "Název nesmí obsahovat znak „|“: konzole jím odděluje pole ve svých seznamech her.",
+    "titlePlaceholder": "Například: The Legend of Zelda",
+    "cloneCdTarget": "Soubor .img ze sady CloneCD se uloží jako",
+    "ecmTarget": "Archiv ECM se rozbalí do",
+    "compressZip": "Komprimovat do .zip",
+    "compressZipHint": "Soubor hry se zabalí do archivu pojmenovaného podle hry; uvnitř si soubor ponechá svůj název.",
+    "zipAlready": "Soubor už je archiv ZIP – není co komprimovat.",
+    "zipTarget": "Zabalí se do",
+    "zipInside": "obsahujícího"
+  },
+  "buttons": {
+    "add": "Přidat",
+    "browse": "Procházet",
+    "cancel": "Zrušit",
+    "clear": "Vymazat",
+    "close": "Zavřít",
+    "collapse": "Sbalit",
+    "delete": "Smazat",
+    "dismiss": "Skrýt",
+    "done": "Hotovo",
+    "expand": "Rozbalit",
+    "rename": "Přejmenovat",
+    "save": "Uložit",
+    "scan": "Skenovat",
+    "selectGamesFolder": "Vybrat složku her",
+    "selectSdCard": "Vybrat SD kartu",
+    "sync": "Synchronizovat"
+  },
+  "common": {
+    "andMore": "…a dalších {{count}}",
+    "loading": "Načítání…",
+    "of": "z",
+    "readingFile": "Čtení souboru…"
+  },
+  "csvEditor": {
+    "addRow": "Přidat řádek",
+    "cellLabel": "{{column}}, řádek {{row}}",
+    "deleteRow": "Smazat řádek {{row}}",
+    "duplicate": "Duplikát",
+    "duplicatesHint": "Duplikáty se hledají podle sloupce „{{column}}“; ponechá se první záznam",
+    "duplicatesRemoved": "Odstraněno duplikátů: {{count}}. Klikni na „Uložit“, aby se změny zapsaly do souboru.",
+    "filterPlaceholder": "Filtrovat řádky",
+    "firstColumn": "první sloupec",
+    "keyMarker": "(klíč)",
+    "missingAll": "Odstraní se všechny záznamy. Ujisti se, že je složka her dostupná (například že je připojený disk nebo SD karta).",
+    "missingConfirm": "Smazat záznamy ({{count}})",
+    "missingIntro": "Záznamy, které se odstraní z CSV:",
+    "missingNote": "Ve složce her k nim nebyl nalezen soubor hry. Soubory a složky na disku se nemažou; před změnou se vytvoří záloha CSV.",
+    "missingTitle": "Odstranit záznamy chybějících her?",
+    "noMissing": "Žádné chybějící hry: ke všem záznamům byly nalezeny soubory.",
+    "noMissingToast": "Žádné chybějící hry – všechny záznamy CSV odpovídají souborům.",
+    "noRows": "Žádné řádky",
+    "removeDuplicates": "Odstranit duplikáty",
+    "removeDuplicatesCount": "Odstranit duplikáty ({{count}})",
+    "removeMissing": "Odstranit chybějící hry",
+    "removeMissingDirty": "Nejdřív ulož změny: kontrola pracuje se souborem na disku",
+    "removeMissingHint": "Najde záznamy bez souboru hry a odstraní je z CSV (soubory na disku se nemažou)",
+    "removed": "Odstraněno záznamů: {{count}}. Vedle souboru CSV byla vytvořena záloha.",
+    "removedToast": "Záznamy chybějících her odstraněny z CSV: {{count}}",
+    "saved": "Uloženo. Vedle souboru CSV byla vytvořena záloha.",
+    "savedToast": "CSV uloženo",
+    "showMore": "Zobrazit další ({{count}})",
+    "summary": "Řádků: {{count}} · duplikáty se hledají podle sloupce „{{column}}“",
+    "summaryFiltered": "Řádků: {{count}}, zobrazeno: {{shown}} · duplikáty se hledají podle sloupce „{{column}}“",
+    "title": "Upravit CSV",
+    "unsaved": "Neuložené změny",
+    "unsavedConfirm": "Máš neuložené změny. Zavřít editor bez uložení?"
+  },
+  "deleteGame": {
+    "alsoCsv": "Odstranit záznam hry z CSV (před změnou se vytvoří záloha)",
+    "csvNotConfigured": " – CSV není nastaveno",
+    "descriptionGame": "Soubor bude trvale smazán z disku.",
+    "descriptionImage": "Smaže se jen obrázek; soubor hry zůstane na místě.",
+    "name": "Název",
+    "path": "Cesta",
+    "titleGame": "Smazat soubor hry?",
+    "titleImage": "Smazat obrázek?"
+  },
+  "deleteGames": {
+    "alsoCsv": "Odstranit záznamy těchto her z CSV (před změnou se vytvoří záloha)",
+    "confirm": "Smazat ({{count}})",
+    "intro": "Z disku se trvale smaže:",
+    "skipNote": "Soubory, které už neexistují, se přeskočí.",
+    "title": "Smazat vybrané hry?"
+  },
+  "donate": {
+    "beer": {
+      "1": "Vhoď minci a hraj dál… nebo ještě líp: kup autorovi jedno orosené.",
+      "2": "Autorovi zbývá 1 HP. Jedna desítka ho vyléčí na plné zdraví.",
+      "3": "Úspěch odemčen: Štědrý hráč. Odměna: věčná vděčnost autora a jedno pořádně vychlazené.",
+      "4": "Žádné mikrotransakce, žádné lootboxy. Jen jedno poctivé točené pro toho, kdo tohle postavil."
+    },
+    "button": "Podpořit projekt",
+    "copied": "Zkopírováno!",
+    "copy": "Kopírovat",
+    "crypto": {
+      "address": "Adresa peněženky",
+      "goTo": "Zobrazit {{coin}}",
+      "keysHint": "Kryptopeněženky: přepínej klávesami ← a →",
+      "next": "Další mince",
+      "position": "{{current}} z {{total}}",
+      "prev": "Předchozí mince",
+      "qr": "QR kód adresy {{coin}}",
+      "slide": "{{coin}}, {{current}} z {{total}}",
+      "title": "Kryptoměny",
+      "warning": "Posílej jen {{coin}} přes síť {{network}}. Při použití jiné sítě můžeš o prostředky přijít."
+    },
+    "dev": {
+      "1": "Každý dar přidává +1 k rychlosti vývoje projektu.",
+      "2": "Pomoz projektu na další level: nové funkce čekají až v další úrovni.",
+      "3": "Bugy se darů bojí. Každý dar zaplatí další souboj s bossem jménem kód.",
+      "4": "Ukládám postup… Díky tvé podpoře projekt nikdy neuvidí Game Over."
+    },
+    "kinds": {
+      "beer": "Na pivo pro autora 🍺",
+      "dev": "Na vývoj projektu 🚀"
+    },
+    "links": {
+      "github": "Dát hvězdičku na GitHubu",
+      "kofi": "Podpořit na Ko-fi"
+    },
+    "title": "Podpořit projekt"
+  },
+  "dropZone": {
+    "browseLabel": "{{label}}: vybrat v systémovém dialogu",
+    "clear": "Odebrat soubory",
+    "summary": "Soubory: {{count}} · {{size}}"
+  },
+  "errors": {
+    "network": "Žádné spojení se serverem. Zkontroluj, že aplikace běží.",
+    "server": "Chyba serveru ({{status}})",
+    "upload": "Chyba nahrávání ({{status}})"
+  },
+  "fields": {
+    "shortName": "Krátký název"
+  },
+  "foldersPanel": {
+    "gamesDir": "Složka her",
+    "notSelected": "Nevybráno"
+  },
+  "gameCard": {
+    "actions": {
+      "chooseImage": "Vybrat obrázek",
+      "deleteGame": "Smazat soubor hry",
+      "deleteImage": "Smazat obrázek",
+      "play": "Hrát v emulátoru",
+      "rename": "Přejmenovat hru",
+      "replaceImage": "Nahradit obrázek"
+    },
+    "coverAlt": "Obal: {{title}}",
+    "csv": {
+      "missing": "chybí záznam – je potřeba synchronizace",
+      "notConfigured": "CSV není nastaveno",
+      "present": "záznam existuje"
+    },
+    "csvTitleFallback": "– (použije se název souboru)",
+    "empty": "Vyber hru a uvidíš její podrobnosti",
+    "emulator": {
+      "download": "Stáhnout {{emulator}}",
+      "notInstalled": "{{emulator}} není na tomto počítači nainstalován."
+    },
+    "fields": {
+      "csv": "CSV",
+      "csvTitle": "Název v CSV",
+      "extension": "Přípona",
+      "file": "Soubor",
+      "fullPath": "Úplná cesta",
+      "image": "Obrázek",
+      "modified": "Změněno",
+      "relativePath": "Relativní cesta",
+      "shortName": "Krátký název",
+      "size": "Velikost",
+      "tags": "Štítky"
+    },
+    "image": {
+      "auto": "nalezen automaticky",
+      "manual": "vybrán ručně",
+      "none": "žádný"
+    }
+  },
+  "gameList": {
+    "ascending": "vzestupně",
+    "clearSelection": "Zrušit výběr",
+    "columns": {
+      "csv": "CSV",
+      "game": "Hra",
+      "path": "Cesta",
+      "size": "Velikost",
+      "tags": "Štítky"
+    },
+    "deleteSelected": "Smazat vybrané",
+    "deleteSelectedCount": "Smazat vybrané ({{count}})",
+    "descending": "sestupně",
+    "empty": "(prázdné)",
+    "entryWithoutTitles": "Záznam bez názvů",
+    "folder": "Složka:",
+    "hiddenByFilter": " (skryto filtrem: {{count}})",
+    "noData": "žádná data",
+    "noGames": "Nebyly nalezeny žádné hry. Změň filtr nebo vyber jinou složku.",
+    "noTags": "bez štítků",
+    "notInCsv": "není v CSV",
+    "resizeHint": "Tažením změníš šířku. Dvojklikem obnovíš výchozí",
+    "resizeLabel": "Šířka sloupce „{{label}}“: {{width}} px. Šipky vlevo a vpravo mění šířku",
+    "selectAll": "Vybrat vše",
+    "selectRow": "Vybrat „{{title}}“",
+    "selected": "Vybráno:",
+    "showAll": "Zobrazit vše",
+    "sort": "Seřadit",
+    "sortTitle": "Řazení: {{direction}} – kliknutím změníš",
+    "unsupportedTitle": "Název obsahuje nepodporované znaky. Přejmenuj hru."
+  },
+  "gameThumb": {
+    "noImage": "Bez obrázku"
+  },
+  "gameTree": {
+    "noFiles": "Žádné soubory her",
+    "nothingFound": "Nic nenalezeno"
+  },
+  "header": {
+    "addGameDisabled": "Nejdřív vyber složku her",
+    "addGameHint": "Zkopírovat hru do složky her a přidat ji do CSV",
+    "language": "Jazyk rozhraní",
+    "search": {
+      "clear": "Vymazat filtr",
+      "found": "Nalezeno:",
+      "foundHint": "Hry otevřené složky, které odpovídají filtru",
+      "nothing": "Na kartě nebyly nalezeny žádné hry",
+      "placeholder": "Hledat hry",
+      "results": "Hry nalezené na kartě",
+      "scope": {
+        "all": "Všude",
+        "dir": "Podle názvu složky",
+        "ext": "Podle přípony",
+        "name": "Podle názvu souboru",
+        "path": "Podle úplné cesty",
+        "tags": "Podle štítku"
+      },
+      "scopeHint": "Kde hledá filtr otevřené složky; seznam pod polem vždy prohledává názvy, krátké názvy a štítky všech platforem",
+      "scopeLabel": "Hledat v",
+      "searching": "Prohledávání všech platforem…",
+      "showAll": "Zobrazit všechny výsledky ({{count}})",
+      "unreadable": "Některé složky se nepodařilo přečíst: {{folders}}",
+      "updating": "Aktualizace výsledků…"
+    },
+    "selectSdCardTitle": "Vybrat kořen SD karty",
+    "settings": "Nastavení",
+    "syncCsv": "Synchronizovat CSV",
+    "toggleTheme": "Přepnout motiv"
+  },
+  "inlineEdit": {
+    "edit": "Upravit: {{field}}",
+    "errors": {
+      "emptyName": "Název nesmí být prázdný.",
+      "emptyShort": "Krátký název nesmí být prázdný.",
+      "pipe": "Znak „|“ nelze použít: konzole jím odděluje pole ve svých seznamech her.",
+      "shortSpace": "Krátký název nesmí obsahovat mezery.",
+      "tagTooLong": "Štítek je příliš dlouhý (nejvýše {{max}} znaků): „{{tag}}“.",
+      "renameFirst": "Nejdřív hru přejmenuj: její název obsahuje nepodporované znaky."
+    },
+    "hints": {
+      "name": "Přejmenuje se i soubor hry, obal a uložené hry. Enter – uložit, Esc – zrušit.",
+      "short": "Jedno slovo bez mezer. Enter – uložit, Esc – zrušit.",
+      "tags": "Štítky odděluj mezerou – štítek mezeru obsahovat nesmí. Enter – uložit, Esc – zrušit."
+    },
+    "labels": {
+      "name": "Název hry",
+      "short": "Krátký název",
+      "tags": "Štítky"
+    }
+  },
+  "libraryPaths": {
+    "csv": {
+      "hint": "Vytváří se automaticky: „složka her“/filelist.csv. Pokud soubor neexistuje, vytvoří se při synchronizaci. Sloupce: cesta, úplný název, krátký název.",
+      "label": "Soubor CSV",
+      "placeholder": "Soubor se seznamem her a jejich názvů"
+    },
+    "gamesDir": {
+      "label": "Složka her",
+      "placeholder": "Hlavní složka, kde jsou uložené hry"
+    },
+    "imagesDir": {
+      "hint": "Vytváří se automaticky: „složka her“/images. Můžeš ji změnit ručně.",
+      "label": "Složka obrázků",
+      "placeholder": "Složka s obrázky her"
+    },
+    "title": "Složky a soubor CSV"
+  },
+  "log": {
+    "close": "Zavřít protokol",
+    "empty": "Zatím tu nic není",
+    "title": "Protokol operací"
+  },
+  "main": {
+    "csvProblem": "CSV: {{error}}",
+    "empty": {
+      "description": "Správce ji prohledá i se všemi podsložkami a porovná ji s CSV konzole.",
+      "title": "Vyber složku her"
+    },
+    "readErrors": "Složky, které se nepodařilo přečíst: {{count}} (podrobnosti v protokolu)",
+    "startCommand": "Spusť aplikaci příkazem"
+  },
+  "panels": {
+    "allGames": "Všechny hry",
+    "details": "Podrobnosti",
+    "folders": "Složky",
+    "hide": "Skrýt panel: {{label}}",
+    "resizeHint": "Tažením změníš výšky. Dvojklikem obnovíš výchozí. Šipky posouvají hranici",
+    "resizeLabel": "Výška panelů Složky a Všechny hry",
+    "show": "Zobrazit panel: {{label}}"
+  },
+  "platforms": {
+    "allPlatforms": "Všechny platformy",
+    "backTitle": "Zpět na všechny platformy (Backspace nebo Esc)",
+    "breadcrumbs": "Umístění",
+    "count": "{{count}} {{noun}}",
+    "empty": "Zatím žádné hry",
+    "hint": "Vyber platformu a uvidíš její hry. Šipky přesouvají mezi kartami, Enter kartu otevře.",
+    "title": "Platformy"
+  },
+  "plural": {
+    "game": {
+      "few": "hry",
+      "many": "hry",
+      "one": "hra",
+      "other": "her"
+    }
+  },
+  "renameGame": {
+    "checking": "Zjišťuji, co se změní…",
+    "fileNameHint": "Soubor hry a obal se budou jmenovat",
+    "kinds": {
+      "cores": "Přiřazení jádra",
+      "csv": "Záznam CSV",
+      "game": "Soubor hry",
+      "image": "Obal",
+      "list": "Seznam konzole",
+      "save": "Uložená hra",
+      "state": "Uložený stav",
+      "cover": "Vygenerovaný obal překreslený s novým názvem"
+    },
+    "newTitle": "Nový název hry",
+    "note": "Pokud něco selže, provedené změny se vrátí zpět. Kopie seznamů konzole se uchovávají ve složce dat aplikace.",
+    "replacements": "nahrazení",
+    "title": "Přejmenovat hru",
+    "willBeRenamed": "Přejmenuje se"
+  },
+  "sdCard": {
+    "choosePlatform": "– vyber platformu –",
+    "contents": "Obsah karty",
+    "csvFile": "Soubor CSV",
+    "device": "Model konzole: {{name}}",
+    "imagesDir": "Složka obrázků",
+    "noPlatforms": "Na kartě nebyly nalezeny žádné složky her.",
+    "noRoot": "Není vybrán kořen karty. Klikni nahoře na „Vybrat SD kartu“: uvidíš obsah karty a vybereš platformu.",
+    "notGameFolder": "Není složka her",
+    "platform": "Platforma",
+    "selectPlatform": "Vybrat platformu {{name}}",
+    "systemFolder": "Systémová složka – nikdy se nemění",
+    "title": "SD karta",
+    "truncated": "Nejsou zobrazeny všechny složky"
+  },
+  "searchResults": {
+    "close": "Zpět na strom složek",
+    "title": "„{{query}}“ na kartě: {{count}}"
+  },
+  "settings": {
+    "about": {
+      "license": "Licence:",
+      "source": "Zdrojový kód:",
+      "title": "O aplikaci"
+    },
+    "columns": {
+      "auto": {
+        "column": "výchozí (sloupec {{number}})",
+        "path": "výchozí (sloupec 1)",
+        "unused": "nepoužívá se"
+      },
+      "name": "Sloupec s úplným názvem hry",
+      "notFound": "(nenalezeno)",
+      "path": "Sloupec s cestou k souboru",
+      "short": "Sloupec s krátkým názvem (camelCase)",
+      "tags": "Sloupec se štítky (oddělenými mezerami)"
+    },
+    "csv": {
+      "delimiter": {
+        "comma": "Čárka (,)",
+        "label": "Oddělovač",
+        "semicolon": "Středník (;)",
+        "tab": "Tabulátor"
+      },
+      "encoding": "Kódování",
+      "fileLabel": "Soubor (nastaví se výběrem platformy na SD kartě)",
+      "firstRow": {
+        "data": "Data (bez záhlaví)",
+        "header": "Záhlaví sloupců",
+        "label": "První řádek"
+      },
+      "notSelected": "Nevybráno",
+      "title": "Soubor CSV"
+    },
+    "device": {
+      "hint": "Na modelu závisí platformy, systémové složky, formát seznamu her a tipy. Když vybereš SD kartu, model se podle jejích složek pokud možno rozpozná.",
+      "label": "Model konzole",
+      "title": "Konzole"
+    },
+    "donate": {
+      "title": "Okno podpory",
+      "autoShow": "Občas automaticky zobrazit okno podpory po akcích s hrami (přidání, smazání, úpravy)"
+    },
+    "emulator": {
+      "chosen": "Použitý:",
+      "found": "Nalezen:",
+      "hint": "Nech prázdné a {{emulator}} se najde automaticky. Vyber ho tady, pokud je nainstalovaný jinde.",
+      "label": "Cesta k emulátoru ({{emulator}})",
+      "placeholder": "Najde se automaticky",
+      "title": "Emulátor"
+    },
+    "extensions": {
+      "hint": "Oddělené čárkou. Prázdný seznam znamená všechny soubory kromě obrázků.",
+      "label": "Přípony souborů her"
+    },
+    "gameFiles": {
+      "hint": "Platforma, složka her, složka obrázků a soubor CSV se vybírají tlačítkem „Vybrat SD kartu“ v horní liště.",
+      "title": "Soubory her"
+    },
+    "prefix": {
+      "hint": "Například „Games/GBA/“, pokud jsou cesty v CSV relativní k jinému adresáři. Záznamů, které prefixem nezačínají, se synchronizace nedotkne.",
+      "label": "Prefix cesty v CSV",
+      "placeholder": "Bez prefixu"
+    },
+    "preview": {
+      "choose": "Vyber soubor CSV a uvidíš jeho obsah.",
+      "count": "(prvních {{shown}} z {{total}})",
+      "edit": "Upravit CSV",
+      "editHint": "Před úpravou CSV nejdřív ulož vybraný soubor, oddělovač a kódování.",
+      "notExists": "Soubor zatím neexistuje – vytvoří se při první synchronizaci.",
+      "saveFirst": "Nejdřív ulož nastavení CSV",
+      "title": "Náhled"
+    },
+    "title": "Nastavení",
+    "backups": {
+      "title": "Zálohy",
+      "hint": "Kopie seznamů her (CSV) a seznamů konzole se uchovávají v tomto počítači, ne na SD kartě: zvláštní složka pro každou kartu a platformu, posledních 10 kopií každého souboru.",
+      "open": "Otevřít složku záloh"
+    },
+    "tour": {
+      "hint": "Prohlídka hlavních funkcí krok za krokem: SD karta, platformy, přidávání, úpravy a mazání her a hledání.",
+      "restart": "Spustit prohlídku znovu",
+      "title": "Prohlídka rozhraní"
+    },
+    "updates": {
+      "available": "Je k dispozici verze {{version}}: viz oznámení v horní části okna.",
+      "checkNow": "Zkontrolovat teď",
+      "checkOnStartup": "Kontrolovat aktualizace při spuštění",
+      "current": "Aktuální verze: {{version}}",
+      "failed": "Aktualizace se nepodařilo zkontrolovat. Zkontroluj připojení k internetu a zkus to později.",
+      "hint": "Nejvýše jednou denně: nejnovější vydání se vyhledá na GitHubu.",
+      "latest": "Máš nejnovější verzi",
+      "title": "Aktualizace"
+    }
+  },
+  "startTips": {
+    "firmware": {
+      "community": "Komunitní zdroj: {{communityLink}}",
+      "stock": "Obnovení původního firmwaru a informace o zařízení najdeš na {{firmwareLink}}. Tento projekt není spojen s výrobcem. Před jakýmikoli změnami si zazálohuj SD kartu.",
+      "title": "Původní firmware pro {{device}}",
+      "warning": "{{device}} běží na procesoru {{cpu}}. Neoficiální firmware pro jiné handheldy ({{firmware}}) se k němu nehodí a kartu poškodí."
+    },
+    "sdCard": {
+      "checks": {
+        "text": "Zkus jinou čtečku karet a jiný USB port a kartu znovu připoj.",
+        "title": "Jednoduché kontroly"
+      },
+      "device": {
+        "linux": "spusť v terminálu:",
+        "macos": "otevři Diskovou utilitu → Zobrazení → Zobrazit všechna zařízení. Pokud je karta v seznamu, ale není připojená, klikni na Připojit.",
+        "title": "Zkontroluj, jestli systém kartu vidí jako zařízení",
+        "windows": "otevři Správu disků (diskmgmt.msc). Pokud je karta v seznamu bez písmene jednotky, přiřaď jí ho."
+      },
+      "dump": {
+        "macosLinux": "příkaz dd, nebo na macOS",
+        "text": "Pokud je karta vidět jako zařízení, ale nedá se otevřít, nejdřív ji celou zkopíruj. Kopie zachová hry, uložené hry i firmware.",
+        "title": "Nejdřív udělej úplnou kopii karty (RAW dump)",
+        "windows": "tlačítko „Read“ v programu"
+      },
+      "format": {
+        "format": "Naformátuj kartu oficiálním nástrojem SD Association:",
+        "restore": "Potom zapiš zpět uložený dump (tlačítko „Write“ ve Win32 Disk Imager nebo balenaEtcher) nebo původní firmware (viz tip o původním firmwaru):",
+        "title": "Poslední možnost: naformátovat kartu a přijít o data",
+        "warning": "Formátování smaže všechna data na kartě."
+      },
+      "future": "Do budoucna: vyměň přibalenou kartu za kartu známé značky a hned ji zazálohuj.",
+      "intro": "Karty přibalené k levným retro konzolím bývají nekvalitní a počítač je nemusí rozpoznat. Zkus postupně tyto kroky:",
+      "recover": {
+        "text": "TestDisk obnoví ztracené oddíly, PhotoRec jednotlivé soubory:",
+        "title": "Obnov soubory z poškozené karty"
+      },
+      "title": "Počítač nevidí SD kartu"
+    },
+    "title": "Užitečné tipy"
+  },
+  "statusBar": {
+    "csvEntries": "Záznamy CSV:",
+    "filesFound": "Nalezené soubory:",
+    "log": "Protokol",
+    "notInCsv": "Není v CSV:",
+    "scanning": "Skenování…",
+    "sync": "Synchronizace:",
+    "syncError": "{{time}}: chyba",
+    "syncNever": "zatím neproběhla",
+    "syncing": "Synchronizace…",
+    "tips": "Tipy",
+    "totalGames": "Celkem her:",
+    "totalSize": "Celková velikost her:"
+  },
+  "sync": {
+    "added": "Přidáno:",
+    "backup": "Záloha:",
+    "comparing": "Porovnávání složky s CSV…",
+    "done": "Synchronizace dokončena",
+    "duplicates": "Duplikáty, které už v CSV jsou:",
+    "duplicatesKept": "(ponechány beze změny)",
+    "lists": "Seznamy her konzole (.lst): přidáno {{added}}, odebráno {{removed}}",
+    "previewNote": "Náhled – zatím se nic nezměnilo.",
+    "removed": "Odebráno:",
+    "safety": "Soubory her a obrázky se nemažou. Před zápisem se vytvoří záloha CSV.",
+    "title": "Synchronizace CSV",
+    "toAdd": "Nové hry k přidání:",
+    "toRemove": "Zastaralé záznamy k odebrání:",
+    "unchanged": "Beze změny:",
+    "unmanaged": "Záznamy mimo spravovanou složku (beze změny):",
+    "upToDate": "CSV už odpovídá složce – synchronizace není potřeba.",
+    "willBeAdded": "Přidá se",
+    "willBeRemoved": "Odebere se z CSV",
+    "created": "Soubor CSV zatím neexistuje – vytvoří se se všemi hrami ze složky.",
+    "tagsColumnAdded": "K řádkům, které ho nemají, se přidá prázdný sloupec štítků (4.):"
+  },
+  "toasts": {
+    "alreadyMissing": "už chybělo: {{count}}",
+    "csvEntriesRemoved": "Odebrané záznamy CSV: {{count}}",
+    "csvNotChanged": "CSV se nezměnilo: {{reason}}",
+    "deleteFailed": "{{summary}}. Nepodařilo se smazat: {{count}} ({{rel}}: {{error}})",
+    "deviceDetected": "Konzole rozpoznána podle karty: {{name}}",
+    "emulatorStarted": "„{{title}}“ se spouští v emulátoru {{emulator}}",
+    "fileDeleted": "Soubor „{{fileName}}“ smazán",
+    "fileDeletedCsv": "; záznam byl odebrán z CSV",
+    "fileDeletedCsvNotChanged": "; CSV se nezměnilo: {{reason}}",
+    "gameAdded": "Hra „{{title}}“ přidána",
+    "gameAddedCsvUpdated": "; stávající záznam CSV byl aktualizován",
+    "gameAddedDisc": " (obraz {{name}} z .bin + .cue)",
+    "gameAddedImage": " s obrázkem",
+    "gameRenamed": "Hra přejmenována: „{{title}}“",
+    "gamesDeleted": "Smazané hry: {{count}}",
+    "imageDeleted": "Obrázek smazán",
+    "imageSelected": "Obrázek vybrán",
+    "imageUnlinked": "Obrázek odpojen od hry (souboru mimo vybrané složky se to nedotklo)",
+    "platformSelected": "Platforma {{name}}: cesty k obrázkům a CSV vyplněny",
+    "scanFound": "Nalezeno: {{count}} {{noun}}",
+    "sdRootSelected": "Vybrán kořen SD karty. Platforem: {{count}}",
+    "settingsSaved": "Nastavení uloženo",
+    "syncDone": "Synchronizace dokončena: +{{added}}, −{{removed}}",
+    "gameAddedCloneCd": " (obraz {{name}} ze sady CloneCD)",
+    "gameAddedEcm": " ({{name}} rozbaleno z ECM)",
+    "gameAddedZip": " (zabaleno do {{name}})",
+    "gameAddedGeneratedCover": " s vygenerovaným obalem",
+    "syncCsvCreated": "Soubor CSV byl vytvořen",
+    "syncTagsColumn": "Sloupec štítků přidán do řádků: {{count}}",
+    "sdRootUnavailable": "Dříve vybraná SD karta není dostupná. Vyber ji prosím znovu.",
+    "sdRootMacAccess": " Povol přístup v Nastavení systému → Soukromí a zabezpečení → Soubory a složky."
+  },
+  "tour": {
+    "back": "Zpět",
+    "done": "Hotovo",
+    "next": "Další",
+    "position": "Krok {{current}} z {{total}}",
+    "skip": "Přeskočit prohlídku",
+    "steps": {
+      "addGame": {
+        "text": "Jakýkoli soubor hry dané platformy (viz Nastavení → Soubory her), .zip nebo obraz disku: .bin + .cue, CloneCD (.ccd + .img + .sub) nebo .ecm, převedený na jeden .img. Přidej obal (PNG, JPG, WEBP), nebo se nakreslí sám. Štítky se nastavují až potom v tabulce.",
+        "title": "Přidej hru"
+      },
+      "delete": {
+        "text": "Zaškrtni hry a klikni na „Smazat vybrané“, nebo použij „Smazat soubor hry“ v Podrobnostech. Soubor hry se smaže z karty a jeho záznam v CSV můžeš odebrat taky. Obal a uložené hry zůstanou: obal smažeš tlačítkem „Smazat obrázek“ v Podrobnostech.",
+        "title": "Mazání her"
+      },
+      "edit": {
+        "text": "Dvakrát klikni na název hry, krátký název nebo štítky. Enter uloží, Esc zruší. CSV se aktualizuje; nový název přejmenuje i soubor hry, její obal a uložené hry.",
+        "title": "Upravuj přímo v tabulce"
+      },
+      "platform": {
+        "text": "Vyber kartu platformy na hlavní obrazovce, v seznamu „Platforma“ nebo v panelu „Obsah karty“. Její hry, obaly a filelist.csv se pak otevřou v tabulce.",
+        "title": "Vyber platformu"
+      },
+      "sdCard": {
+        "text": "Vlož kartu z konzole a klikni na „Vybrat SD kartu“. Vyber kořen karty: složku, ve které jsou složky platforem (FC, GBA, PS…).",
+        "title": "Vyber SD kartu"
+      },
+      "search": {
+        "text": "Vyhledávací pole prohledá všechny složky platforem na kartě: názvy, krátké názvy, názvy souborů a štítky. ↑ / ↓ vyberou výsledek, Enter otevře jeho platformu a vybere hru.",
+        "title": "Hledej na všech platformách"
+      }
+    },
+    "waitingForCard": "Prohlídka bude pokračovat, až vybereš SD kartu."
+  },
+  "units": {
+    "bytes": "B",
+    "gb": "GB",
+    "kb": "kB",
+    "mb": "MB",
+    "tb": "TB"
+  },
+  "update": {
+    "available": "Je k dispozici verze {{version}}",
+    "close": "Zavřít oznámení",
+    "download": "Stáhnout",
+    "label": "Nová verze"
+  },
+  "validation": {
+    "latinOnly": "Povolena jsou jen anglická písmena, číslice, mezery a spojovníky",
+    "nameRequired": "Zadej název anglickými písmeny nebo číslicemi."
+  }
+}

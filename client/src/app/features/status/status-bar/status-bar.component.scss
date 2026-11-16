@@ -1,0 +1,84 @@
+:host {
+  display: block;
+}
+
+// "Support the project": the icon itself is animated all the time (coffee ↔ beer, see app-donate-icon). On top of it,
+// every 18 s the icon gives a short wiggle and the button a soft glow (about a second, the rest of the cycle is still).
+// Hovering does not interrupt any of it and enlarges the button a little. The page drops `donate-nudge` once the
+// popup has been opened.
+$cycle: 18s;
+$first-after: 6s;
+
+.donate {
+  // `.btn` animates its colors; the scale on hover is added to them.
+  transition-property: color, background-color, border-color, transform;
+  transition-duration: 150ms;
+  transition-timing-function: ease-out;
+
+  &:hover {
+    transform: scale(1.06);
+  }
+}
+
+.donate-icon {
+  display: inline-flex;
+  transform-origin: 50% 85%;
+}
+
+.donate-nudge {
+  animation: donate-glow $cycle ease-in-out $first-after infinite;
+
+  .donate-icon {
+    animation: donate-wiggle $cycle ease-in-out $first-after infinite;
+  }
+}
+
+// 1 % of the cycle is about 0.18 s.
+@keyframes donate-wiggle {
+  0%,
+  6%,
+  100% {
+    transform: rotate(0deg);
+  }
+  1% {
+    transform: rotate(-14deg);
+  }
+  2% {
+    transform: rotate(12deg);
+  }
+  3% {
+    transform: rotate(-9deg);
+  }
+  4% {
+    transform: rotate(6deg);
+  }
+  5% {
+    transform: rotate(-3deg);
+  }
+}
+
+@keyframes donate-glow {
+  0%,
+  8%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(245 158 11 / 0);
+  }
+  3% {
+    box-shadow: 0 0 0 4px rgb(245 158 11 / 0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .donate {
+    transition-property: color, background-color, border-color;
+
+    &:hover {
+      transform: none;
+    }
+  }
+
+  .donate-nudge,
+  .donate-nudge .donate-icon {
+    animation: none;
+  }
+}

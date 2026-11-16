@@ -1,0 +1,32 @@
+<table class="w-full border-separate border-spacing-0 text-left text-xs">
+  <thead class="sticky top-0 z-10 bg-shell-100 dark:bg-shell-800">
+    <tr>
+      <th class="w-10 px-2 py-1.5 font-medium">#</th>
+      @for (header of headers(); track $index) {
+        <th class="whitespace-nowrap px-2 py-1.5 font-medium">{{ header }}@if ($index === keyColumn()) { <span class="muted"> {{ 'csvEditor.keyMarker' | translate }}</span> }</th>
+      }
+      <th class="w-10"></th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (item of rows(); track item.row.id) {
+      <tr [class]="duplicates().has(item.index) ? 'bg-amber-500/10' : ''">
+        <td class="muted border-t border-shell-200 px-2 dark:border-shell-800" [attr.title]="duplicates().has(item.index) ? ('csvEditor.duplicate' | translate) : null">{{ item.index + 1 }}</td>
+        @for (header of headers(); track $index) {
+          <td class="border-t border-shell-200 p-0.5 dark:border-shell-800">
+            <input class="input h-7 min-w-[8rem] font-mono text-xs" [value]="item.row.cells[$index] ?? ''"
+              (input)="cellChange.emit({ id: item.row.id, column: $index, value: valueOf($event) })"
+              [attr.aria-label]="'csvEditor.cellLabel' | translate: { column: header, row: item.index + 1 }" />
+          </td>
+        }
+        <td class="border-t border-shell-200 px-1 dark:border-shell-800">
+          <button type="button" class="muted hover:text-red-600" (click)="rowRemove.emit(item.row.id)" [attr.aria-label]="'csvEditor.deleteRow' | translate: { row: item.index + 1 }"><app-icon name="trash" [size]="14" /></button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
+@if (totalVisible() === 0) { <p class="muted p-6 text-center">{{ 'csvEditor.noRows' | translate }}</p> }
+@if (totalVisible() > limit()) {
+  <div class="p-3 text-center"><button type="button" class="btn" (click)="showMore.emit()">{{ 'csvEditor.showMore' | translate: { count: totalVisible() - limit() } }}</button></div>
+}

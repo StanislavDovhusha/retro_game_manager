@@ -1,0 +1,9 @@
+<button type="button" class="platform-card" [class.is-empty]="item().games === 0" [attr.tabindex]="current() ? 0 : -1"
+  [attr.aria-disabled]="busy() || null" [attr.data-platform]="item().name"
+  [attr.aria-label]="accessibleName(item().games === 0 ? ('platforms.empty' | translate) : item().countText)"
+  [style.--card-from]="item().palette.from" [style.--card-to]="item().palette.to" [style.--card-accent]="item().palette.accent"
+  [style.--card-text]="item().palette.text || '#ffffff'" (click)="click()" (focus)="focused.emit()">
+  <span class="code">{{ item().name }}</span>
+  <span class="label">{{ item().label ?? '' }}</span>
+  <span class="count">{{ item().games === 0 ? ('platforms.empty' | translate) : item().countText }}</span>
+</button>

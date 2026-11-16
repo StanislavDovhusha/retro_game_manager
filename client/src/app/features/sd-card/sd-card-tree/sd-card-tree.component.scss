@@ -1,0 +1,21 @@
+:host {
+  display: block;
+}
+
+/* The full platform name next to the folder name. The text lives only in ::after, so it can be neither selected nor
+   found by a text search in the tree; a long name is cut with an ellipsis. */
+.platform-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.6875rem;
+  font-weight: 400;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+
+  &::after {
+    content: attr(data-name);
+  }
+}

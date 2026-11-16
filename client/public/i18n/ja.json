@@ -1,0 +1,671 @@
+{
+  "addGame": {
+    "discTarget": ".bin + .cue からイメージを作成します：",
+    "errors": {
+      "binNeedsCue": ".bin ファイルには .cue ファイルが必要です。両方を一緒に選択してください（.img イメージが作成されます）。",
+      "binRequired": ".cue ファイルに対応する .bin ファイルを追加してください。",
+      "cueRequired": ".bin ファイルには、トラックを記述した .cue ファイルが必要です。",
+      "emptyFile": "空のファイルが含まれています",
+      "emptyImage": "ファイルが空です",
+      "extensionNotAllowed": "拡張子 .{{ext}} はゲームの拡張子リスト（{{extensions}}）にありません。",
+      "imageFormats": "対応画像：PNG、JPG、JPEG、WEBP。",
+      "imageTooLarge": "画像が大きすぎます（最大 20 MB）。",
+      "isImage": "これは画像です。ゲームファイルは1番目の欄に、画像は3番目の欄に入れてください。",
+      "multipleCue": "複数の .cue ファイルが選択されています。ゲームは1本ずつ追加してください（.cue 1つと、その .bin ファイル）。",
+      "onlyDiscFormats": "一緒に追加できるのは、1つのディスクイメージを構成するファイルだけです：.bin + .cue、.ccd + .img + .sub、またはそれらの .ecm アーカイブ。",
+      "tooManyFiles": "ファイルが多すぎます（最大 {{max}} 個）。",
+      "unknownType": "ファイルの種類を判別できませんでした。フォルダーではなく、ゲームファイルをドラッグしてください。",
+      "multipleCcd": "複数の .ccd ファイルが選択されています。ゲームは1本ずつ追加してください（.ccd 1つと、その .img と .sub）。",
+      "missingFiles": "ディスクイメージのファイルが揃っていません。不足：{{files}}。.img や .bin は .ecm アーカイブでもかまいません。",
+      "duplicateFiles": "ファイル {{files}} は同じデータです。どれか1つだけ選択してください。",
+      "extraFiles": "ファイル {{files}} はこのディスクイメージのものではありません。取り除いてください。"
+    },
+    "fileTarget": "ファイルの保存名：",
+    "gameFile": "ゲームファイル",
+    "gameHint": "ファイルまたはディスクイメージ一式（.bin + .cue、.ccd + .img + .sub、.ecm）をここにドラッグするか、「参照」をクリックしてください",
+    "imageDefault": "画像がない場合はカバー画像が自動生成されます（プラットフォームの色のパッケージに、プラットフォーム名とゲームのタイトルが入ります）。あとで好きな画像に差し替えられます。",
+    "imageHint": "PNG、JPG、JPEG、WEBP のいずれかをここにドラッグするか、「参照」をクリックしてください",
+    "imageLabel": "ゲームの画像（任意）",
+    "imageNameInvalid": "このタイトルからはファイル名を作成できません。タイトルを変更してください。",
+    "imageTarget": "画像フォルダーへの保存名：",
+    "progress": {
+      "copying": "ファイルをコピーしてCSVを更新しています…",
+      "creatingDisc": ".img イメージを作成してCSVを更新しています…",
+      "uploadingFile": "ファイルをアップロードしています（{{current}} / {{total}}）…",
+      "uploadingGame": "ゲームファイルをアップロードしています…",
+      "uploadingImage": "画像をアップロードしています…",
+      "copyingFile": "ゲームファイルをコピーしています…",
+      "unpacking": "ECMを展開しています…",
+      "building": "IMGを作成しています…",
+      "finishing": "カバー画像を保存してCSVを更新しています…",
+      "compressing": ".zip に圧縮してCSVを更新しています…",
+      "compressingFile": "ゲームファイルを .zip に圧縮しています…"
+    },
+    "shortNeedsLetter": "タイトルには文字か数字が1つ以上必要です。",
+    "shortPlaceholder": "自動生成されます",
+    "shortReadonly": "スペースなしのcamelCase形式です。編集はできません。",
+    "title": "ゲームを追加",
+    "titleHint": "ファイル名から自動入力されます（変更可能）。タイトルは重複できません。",
+    "titleLabel": "ゲームのタイトル",
+    "titlePipe": "タイトルに「|」は使えません。ゲーム機がゲームリストの項目の区切りに使っている文字です。",
+    "titlePlaceholder": "例：The Legend of Zelda",
+    "cloneCdTarget": "CloneCDセットの .img の保存名：",
+    "ecmTarget": "ECMアーカイブの展開先：",
+    "compressZip": ".zip に圧縮する",
+    "compressZipHint": "ゲームファイルを、ゲーム名のアーカイブにまとめます。アーカイブ内のファイル名はそのままです。",
+    "zipAlready": "このファイルはすでにZIPアーカイブです。圧縮の必要はありません。",
+    "zipTarget": "圧縮先：",
+    "zipInside": "中身："
+  },
+  "buttons": {
+    "add": "追加",
+    "browse": "参照",
+    "cancel": "キャンセル",
+    "clear": "クリア",
+    "close": "閉じる",
+    "collapse": "折りたたむ",
+    "delete": "削除",
+    "dismiss": "閉じる",
+    "done": "完了",
+    "expand": "展開する",
+    "rename": "名前を変更",
+    "save": "保存",
+    "scan": "スキャン",
+    "selectGamesFolder": "ゲームフォルダーを選択",
+    "selectSdCard": "SDカードを選択",
+    "sync": "同期"
+  },
+  "common": {
+    "andMore": "…ほか {{count}} 件",
+    "loading": "読み込み中…",
+    "of": "/",
+    "readingFile": "ファイルを読み込んでいます…"
+  },
+  "csvEditor": {
+    "addRow": "行を追加",
+    "cellLabel": "{{column}}、{{row}} 行目",
+    "deleteRow": "{{row}} 行目を削除",
+    "duplicate": "重複",
+    "duplicatesHint": "重複は「{{column}}」列で判定します。最初のエントリが残ります",
+    "duplicatesRemoved": "重複を {{count}} 件削除しました。「保存」をクリックすると、変更がファイルに書き込まれます。",
+    "filterPlaceholder": "行を絞り込む",
+    "firstColumn": "1列目",
+    "keyMarker": "（キー）",
+    "missingAll": "すべてのエントリが削除されます。ゲームフォルダーにアクセスできるか確認してください（ドライブやSDカードが接続されているかなど）。",
+    "missingConfirm": "エントリを削除（{{count}}）",
+    "missingIntro": "CSVから削除されるエントリ：",
+    "missingNote": "ゲームフォルダーに、これらに対応するゲームファイルが見つかりませんでした。ディスク上のファイルやフォルダーは削除されません。変更前にCSVのバックアップが作成されます。",
+    "missingTitle": "見つからないゲームのエントリを削除しますか？",
+    "noMissing": "見つからないゲームはありません。すべてのエントリにファイルがあります。",
+    "noMissingToast": "見つからないゲームはありません。CSVのエントリはすべてファイルと一致しています。",
+    "noRows": "行がありません",
+    "removeDuplicates": "重複を削除",
+    "removeDuplicatesCount": "重複を削除（{{count}}）",
+    "removeMissing": "見つからないゲームを削除",
+    "removeMissingDirty": "先に変更を保存してください。チェックはディスク上のファイルに対して行われます",
+    "removeMissingHint": "ゲームファイルのないエントリを探して、CSVから削除します（ディスク上のファイルは削除されません）",
+    "removed": "エントリを {{count}} 件削除しました。CSVファイルと同じ場所にバックアップを作成しました。",
+    "removedToast": "見つからないゲームのエントリをCSVから削除しました：{{count}} 件",
+    "saved": "保存しました。CSVファイルと同じ場所にバックアップを作成しました。",
+    "savedToast": "CSVを保存しました",
+    "showMore": "さらに表示（{{count}}）",
+    "summary": "行数：{{count}} · 重複は「{{column}}」列で検索します",
+    "summaryFiltered": "行数：{{count}}、表示中：{{shown}} · 重複は「{{column}}」列で検索します",
+    "title": "CSVを編集",
+    "unsaved": "未保存の変更があります",
+    "unsavedConfirm": "未保存の変更があります。保存せずにエディターを閉じますか？"
+  },
+  "deleteGame": {
+    "alsoCsv": "このゲームのエントリをCSVから削除する（変更前にバックアップが作成されます）",
+    "csvNotConfigured": "（CSVが設定されていません）",
+    "descriptionGame": "ファイルはディスクから完全に削除されます。",
+    "descriptionImage": "画像だけが削除されます。ゲームファイルはそのまま残ります。",
+    "name": "名前",
+    "path": "パス",
+    "titleGame": "ゲームファイルを削除しますか？",
+    "titleImage": "画像を削除しますか？"
+  },
+  "deleteGames": {
+    "alsoCsv": "これらのゲームのエントリをCSVから削除する（変更前にバックアップが作成されます）",
+    "confirm": "削除（{{count}}）",
+    "intro": "ディスクから完全に削除されます：",
+    "skipNote": "すでに存在しないファイルはスキップされます。",
+    "title": "選択したゲームを削除しますか？"
+  },
+  "donate": {
+    "beer": {
+      "1": "INSERT COIN でコンティニュー…もしくは、作者に一杯おごってコンティニュー。",
+      "2": "作者のHPは残り1。一杯おごればHPが全回復します。",
+      "3": "実績解除：「太っ腹プレイヤー」。報酬：作者からの永遠の感謝と、冷たい一杯。",
+      "4": "課金要素なし、ガチャなし。これを作った人に、心ばかりの一杯を。"
+    },
+    "button": "プロジェクトを支援",
+    "copied": "コピーしました！",
+    "copy": "コピー",
+    "crypto": {
+      "address": "ウォレットアドレス",
+      "goTo": "{{coin}} を表示",
+      "keysHint": "暗号資産ウォレット：← → キーで切り替えられます",
+      "next": "次のコイン",
+      "position": "{{current}} / {{total}}",
+      "prev": "前のコイン",
+      "qr": "{{coin}} アドレスのQRコード",
+      "slide": "{{coin}}、{{current}} / {{total}}",
+      "title": "暗号資産",
+      "warning": "{{coin}} を {{network}} 経由でのみ送金してください。ほかのネットワークを使うと、資金を失うおそれがあります。"
+    },
+    "dev": {
+      "1": "寄付1回につき、プロジェクトの開発スピードが+1されます。",
+      "2": "プロジェクトのレベルアップにご協力を。次のステージで新機能が待っています。",
+      "3": "バグは寄付が苦手です。寄付のたびに、コードとのボス戦にもう一度挑めます。",
+      "4": "セーブ中… あなたの支援が、このプロジェクトをゲームオーバーから守ります。"
+    },
+    "kinds": {
+      "beer": "作者に一杯おごる 🍺",
+      "dev": "プロジェクトの開発を応援する 🚀"
+    },
+    "links": {
+      "github": "GitHubでスターを付ける",
+      "kofi": "Ko-fiで支援する"
+    },
+    "title": "プロジェクトを支援する"
+  },
+  "dropZone": {
+    "browseLabel": "{{label}}：システムのダイアログで選択",
+    "clear": "ファイルを取り除く",
+    "summary": "ファイル：{{count}} · {{size}}"
+  },
+  "errors": {
+    "network": "サーバーに接続できません。アプリが起動しているか確認してください。",
+    "server": "サーバーエラー（{{status}}）",
+    "upload": "アップロードエラー（{{status}}）"
+  },
+  "fields": {
+    "shortName": "短縮名"
+  },
+  "foldersPanel": {
+    "gamesDir": "ゲームフォルダー",
+    "notSelected": "未選択"
+  },
+  "gameCard": {
+    "actions": {
+      "chooseImage": "画像を選択",
+      "deleteGame": "ゲームファイルを削除",
+      "deleteImage": "画像を削除",
+      "play": "エミュレーターでプレイ",
+      "rename": "ゲームの名前を変更",
+      "replaceImage": "画像を差し替える"
+    },
+    "coverAlt": "カバー画像：{{title}}",
+    "csv": {
+      "missing": "エントリなし（同期が必要です）",
+      "notConfigured": "CSVが設定されていません",
+      "present": "エントリあり"
+    },
+    "csvTitleFallback": "—（ファイル名が使われます）",
+    "empty": "ゲームを選択すると詳細が表示されます",
+    "emulator": {
+      "download": "{{emulator}} をダウンロード",
+      "notInstalled": "このコンピューターには {{emulator}} がインストールされていません。"
+    },
+    "fields": {
+      "csv": "CSV",
+      "csvTitle": "CSV内のタイトル",
+      "extension": "拡張子",
+      "file": "ファイル",
+      "fullPath": "フルパス",
+      "image": "画像",
+      "modified": "更新日時",
+      "relativePath": "相対パス",
+      "shortName": "短縮名",
+      "size": "サイズ",
+      "tags": "タグ"
+    },
+    "image": {
+      "auto": "自動検出",
+      "manual": "手動で選択",
+      "none": "なし"
+    }
+  },
+  "gameList": {
+    "ascending": "昇順",
+    "clearSelection": "選択を解除",
+    "columns": {
+      "csv": "CSV",
+      "game": "ゲーム",
+      "path": "パス",
+      "size": "サイズ",
+      "tags": "タグ"
+    },
+    "deleteSelected": "選択項目を削除",
+    "deleteSelectedCount": "選択項目を削除（{{count}}）",
+    "descending": "降順",
+    "empty": "（空）",
+    "entryWithoutTitles": "タイトルのないエントリ",
+    "folder": "フォルダー：",
+    "hiddenByFilter": "（フィルターで非表示：{{count}}）",
+    "noData": "データなし",
+    "noGames": "ゲームが見つかりません。フィルターを変更するか、別のフォルダーを選択してください。",
+    "noTags": "タグなし",
+    "notInCsv": "CSVになし",
+    "resizeHint": "ドラッグで幅を変更できます。ダブルクリックで既定の幅に戻ります",
+    "resizeLabel": "「{{label}}」列の幅：{{width}} ピクセル。左右の矢印キーで幅を変更できます",
+    "selectAll": "すべて選択",
+    "selectRow": "「{{title}}」を選択",
+    "selected": "選択中：",
+    "showAll": "すべて表示",
+    "sort": "並べ替え",
+    "sortTitle": "並べ替え：{{direction}}（クリックで切り替え）",
+    "unsupportedTitle": "タイトルに対応していない文字が含まれています。ゲーム名を変更してください。"
+  },
+  "gameThumb": {
+    "noImage": "画像なし"
+  },
+  "gameTree": {
+    "noFiles": "ゲームファイルがありません",
+    "nothingFound": "見つかりませんでした"
+  },
+  "header": {
+    "addGameDisabled": "先にゲームフォルダーを選択してください",
+    "addGameHint": "ゲームをゲームフォルダーにコピーして、CSVに追加します",
+    "language": "表示言語",
+    "search": {
+      "clear": "フィルターをクリア",
+      "found": "該当：",
+      "foundHint": "開いているフォルダー内で、フィルターに一致するゲーム",
+      "nothing": "カード内にゲームが見つかりませんでした",
+      "placeholder": "ゲームを検索",
+      "results": "カード内で見つかったゲーム",
+      "scope": {
+        "all": "すべて",
+        "dir": "フォルダー名",
+        "ext": "拡張子",
+        "name": "ファイル名",
+        "path": "フルパス",
+        "tags": "タグ"
+      },
+      "scopeHint": "開いているフォルダーのフィルターの検索対象です。入力欄の下のリストは、常に全プラットフォームのタイトル・短縮名・タグを検索します",
+      "scopeLabel": "検索対象",
+      "searching": "すべてのプラットフォームを検索しています…",
+      "showAll": "すべての結果を表示（{{count}}）",
+      "unreadable": "読み取れなかったフォルダーがあります：{{folders}}",
+      "updating": "結果を更新しています…"
+    },
+    "selectSdCardTitle": "SDカードのルートを選択",
+    "settings": "設定",
+    "syncCsv": "CSVを同期",
+    "toggleTheme": "テーマを切り替え"
+  },
+  "inlineEdit": {
+    "edit": "編集：{{field}}",
+    "errors": {
+      "emptyName": "タイトルは空にできません。",
+      "emptyShort": "短縮名は空にできません。",
+      "pipe": "「|」は使えません。ゲーム機がゲームリストの項目の区切りに使っている文字です。",
+      "shortSpace": "短縮名にスペースは使えません。",
+      "tagTooLong": "タグが長すぎます（最大 {{max}} 文字）：「{{tag}}」。",
+      "renameFirst": "先にゲーム名を変更してください。タイトルに対応していない文字が含まれています。"
+    },
+    "hints": {
+      "name": "ゲームファイル、カバー画像、セーブデータの名前も変更されます。Enterで保存、Escでキャンセル。",
+      "short": "スペースなしの1単語で入力します。Enterで保存、Escでキャンセル。",
+      "tags": "タグはスペースで区切ります（タグ自体にスペースは使えません）。Enterで保存、Escでキャンセル。"
+    },
+    "labels": {
+      "name": "ゲームのタイトル",
+      "short": "短縮名",
+      "tags": "タグ"
+    }
+  },
+  "libraryPaths": {
+    "csv": {
+      "hint": "自動で設定されます：「ゲームフォルダー」/filelist.csv。ファイルがない場合は同期時に作成されます。列：パス、正式タイトル、短縮名。",
+      "label": "CSVファイル",
+      "placeholder": "ゲームとそのタイトルの一覧が入ったファイル"
+    },
+    "gamesDir": {
+      "label": "ゲームフォルダー",
+      "placeholder": "ゲームを保存しているメインのフォルダー"
+    },
+    "imagesDir": {
+      "hint": "自動で設定されます：「ゲームフォルダー」/images。手動で変更することもできます。",
+      "label": "画像フォルダー",
+      "placeholder": "ゲーム画像のフォルダー"
+    },
+    "title": "フォルダーとCSVファイル"
+  },
+  "log": {
+    "close": "ログを閉じる",
+    "empty": "まだ何もありません",
+    "title": "操作ログ"
+  },
+  "main": {
+    "csvProblem": "CSV：{{error}}",
+    "empty": {
+      "description": "サブフォルダーも含めてスキャンし、ゲーム機のCSVと照合します。",
+      "title": "ゲームフォルダーを選択してください"
+    },
+    "readErrors": "読み取れなかったフォルダー：{{count}} 件（詳細はログを確認してください）",
+    "startCommand": "次のコマンドでアプリを起動してください："
+  },
+  "panels": {
+    "allGames": "すべてのゲーム",
+    "details": "詳細",
+    "folders": "フォルダー",
+    "hide": "パネルを隠す：{{label}}",
+    "resizeHint": "ドラッグで高さを変更できます。ダブルクリックでリセット。矢印キーで境界を移動できます",
+    "resizeLabel": "「フォルダー」パネルと「すべてのゲーム」パネルの高さ",
+    "show": "パネルを表示：{{label}}"
+  },
+  "platforms": {
+    "allPlatforms": "すべてのプラットフォーム",
+    "backTitle": "すべてのプラットフォームに戻る（Backspace または Esc）",
+    "breadcrumbs": "現在の場所",
+    "count": "{{count}} {{noun}}",
+    "empty": "ゲームはまだありません",
+    "hint": "プラットフォームを選ぶとゲームが表示されます。矢印キーでカードを移動し、Enter で開きます。",
+    "title": "プラットフォーム"
+  },
+  "plural": {
+    "game": {
+      "few": "件のゲーム",
+      "many": "件のゲーム",
+      "one": "件のゲーム",
+      "other": "件のゲーム"
+    }
+  },
+  "renameGame": {
+    "checking": "変更される内容を確認しています…",
+    "fileNameHint": "ゲームファイルとカバー画像の新しい名前：",
+    "kinds": {
+      "cores": "コアの割り当て",
+      "csv": "CSVのエントリ",
+      "game": "ゲームファイル",
+      "image": "カバー画像",
+      "list": "ゲーム機のリスト",
+      "save": "セーブデータ",
+      "state": "ステートセーブ",
+      "cover": "自動生成のカバー画像を新しいタイトルで描き直し"
+    },
+    "newTitle": "ゲームの新しいタイトル",
+    "note": "途中で失敗した場合は、すでに行った変更が元に戻されます。ゲーム機のリストのコピーは、アプリのデータフォルダーに保存されます。",
+    "replacements": "置換数",
+    "title": "ゲームの名前を変更",
+    "willBeRenamed": "名前が変更されるもの"
+  },
+  "sdCard": {
+    "choosePlatform": "— プラットフォームを選択 —",
+    "contents": "カードの内容",
+    "csvFile": "CSVファイル",
+    "device": "ゲーム機のモデル：{{name}}",
+    "imagesDir": "画像フォルダー",
+    "noPlatforms": "カードにゲームフォルダーが見つかりませんでした。",
+    "noRoot": "カードのルートが選択されていません。上部バーの「SDカードを選択」をクリックすると、内容を確認してプラットフォームを選べます。",
+    "notGameFolder": "ゲームフォルダーではありません",
+    "platform": "プラットフォーム",
+    "selectPlatform": "プラットフォーム {{name}} を選択",
+    "systemFolder": "システムフォルダー（変更されることはありません）",
+    "title": "SDカード",
+    "truncated": "一部のフォルダーは表示されていません"
+  },
+  "searchResults": {
+    "close": "フォルダーツリーに戻る",
+    "title": "カード内の「{{query}}」：{{count}} 件"
+  },
+  "settings": {
+    "about": {
+      "license": "ライセンス：",
+      "source": "ソースコード：",
+      "title": "このアプリについて"
+    },
+    "columns": {
+      "auto": {
+        "column": "既定（{{number}} 列目）",
+        "path": "既定（1 列目）",
+        "unused": "使用しない"
+      },
+      "name": "ゲームの正式タイトルの列",
+      "notFound": "（見つかりません）",
+      "path": "ファイルパスの列",
+      "short": "短縮名（camelCase）の列",
+      "tags": "タグ（スペース区切り）の列"
+    },
+    "csv": {
+      "delimiter": {
+        "comma": "カンマ (,)",
+        "label": "区切り文字",
+        "semicolon": "セミコロン (;)",
+        "tab": "タブ"
+      },
+      "encoding": "文字コード",
+      "fileLabel": "ファイル（SDカードのプラットフォームを選ぶと設定されます）",
+      "firstRow": {
+        "data": "データ（ヘッダーなし）",
+        "header": "列の見出し",
+        "label": "1行目"
+      },
+      "notSelected": "未選択",
+      "title": "CSVファイル"
+    },
+    "device": {
+      "hint": "プラットフォーム、システムフォルダー、ゲームリストの形式、ヒントはモデルによって異なります。SDカードを選択すると、可能な場合はフォルダー構成からモデルを自動判別します。",
+      "label": "ゲーム機のモデル",
+      "title": "ゲーム機"
+    },
+    "donate": {
+      "title": "支援のお願い",
+      "autoShow": "ゲームの操作（追加・削除・編集）のあとに、ときどき支援のお願いを自動で表示する"
+    },
+    "emulator": {
+      "chosen": "使用中：",
+      "found": "検出：",
+      "hint": "空欄にすると {{emulator}} を自動で探します。別の場所にインストールしている場合は、ここで指定してください。",
+      "label": "エミュレーターのパス（{{emulator}}）",
+      "placeholder": "自動で検出されます",
+      "title": "エミュレーター"
+    },
+    "extensions": {
+      "hint": "カンマ区切りで入力します。空欄の場合は、画像以外のすべてのファイルが対象になります。",
+      "label": "ゲームファイルの拡張子"
+    },
+    "gameFiles": {
+      "hint": "プラットフォーム、ゲームフォルダー、画像フォルダー、CSVファイルは、上部バーの「SDカードを選択」ボタンから選びます。",
+      "title": "ゲームファイル"
+    },
+    "prefix": {
+      "hint": "例：CSV内のパスが別のディレクトリからの相対パスになっている場合は「Games/GBA/」。プレフィックスで始まらないエントリは、同期の対象外になります。",
+      "label": "CSV内のパスのプレフィックス",
+      "placeholder": "プレフィックスなし"
+    },
+    "preview": {
+      "choose": "CSVファイルを選択すると、内容が表示されます。",
+      "count": "（{{total}} 行中、先頭の {{shown}} 行）",
+      "edit": "CSVを編集",
+      "editHint": "CSVを編集するには、先に選択したファイル、区切り文字、文字コードを保存してください。",
+      "notExists": "ファイルはまだありません。最初の同期時に作成されます。",
+      "saveFirst": "先にCSVの設定を保存してください",
+      "title": "プレビュー"
+    },
+    "title": "設定",
+    "backups": {
+      "title": "バックアップ",
+      "hint": "ゲームリスト（CSV）とゲーム機のリストのコピーは、SDカードではなくこのコンピューターに保存されます。カードとプラットフォームごとに別のフォルダーが作られ、各ファイルの最新10件が残ります。",
+      "open": "バックアップフォルダーを開く"
+    },
+    "tour": {
+      "hint": "主な機能を順番に紹介するガイドです：SDカード、プラットフォーム、ゲームの追加・編集・削除、検索。",
+      "restart": "ガイドをもう一度見る",
+      "title": "画面のガイド"
+    },
+    "updates": {
+      "available": "バージョン {{version}} が利用可能です。ウィンドウ上部のお知らせをご覧ください。",
+      "checkNow": "今すぐ確認",
+      "checkOnStartup": "起動時にアップデートを確認する",
+      "current": "現在のバージョン：{{version}}",
+      "failed": "アップデートを確認できませんでした。インターネット接続を確認して、あとでもう一度お試しください。",
+      "hint": "確認は1日1回までで、GitHubの最新リリースを参照します。",
+      "latest": "最新バージョンを使用しています",
+      "title": "アップデート"
+    }
+  },
+  "startTips": {
+    "firmware": {
+      "community": "コミュニティの情報：{{communityLink}}",
+      "stock": "純正ファームウェアの復元方法と本体の情報は {{firmwareLink}} にあります。このプロジェクトはメーカーとは無関係です。変更を加える前に、カードのバックアップを取ってください。",
+      "title": "{{device}} の純正ファームウェア",
+      "warning": "{{device}} は {{cpu}} プロセッサーで動作します。ほかの携帯ゲーム機向けのカスタムファームウェア（{{firmware}}）は適合せず、カードの中身を壊してしまいます。"
+    },
+    "sdCard": {
+      "checks": {
+        "text": "別のカードリーダーや別のUSBポートを試し、カードを挿し直してください。",
+        "title": "かんたんなチェック"
+      },
+      "device": {
+        "linux": "ターミナルで次を実行：",
+        "macos": "ディスクユーティリティ → 表示 → すべてのデバイスを表示 を開きます。カードが一覧にあるのにマウントされていない場合は、「マウント」をクリックしてください。",
+        "title": "システムがカードをデバイスとして認識しているか確認する",
+        "windows": "「ディスクの管理」（diskmgmt.msc）を開きます。カードがドライブ文字なしで表示されている場合は、ドライブ文字を割り当ててください。"
+      },
+      "dump": {
+        "macosLinux": "dd コマンド、またはmacOSの場合は",
+        "text": "カードがデバイスとして認識されているのに開けない場合は、何よりも先に丸ごとコピーしてください。コピーにはゲーム、セーブデータ、ファームウェアが残ります。",
+        "title": "まずカード全体のコピー（RAWダンプ）を作成する",
+        "windows": "次のソフトの「Read」ボタン："
+      },
+      "format": {
+        "format": "SD Associationの公式ツールでカードをフォーマットします：",
+        "restore": "そのあと、保存しておいたダンプ（Win32 Disk Imagerの「Write」ボタン、またはbalenaEtcher）か、純正ファームウェア（純正ファームウェアのヒントを参照）を書き戻します：",
+        "title": "最終手段：カードをフォーマットする（データは失われます）",
+        "warning": "フォーマットすると、カード内のデータはすべて消去されます。"
+      },
+      "future": "今後のために：付属のカードを信頼できるメーカーのカードに交換し、すぐにバックアップを取っておきましょう。",
+      "intro": "安価なレトロゲーム機に付属するカードは品質が低いことが多く、コンピューターで認識されない場合があります。次の手順を順番に試してください：",
+      "recover": {
+        "text": "TestDiskは失われたパーティションを、PhotoRecは個々のファイルを復元します：",
+        "title": "破損したカードからファイルを復元する"
+      },
+      "title": "コンピューターがSDカードを認識しない"
+    },
+    "title": "お役立ちヒント"
+  },
+  "statusBar": {
+    "csvEntries": "CSVエントリ：",
+    "filesFound": "検出ファイル：",
+    "log": "ログ",
+    "notInCsv": "CSVになし：",
+    "scanning": "スキャン中…",
+    "sync": "同期：",
+    "syncError": "{{time}}：エラー",
+    "syncNever": "未実行",
+    "syncing": "同期中…",
+    "tips": "ヒント",
+    "totalGames": "ゲーム総数：",
+    "totalSize": "ゲームの合計サイズ："
+  },
+  "sync": {
+    "added": "追加：",
+    "backup": "バックアップ：",
+    "comparing": "フォルダーとCSVを照合しています…",
+    "done": "同期が完了しました",
+    "duplicates": "すでにCSVにある重複：",
+    "duplicatesKept": "（そのまま残します）",
+    "lists": "ゲーム機のゲームリスト（.lst）：追加 {{added}}、削除 {{removed}}",
+    "previewNote": "プレビューです。まだ何も変更されていません。",
+    "removed": "削除：",
+    "safety": "ゲームファイルと画像は削除されません。書き込みの前にCSVのバックアップが作成されます。",
+    "title": "CSVの同期",
+    "toAdd": "追加される新しいゲーム：",
+    "toRemove": "削除される古いエントリ：",
+    "unchanged": "変更なし：",
+    "unmanaged": "管理対象フォルダー外のエントリ（変更されません）：",
+    "upToDate": "CSVはすでにフォルダーと一致しています。同期の必要はありません。",
+    "willBeAdded": "追加されるもの",
+    "willBeRemoved": "CSVから削除されるもの",
+    "created": "CSVファイルはまだありません。フォルダー内のすべてのゲームを含めて作成されます。",
+    "tagsColumnAdded": "タグ列（4列目）のない行に、空のタグ列が追加されます："
+  },
+  "toasts": {
+    "alreadyMissing": "すでに存在しない：{{count}}",
+    "csvEntriesRemoved": "CSVエントリを削除：{{count}}",
+    "csvNotChanged": "CSVは変更されませんでした：{{reason}}",
+    "deleteFailed": "{{summary}}。削除できなかった項目：{{count}}（{{rel}}：{{error}}）",
+    "deviceDetected": "カードからゲーム機を判別しました：{{name}}",
+    "emulatorStarted": "「{{title}}」を {{emulator}} で起動しています",
+    "fileDeleted": "ファイル「{{fileName}}」を削除しました",
+    "fileDeletedCsv": "（CSVのエントリも削除しました）",
+    "fileDeletedCsvNotChanged": "（CSVは変更されませんでした：{{reason}}）",
+    "gameAdded": "ゲーム「{{title}}」を追加しました",
+    "gameAddedCsvUpdated": "（既存のCSVエントリを更新）",
+    "gameAddedDisc": "（.bin + .cue からイメージ {{name}} を作成）",
+    "gameAddedImage": "（画像付き）",
+    "gameRenamed": "ゲームの名前を変更しました：「{{title}}」",
+    "gamesDeleted": "ゲームを削除：{{count}}",
+    "imageDeleted": "画像を削除しました",
+    "imageSelected": "画像を選択しました",
+    "imageUnlinked": "画像とゲームの関連付けを解除しました（選択したフォルダーの外にあるファイルは変更していません）",
+    "platformSelected": "プラットフォーム {{name}}：画像とCSVのパスを設定しました",
+    "scanFound": "{{count}} {{noun}}が見つかりました",
+    "sdRootSelected": "SDカードのルートを選択しました。プラットフォーム：{{count}}",
+    "settingsSaved": "設定を保存しました",
+    "syncDone": "同期が完了しました：+{{added}}、−{{removed}}",
+    "gameAddedCloneCd": "（CloneCDセットからイメージ {{name}} を作成）",
+    "gameAddedEcm": "（ECMから {{name}} を展開）",
+    "gameAddedZip": "（{{name}} に圧縮）",
+    "gameAddedGeneratedCover": "（カバー画像を自動生成）",
+    "syncCsvCreated": "CSVファイルを作成しました",
+    "syncTagsColumn": "タグ列を追加しました（{{count}} 行）",
+    "sdRootUnavailable": "前回選択したSDカードを使用できません。もう一度選択してください。",
+    "sdRootMacAccess": "システム設定 → プライバシーとセキュリティ → ファイルとフォルダ でアクセスを許可してください。"
+  },
+  "tour": {
+    "back": "戻る",
+    "done": "完了",
+    "next": "次へ",
+    "position": "ステップ {{current}} / {{total}}",
+    "skip": "ガイドをスキップ",
+    "steps": {
+      "addGame": {
+        "text": "プラットフォームに対応したゲームファイル（設定 → ゲームファイル を参照）、.zip、またはディスクイメージ（.bin + .cue、CloneCD（.ccd + .img + .sub）、.ecm）を追加できます。ディスクイメージは1つの .img にまとめられます。カバー画像（PNG、JPG、WEBP）を追加しない場合は、自動で作成されます。タグはあとから表で設定します。",
+        "title": "ゲームを追加する"
+      },
+      "delete": {
+        "text": "ゲームにチェックを入れて「選択項目を削除」をクリックするか、「詳細」の「ゲームファイルを削除」を使います。ゲームファイルはカードから削除され、CSVのエントリも一緒に削除できます。カバー画像とセーブデータは残ります。カバー画像は「詳細」の「画像を削除」で削除してください。",
+        "title": "ゲームを削除する"
+      },
+      "edit": {
+        "text": "ゲームのタイトル、短縮名、タグをダブルクリックします。Enterで保存、Escでキャンセル。CSVが更新され、タイトルを変えるとゲームファイル、カバー画像、セーブデータの名前も変わります。",
+        "title": "表の中で直接編集する"
+      },
+      "platform": {
+        "text": "メイン画面のプラットフォームカード、「プラットフォーム」リスト、または「カードの内容」からプラットフォームを選びます。そのプラットフォームのゲーム、カバー画像、filelist.csv が表に表示されます。",
+        "title": "プラットフォームを選ぶ"
+      },
+      "sdCard": {
+        "text": "ゲーム機のカードを挿入して、「SDカードを選択」をクリックします。カードのルート（FC、GBA、PS…などのプラットフォームフォルダーが入っているフォルダー）を選んでください。",
+        "title": "SDカードを選ぶ"
+      },
+      "search": {
+        "text": "検索欄では、カード内のすべてのプラットフォームフォルダーを対象に、タイトル、短縮名、ファイル名、タグを検索します。↑ / ↓ で結果を選び、Enterでそのプラットフォームを開いてゲームを選択します。",
+        "title": "すべてのプラットフォームを検索する"
+      }
+    },
+    "waitingForCard": "SDカードを選択すると、ガイドが再開します。"
+  },
+  "units": {
+    "bytes": "B",
+    "gb": "GB",
+    "kb": "KB",
+    "mb": "MB",
+    "tb": "TB"
+  },
+  "update": {
+    "available": "バージョン {{version}} が利用可能です",
+    "close": "お知らせを閉じる",
+    "download": "ダウンロード",
+    "label": "新しいバージョン"
+  },
+  "validation": {
+    "latinOnly": "使えるのは英字、数字、スペース、ハイフンだけです",
+    "nameRequired": "タイトルを英字または数字で入力してください。"
+  }
+}

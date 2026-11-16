@@ -1,0 +1,671 @@
+{
+  "addGame": {
+    "discTarget": "Da .bin + .cue verrà creata un’immagine:",
+    "errors": {
+      "binNeedsCue": "Un file .bin ha bisogno di un file .cue: selezionali insieme (verrà creata un’immagine .img).",
+      "binRequired": "Aggiungi il file o i file .bin del file .cue.",
+      "cueRequired": "I file .bin hanno bisogno di un file .cue che descriva le tracce.",
+      "emptyFile": "Uno dei file è vuoto",
+      "emptyImage": "Il file è vuoto",
+      "extensionNotAllowed": "L’estensione .{{ext}} non è nell’elenco delle estensioni di gioco ({{extensions}}).",
+      "imageFormats": "Immagini supportate: PNG, JPG, JPEG, WEBP.",
+      "imageTooLarge": "L’immagine è troppo grande (massimo 20 MB).",
+      "isImage": "Questa è un’immagine. Metti il file del gioco nel primo campo e l’immagine nel terzo.",
+      "multipleCue": "Hai selezionato più file .cue. Aggiungi un gioco alla volta: un .cue e i suoi file .bin.",
+      "onlyDiscFormats": "Si possono aggiungere insieme solo le parti di una stessa immagine disco: .bin + .cue, .ccd + .img + .sub o i relativi archivi .ecm.",
+      "tooManyFiles": "Troppi file (massimo {{max}}).",
+      "unknownType": "Impossibile determinare il tipo di file. Trascina i file di gioco, non una cartella.",
+      "multipleCcd": "Hai selezionato più file .ccd. Aggiungi un gioco alla volta: un .ccd con il suo .img e il suo .sub.",
+      "missingFiles": "L’immagine disco è incompleta. Manca: {{files}}. Un .img o un .bin può anche essere un archivio .ecm.",
+      "duplicateFiles": "I file {{files}} contengono gli stessi dati: selezionane solo uno.",
+      "extraFiles": "I file {{files}} non appartengono a questa immagine disco: rimuovili."
+    },
+    "fileTarget": "Il file verrà salvato come",
+    "gameFile": "File del gioco",
+    "gameHint": "Trascina qui un file o un’immagine disco (.bin + .cue, .ccd + .img + .sub, .ecm) oppure fai clic su «Sfoglia»",
+    "imageDefault": "Senza immagine viene generata una copertina: il nome della piattaforma e il titolo del gioco su una custodia nei colori della piattaforma. Potrai sostituirla in seguito con una tua immagine.",
+    "imageHint": "Trascina qui un PNG, JPG, JPEG o WEBP oppure fai clic su «Sfoglia»",
+    "imageLabel": "Immagine del gioco (facoltativa)",
+    "imageNameInvalid": "Da questo titolo non si può ricavare un nome di file: modificalo.",
+    "imageTarget": "Verrà salvata nella cartella delle immagini come",
+    "progress": {
+      "copying": "Copia dei file e aggiornamento del CSV…",
+      "creatingDisc": "Creazione dell’immagine .img e aggiornamento del CSV…",
+      "uploadingFile": "Caricamento del file {{current}} di {{total}}…",
+      "uploadingGame": "Caricamento del file del gioco…",
+      "uploadingImage": "Caricamento dell’immagine…",
+      "copyingFile": "Copia del file del gioco…",
+      "unpacking": "Estrazione dell’ECM…",
+      "building": "Creazione dell’IMG…",
+      "finishing": "Salvataggio della copertina e aggiornamento del CSV…",
+      "compressing": "Compressione in .zip e aggiornamento del CSV…",
+      "compressingFile": "Compressione del file del gioco in .zip…"
+    },
+    "shortNeedsLetter": "Il titolo deve contenere almeno una lettera o una cifra.",
+    "shortPlaceholder": "Generato automaticamente",
+    "shortReadonly": "camelCase senza spazi; non modificabile.",
+    "title": "Aggiungi gioco",
+    "titleHint": "Ricavato dal nome del file; puoi modificarlo. Il titolo deve essere univoco.",
+    "titleLabel": "Titolo del gioco",
+    "titlePipe": "Il titolo non può contenere il carattere «|»: la console lo usa per separare i campi dei suoi elenchi di giochi.",
+    "titlePlaceholder": "Ad esempio: The Legend of Zelda",
+    "cloneCdTarget": "Il file .img del set CloneCD verrà salvato come",
+    "ecmTarget": "L’archivio ECM verrà estratto in",
+    "compressZip": "Comprimi in .zip",
+    "compressZipHint": "Il file del gioco viene inserito in un archivio con il nome del gioco; al suo interno il file mantiene il proprio nome.",
+    "zipAlready": "Il file è già un archivio ZIP: non c’è nulla da comprimere.",
+    "zipTarget": "Verrà compresso in",
+    "zipInside": "contenente"
+  },
+  "buttons": {
+    "add": "Aggiungi",
+    "browse": "Sfoglia",
+    "cancel": "Annulla",
+    "clear": "Cancella",
+    "close": "Chiudi",
+    "collapse": "Comprimi",
+    "delete": "Elimina",
+    "dismiss": "Ignora",
+    "done": "Fine",
+    "expand": "Espandi",
+    "rename": "Rinomina",
+    "save": "Salva",
+    "scan": "Scansiona",
+    "selectGamesFolder": "Scegli cartella dei giochi",
+    "selectSdCard": "Seleziona scheda SD",
+    "sync": "Sincronizza"
+  },
+  "common": {
+    "andMore": "…e altri {{count}}",
+    "loading": "Caricamento…",
+    "of": "di",
+    "readingFile": "Lettura del file…"
+  },
+  "csvEditor": {
+    "addRow": "Aggiungi riga",
+    "cellLabel": "{{column}}, riga {{row}}",
+    "deleteRow": "Elimina la riga {{row}}",
+    "duplicate": "Duplicato",
+    "duplicatesHint": "I duplicati vengono rilevati in base alla colonna «{{column}}»; viene mantenuta la prima voce",
+    "duplicatesRemoved": "Duplicati rimossi: {{count}}. Fai clic su «Salva» per scrivere le modifiche nel file.",
+    "filterPlaceholder": "Filtra righe",
+    "firstColumn": "prima colonna",
+    "keyMarker": "(chiave)",
+    "missingAll": "Tutte le voci verranno rimosse. Assicurati che la cartella dei giochi sia disponibile (ad esempio che l’unità o la scheda SD sia collegata).",
+    "missingConfirm": "Elimina voci ({{count}})",
+    "missingIntro": "Voci che verranno rimosse dal CSV:",
+    "missingNote": "Per queste voci non è stato trovato alcun file di gioco nella cartella dei giochi. File e cartelle sul disco non vengono eliminati; prima della modifica viene creato un backup del CSV.",
+    "missingTitle": "Rimuovere le voci dei giochi mancanti?",
+    "noMissing": "Nessun gioco mancante: sono stati trovati i file di tutte le voci.",
+    "noMissingToast": "Nessun gioco mancante: tutte le voci del CSV corrispondono a un file.",
+    "noRows": "Nessuna riga",
+    "removeDuplicates": "Rimuovi duplicati",
+    "removeDuplicatesCount": "Rimuovi duplicati ({{count}})",
+    "removeMissing": "Rimuovi giochi mancanti",
+    "removeMissingDirty": "Salva prima le modifiche: il controllo lavora sul file presente sul disco",
+    "removeMissingHint": "Trova le voci senza file di gioco e le rimuove dal CSV (i file sul disco non vengono eliminati)",
+    "removed": "Voci rimosse: {{count}}. È stato creato un backup accanto al file CSV.",
+    "removedToast": "Voci dei giochi mancanti rimosse dal CSV: {{count}}",
+    "saved": "Salvato. È stato creato un backup accanto al file CSV.",
+    "savedToast": "CSV salvato",
+    "showMore": "Mostra altro ({{count}})",
+    "summary": "Righe: {{count}} · i duplicati vengono cercati nella colonna «{{column}}»",
+    "summaryFiltered": "Righe: {{count}}, mostrate: {{shown}} · i duplicati vengono cercati nella colonna «{{column}}»",
+    "title": "Modifica CSV",
+    "unsaved": "Modifiche non salvate",
+    "unsavedConfirm": "Hai delle modifiche non salvate. Chiudere l’editor senza salvare?"
+  },
+  "deleteGame": {
+    "alsoCsv": "Rimuovi la voce del gioco dal CSV (prima delle modifiche viene creato un backup)",
+    "csvNotConfigured": " — il CSV non è configurato",
+    "descriptionGame": "Il file verrà eliminato definitivamente dal disco.",
+    "descriptionImage": "Verrà eliminata solo l’immagine; il file del gioco resta al suo posto.",
+    "name": "Nome",
+    "path": "Percorso",
+    "titleGame": "Eliminare il file del gioco?",
+    "titleImage": "Eliminare l’immagine?"
+  },
+  "deleteGames": {
+    "alsoCsv": "Rimuovi le voci di questi giochi dal CSV (prima delle modifiche viene creato un backup)",
+    "confirm": "Elimina ({{count}})",
+    "intro": "Verranno eliminati definitivamente dal disco:",
+    "skipNote": "I file che non esistono più verranno ignorati.",
+    "title": "Eliminare i giochi selezionati?"
+  },
+  "donate": {
+    "beer": {
+      "1": "Insert coin to continue… o meglio ancora, inserisci una birra per l’autore.",
+      "2": "All’autore è rimasto 1 HP. Una birra gli ripristina tutta la salute.",
+      "3": "Obiettivo sbloccato: Giocatore generoso. Ricompensa: l’eterna gratitudine dell’autore e una birra ghiacciata.",
+      "4": "Niente microtransazioni, niente loot box. Solo una birra onesta per chi ha creato tutto questo."
+    },
+    "button": "Sostieni il progetto",
+    "copied": "Copiato!",
+    "copy": "Copia",
+    "crypto": {
+      "address": "Indirizzo del wallet",
+      "goTo": "Mostra {{coin}}",
+      "keysHint": "Wallet crypto: usa i tasti ← e → per cambiare",
+      "next": "Moneta successiva",
+      "position": "{{current}} di {{total}}",
+      "prev": "Moneta precedente",
+      "qr": "Codice QR dell’indirizzo {{coin}}",
+      "slide": "{{coin}}, {{current}} di {{total}}",
+      "title": "Crypto",
+      "warning": "Invia solo {{coin}} tramite {{network}}. Con altre reti i fondi potrebbero andare persi."
+    },
+    "dev": {
+      "1": "Ogni donazione dà +1 alla velocità di sviluppo del progetto.",
+      "2": "Aiuta il progetto a salire di livello: nuove funzioni ti aspettano nel prossimo stage.",
+      "3": "I bug temono le donazioni. Ognuna finanzia un’altra boss fight contro il codice.",
+      "4": "Salvataggio in corso… Il tuo supporto tiene questo progetto lontano dal Game Over."
+    },
+    "kinds": {
+      "beer": "Per la birra dell’autore 🍺",
+      "dev": "Per lo sviluppo del progetto 🚀"
+    },
+    "links": {
+      "github": "Stella su GitHub",
+      "kofi": "Sostieni su Ko-fi"
+    },
+    "title": "Sostieni il progetto"
+  },
+  "dropZone": {
+    "browseLabel": "{{label}}: scegli con la finestra di sistema",
+    "clear": "Rimuovi file",
+    "summary": "File: {{count}} · {{size}}"
+  },
+  "errors": {
+    "network": "Nessuna connessione al server. Assicurati che l’app sia in esecuzione.",
+    "server": "Errore del server ({{status}})",
+    "upload": "Errore di caricamento ({{status}})"
+  },
+  "fields": {
+    "shortName": "Nome breve"
+  },
+  "foldersPanel": {
+    "gamesDir": "Cartella dei giochi",
+    "notSelected": "Non selezionata"
+  },
+  "gameCard": {
+    "actions": {
+      "chooseImage": "Scegli immagine",
+      "deleteGame": "Elimina file del gioco",
+      "deleteImage": "Elimina immagine",
+      "play": "Gioca nell’emulatore",
+      "rename": "Rinomina gioco",
+      "replaceImage": "Sostituisci immagine"
+    },
+    "coverAlt": "Copertina: {{title}}",
+    "csv": {
+      "missing": "nessuna voce: serve una sincronizzazione",
+      "notConfigured": "Il CSV non è configurato",
+      "present": "voce presente"
+    },
+    "csvTitleFallback": "— (viene usato il nome del file)",
+    "empty": "Seleziona un gioco per vederne i dettagli",
+    "emulator": {
+      "download": "Scarica {{emulator}}",
+      "notInstalled": "{{emulator}} non è installato su questo computer."
+    },
+    "fields": {
+      "csv": "CSV",
+      "csvTitle": "Titolo nel CSV",
+      "extension": "Estensione",
+      "file": "File",
+      "fullPath": "Percorso completo",
+      "image": "Immagine",
+      "modified": "Modificato",
+      "relativePath": "Percorso relativo",
+      "shortName": "Nome breve",
+      "size": "Dimensione",
+      "tags": "Tag"
+    },
+    "image": {
+      "auto": "trovata automaticamente",
+      "manual": "scelta manualmente",
+      "none": "nessuna"
+    }
+  },
+  "gameList": {
+    "ascending": "crescente",
+    "clearSelection": "Deseleziona tutto",
+    "columns": {
+      "csv": "CSV",
+      "game": "Gioco",
+      "path": "Percorso",
+      "size": "Dimensione",
+      "tags": "Tag"
+    },
+    "deleteSelected": "Elimina selezionati",
+    "deleteSelectedCount": "Elimina selezionati ({{count}})",
+    "descending": "decrescente",
+    "empty": "(vuoto)",
+    "entryWithoutTitles": "Voce senza titoli",
+    "folder": "Cartella:",
+    "hiddenByFilter": " (nascosti dal filtro: {{count}})",
+    "noData": "nessun dato",
+    "noGames": "Nessun gioco trovato. Cambia il filtro o scegli un’altra cartella.",
+    "noTags": "nessun tag",
+    "notInCsv": "non nel CSV",
+    "resizeHint": "Trascina per cambiare la larghezza. Doppio clic per ripristinare quella predefinita",
+    "resizeLabel": "Larghezza della colonna «{{label}}»: {{width}} pixel. Le frecce sinistra e destra cambiano la larghezza",
+    "selectAll": "Seleziona tutto",
+    "selectRow": "Seleziona «{{title}}»",
+    "selected": "Selezionati:",
+    "showAll": "Mostra tutto",
+    "sort": "Ordina",
+    "sortTitle": "Ordinamento: {{direction}} — fai clic per cambiare",
+    "unsupportedTitle": "Il titolo contiene caratteri non supportati. Rinomina il gioco."
+  },
+  "gameThumb": {
+    "noImage": "Nessuna immagine"
+  },
+  "gameTree": {
+    "noFiles": "Nessun file di gioco",
+    "nothingFound": "Nessun risultato"
+  },
+  "header": {
+    "addGameDisabled": "Scegli prima la cartella dei giochi",
+    "addGameHint": "Copia un gioco nella cartella dei giochi e lo aggiunge al CSV",
+    "language": "Lingua dell’interfaccia",
+    "search": {
+      "clear": "Cancella filtro",
+      "found": "Trovati:",
+      "foundHint": "Giochi della cartella aperta che corrispondono al filtro",
+      "nothing": "Nessun gioco trovato sulla scheda",
+      "placeholder": "Cerca giochi",
+      "results": "Giochi trovati sulla scheda",
+      "scope": {
+        "all": "Ovunque",
+        "dir": "Per nome della cartella",
+        "ext": "Per estensione",
+        "name": "Per nome del file",
+        "path": "Per percorso completo",
+        "tags": "Per tag"
+      },
+      "scopeHint": "Dove cerca il filtro della cartella aperta; l’elenco sotto il campo cerca sempre in titoli, nomi brevi e tag di tutte le piattaforme",
+      "scopeLabel": "Cerca in",
+      "searching": "Ricerca in tutte le piattaforme…",
+      "showAll": "Mostra tutti i risultati ({{count}})",
+      "unreadable": "Impossibile leggere alcune cartelle: {{folders}}",
+      "updating": "Aggiornamento dei risultati…"
+    },
+    "selectSdCardTitle": "Scegli la radice della scheda SD",
+    "settings": "Impostazioni",
+    "syncCsv": "Sincronizza CSV",
+    "toggleTheme": "Cambia tema"
+  },
+  "inlineEdit": {
+    "edit": "Modifica: {{field}}",
+    "errors": {
+      "emptyName": "Il titolo non può essere vuoto.",
+      "emptyShort": "Il nome breve non può essere vuoto.",
+      "pipe": "Il carattere «|» non può essere usato: la console lo usa per separare i campi dei suoi elenchi di giochi.",
+      "shortSpace": "Il nome breve non può contenere spazi.",
+      "tagTooLong": "Un tag è troppo lungo (massimo {{max}} caratteri): «{{tag}}».",
+      "renameFirst": "Prima rinomina il gioco: il suo titolo contiene caratteri non supportati."
+    },
+    "hints": {
+      "name": "Vengono rinominati anche il file del gioco, la copertina e i salvataggi. Invio: salva, Esc: annulla.",
+      "short": "Una sola parola, senza spazi. Invio: salva, Esc: annulla.",
+      "tags": "Separa i tag con uno spazio: un tag non può contenere spazi. Invio: salva, Esc: annulla."
+    },
+    "labels": {
+      "name": "Titolo del gioco",
+      "short": "Nome breve",
+      "tags": "Tag"
+    }
+  },
+  "libraryPaths": {
+    "csv": {
+      "hint": "Generato automaticamente: «cartella dei giochi»/filelist.csv. Se il file non esiste, viene creato durante la sincronizzazione. Colonne: percorso, titolo completo, nome breve.",
+      "label": "File CSV",
+      "placeholder": "File con l’elenco dei giochi e i relativi titoli"
+    },
+    "gamesDir": {
+      "label": "Cartella dei giochi",
+      "placeholder": "La cartella principale in cui si trovano i giochi"
+    },
+    "imagesDir": {
+      "hint": "Generata automaticamente: «cartella dei giochi»/images. Puoi modificarla a mano.",
+      "label": "Cartella delle immagini",
+      "placeholder": "Cartella con le immagini dei giochi"
+    },
+    "title": "Cartelle e file CSV"
+  },
+  "log": {
+    "close": "Chiudi registro",
+    "empty": "Qui non c’è ancora nulla",
+    "title": "Registro delle operazioni"
+  },
+  "main": {
+    "csvProblem": "CSV: {{error}}",
+    "empty": {
+      "description": "Il gestore la scansionerà con tutte le sottocartelle e la confronterà con il CSV della console.",
+      "title": "Scegli la cartella dei giochi"
+    },
+    "readErrors": "Cartelle che non è stato possibile leggere: {{count}} (dettagli nel registro)",
+    "startCommand": "Avvia l’app con il comando"
+  },
+  "panels": {
+    "allGames": "Tutti i giochi",
+    "details": "Dettagli",
+    "folders": "Cartelle",
+    "hide": "Nascondi pannello: {{label}}",
+    "resizeHint": "Trascina per cambiare le altezze. Doppio clic per ripristinarle. Le frecce spostano il bordo",
+    "resizeLabel": "Altezza dei pannelli «Cartelle» e «Tutti i giochi»",
+    "show": "Mostra pannello: {{label}}"
+  },
+  "platforms": {
+    "allPlatforms": "Tutte le piattaforme",
+    "backTitle": "Torna a tutte le piattaforme (Backspace o Esc)",
+    "breadcrumbs": "Posizione",
+    "count": "{{count}} {{noun}}",
+    "empty": "Ancora nessun gioco",
+    "hint": "Scegli una piattaforma per vederne i giochi. Le frecce passano da una scheda all’altra, Invio ne apre una.",
+    "title": "Piattaforme"
+  },
+  "plural": {
+    "game": {
+      "few": "giochi",
+      "many": "giochi",
+      "one": "gioco",
+      "other": "giochi"
+    }
+  },
+  "renameGame": {
+    "checking": "Verifica di cosa cambierà…",
+    "fileNameHint": "Il file del gioco e la copertina si chiameranno",
+    "kinds": {
+      "cores": "Associazione del core",
+      "csv": "Voce del CSV",
+      "game": "File del gioco",
+      "image": "Copertina",
+      "list": "Elenco della console",
+      "save": "Salvataggio",
+      "state": "Stato salvato",
+      "cover": "Copertina generata ridisegnata con il nuovo titolo"
+    },
+    "newTitle": "Nuovo titolo del gioco",
+    "note": "Se qualcosa va storto, le modifiche già eseguite vengono annullate. Le copie degli elenchi della console sono conservate nella cartella dati dell’app.",
+    "replacements": "sostituzioni",
+    "title": "Rinomina gioco",
+    "willBeRenamed": "Verrà rinominato"
+  },
+  "sdCard": {
+    "choosePlatform": "— scegli una piattaforma —",
+    "contents": "Contenuto della scheda",
+    "csvFile": "File CSV",
+    "device": "Modello di console: {{name}}",
+    "imagesDir": "Cartella delle immagini",
+    "noPlatforms": "Nessuna cartella di giochi trovata sulla scheda.",
+    "noRoot": "Nessuna radice della scheda selezionata. Fai clic su «Seleziona scheda SD» nella barra in alto per vederne il contenuto e scegliere una piattaforma.",
+    "notGameFolder": "Non è una cartella di giochi",
+    "platform": "Piattaforma",
+    "selectPlatform": "Scegli la piattaforma {{name}}",
+    "systemFolder": "Cartella di sistema: non viene mai modificata",
+    "title": "Scheda SD",
+    "truncated": "Non vengono mostrate tutte le cartelle"
+  },
+  "searchResults": {
+    "close": "Torna all’albero delle cartelle",
+    "title": "«{{query}}» sulla scheda: {{count}}"
+  },
+  "settings": {
+    "about": {
+      "license": "Licenza:",
+      "source": "Codice sorgente:",
+      "title": "Informazioni"
+    },
+    "columns": {
+      "auto": {
+        "column": "predefinita (colonna {{number}})",
+        "path": "predefinita (colonna 1)",
+        "unused": "non usata"
+      },
+      "name": "Colonna con il titolo completo del gioco",
+      "notFound": "(non trovata)",
+      "path": "Colonna con il percorso del file",
+      "short": "Colonna con il nome breve (camelCase)",
+      "tags": "Colonna con i tag (separati da spazi)"
+    },
+    "csv": {
+      "delimiter": {
+        "comma": "Virgola (,)",
+        "label": "Separatore",
+        "semicolon": "Punto e virgola (;)",
+        "tab": "Tabulazione"
+      },
+      "encoding": "Codifica",
+      "fileLabel": "File (impostato scegliendo una piattaforma sulla scheda SD)",
+      "firstRow": {
+        "data": "Dati (nessuna intestazione)",
+        "header": "Intestazioni delle colonne",
+        "label": "Prima riga"
+      },
+      "notSelected": "Non selezionato",
+      "title": "File CSV"
+    },
+    "device": {
+      "hint": "Le piattaforme, le cartelle di sistema, il formato degli elenchi dei giochi e i suggerimenti dipendono dal modello. Quando scegli una scheda SD, il modello viene riconosciuto dalle sue cartelle, se possibile.",
+      "label": "Modello di console",
+      "title": "Console"
+    },
+    "donate": {
+      "title": "Finestra di supporto",
+      "autoShow": "Mostra ogni tanto automaticamente la finestra di supporto, dopo le azioni sui giochi (aggiunta, eliminazione, modifica)"
+    },
+    "emulator": {
+      "chosen": "In uso:",
+      "found": "Trovato:",
+      "hint": "Lascia vuoto per trovare {{emulator}} automaticamente. Sceglilo qui se è installato altrove.",
+      "label": "Percorso dell’emulatore ({{emulator}})",
+      "placeholder": "Trovato automaticamente",
+      "title": "Emulatore"
+    },
+    "extensions": {
+      "hint": "Separate da virgole. Un elenco vuoto significa tutti i file tranne le immagini.",
+      "label": "Estensioni dei file di gioco"
+    },
+    "gameFiles": {
+      "hint": "La piattaforma, la cartella dei giochi, la cartella delle immagini e il file CSV si scelgono con il pulsante «Seleziona scheda SD» nella barra in alto.",
+      "title": "File di gioco"
+    },
+    "prefix": {
+      "hint": "Ad esempio «Games/GBA/» se i percorsi nel CSV sono relativi a un’altra directory. La sincronizzazione non tocca le voci che non iniziano con il prefisso.",
+      "label": "Prefisso del percorso nel CSV",
+      "placeholder": "Nessun prefisso"
+    },
+    "preview": {
+      "choose": "Scegli un file CSV per vederne il contenuto.",
+      "count": "(prime {{shown}} di {{total}})",
+      "edit": "Modifica CSV",
+      "editHint": "Per modificare il CSV, salva prima il file, il separatore e la codifica selezionati.",
+      "notExists": "Il file non esiste ancora: verrà creato alla prima sincronizzazione.",
+      "saveFirst": "Salva prima le impostazioni del CSV",
+      "title": "Anteprima"
+    },
+    "title": "Impostazioni",
+    "backups": {
+      "title": "Backup",
+      "hint": "Le copie degli elenchi dei giochi (CSV) e degli elenchi della console sono conservate su questo computer, non sulla scheda SD: una cartella separata per ogni scheda e piattaforma, con le ultime 10 copie di ogni file.",
+      "open": "Apri cartella dei backup"
+    },
+    "tour": {
+      "hint": "Un tour guidato passo passo delle funzioni principali: scheda SD, piattaforme, aggiunta, modifica ed eliminazione dei giochi, e ricerca.",
+      "restart": "Riavvia il tour",
+      "title": "Tour dell’interfaccia"
+    },
+    "updates": {
+      "available": "È disponibile la versione {{version}}: vedi l’avviso in alto nella finestra.",
+      "checkNow": "Controlla ora",
+      "checkOnStartup": "Cerca aggiornamenti all’avvio",
+      "current": "Versione attuale: {{version}}",
+      "failed": "Impossibile cercare gli aggiornamenti. Controlla la connessione a Internet e riprova più tardi.",
+      "hint": "Al massimo una volta al giorno: l’ultima versione viene cercata su GitHub.",
+      "latest": "Hai la versione più recente",
+      "title": "Aggiornamenti"
+    }
+  },
+  "startTips": {
+    "firmware": {
+      "community": "Risorsa della community: {{communityLink}}",
+      "stock": "Il ripristino del firmware originale e le informazioni sul dispositivo sono su {{firmwareLink}}. Questo progetto non è affiliato al produttore. Fai un backup della scheda prima di apportare qualsiasi modifica.",
+      "title": "Firmware originale per {{device}}",
+      "warning": "{{device}} utilizza un processore {{cpu}}. I custom firmware creati per altre console portatili ({{firmware}}) non sono compatibili e danneggeranno la scheda."
+    },
+    "sdCard": {
+      "checks": {
+        "text": "Prova un altro lettore di schede e un’altra porta USB, quindi ricollega la scheda.",
+        "title": "Controlli semplici"
+      },
+      "device": {
+        "linux": "esegui in un terminale:",
+        "macos": "apri Utility Disco → Vista → Mostra tutti i dispositivi. Se la scheda è in elenco ma non è attivata, fai clic su «Attiva».",
+        "title": "Controlla se il sistema vede la scheda come dispositivo",
+        "windows": "apri Gestione disco (diskmgmt.msc). Se la scheda è in elenco senza lettera di unità, assegnagliene una."
+      },
+      "dump": {
+        "macosLinux": "il comando dd oppure, su macOS,",
+        "text": "Se la scheda è visibile come dispositivo ma non si apre, prima di tutto copiala per intero. La copia conserva i giochi, i salvataggi e il firmware.",
+        "title": "Per prima cosa crea una copia completa della scheda (un dump RAW)",
+        "windows": "il pulsante «Read» di"
+      },
+      "format": {
+        "format": "Formatta la scheda con l’utility ufficiale della SD Association:",
+        "restore": "Poi riscrivi il dump salvato (il pulsante «Write» di Win32 Disk Imager, oppure balenaEtcher) o il firmware originale (vedi il suggerimento sul firmware originale):",
+        "title": "Ultima risorsa: formattare la scheda, perdendo i dati",
+        "warning": "La formattazione elimina tutti i dati presenti sulla scheda."
+      },
+      "future": "Per il futuro: sostituisci la scheda in dotazione con una di marca affidabile e fanne subito un backup.",
+      "intro": "Le schede incluse con le console retro economiche sono spesso di scarsa qualità e il computer potrebbe non rilevarle. Prova questi passaggi nell’ordine:",
+      "recover": {
+        "text": "TestDisk recupera le partizioni perse, PhotoRec i singoli file:",
+        "title": "Recuperare i file da una scheda danneggiata"
+      },
+      "title": "Il computer non vede la scheda SD"
+    },
+    "title": "Suggerimenti utili"
+  },
+  "statusBar": {
+    "csvEntries": "Voci CSV:",
+    "filesFound": "File trovati:",
+    "log": "Registro",
+    "notInCsv": "Non nel CSV:",
+    "scanning": "Scansione…",
+    "sync": "Sincronizzazione:",
+    "syncError": "{{time}}: errore",
+    "syncNever": "non ancora eseguita",
+    "syncing": "Sincronizzazione…",
+    "tips": "Suggerimenti",
+    "totalGames": "Giochi totali:",
+    "totalSize": "Dimensione totale dei giochi:"
+  },
+  "sync": {
+    "added": "Aggiunti:",
+    "backup": "Backup:",
+    "comparing": "Confronto della cartella con il CSV…",
+    "done": "Sincronizzazione completata",
+    "duplicates": "Duplicati già presenti nel CSV:",
+    "duplicatesKept": "(lasciati così come sono)",
+    "lists": "Elenchi dei giochi della console (.lst): aggiunti {{added}}, rimossi {{removed}}",
+    "previewNote": "Anteprima: non è stato ancora modificato nulla.",
+    "removed": "Rimossi:",
+    "safety": "I file di gioco e le immagini non vengono eliminati. Prima della scrittura viene creato un backup del CSV.",
+    "title": "Sincronizzazione del CSV",
+    "toAdd": "Nuovi giochi da aggiungere:",
+    "toRemove": "Voci obsolete da rimuovere:",
+    "unchanged": "Invariati:",
+    "unmanaged": "Voci esterne alla cartella gestita (non vengono toccate):",
+    "upToDate": "Il CSV corrisponde già alla cartella: non serve alcuna sincronizzazione.",
+    "willBeAdded": "Verranno aggiunti",
+    "willBeRemoved": "Verranno rimossi dal CSV",
+    "created": "Il file CSV non esiste ancora: verrà creato con tutti i giochi della cartella.",
+    "tagsColumnAdded": "Alle righe che ne sono prive verrà aggiunta una colonna dei tag vuota (la quarta):"
+  },
+  "toasts": {
+    "alreadyMissing": "già mancanti: {{count}}",
+    "csvEntriesRemoved": "Voci CSV rimosse: {{count}}",
+    "csvNotChanged": "CSV non modificato: {{reason}}",
+    "deleteFailed": "{{summary}}. Impossibile eliminare: {{count}} ({{rel}}: {{error}})",
+    "deviceDetected": "Console riconosciuta dalla scheda: {{name}}",
+    "emulatorStarted": "«{{title}}» si sta avviando in {{emulator}}",
+    "fileDeleted": "File «{{fileName}}» eliminato",
+    "fileDeletedCsv": "; la voce è stata rimossa dal CSV",
+    "fileDeletedCsvNotChanged": "; CSV non modificato: {{reason}}",
+    "gameAdded": "Gioco «{{title}}» aggiunto",
+    "gameAddedCsvUpdated": "; la voce CSV esistente è stata aggiornata",
+    "gameAddedDisc": " (immagine {{name}} da .bin + .cue)",
+    "gameAddedImage": " con immagine",
+    "gameRenamed": "Gioco rinominato: «{{title}}»",
+    "gamesDeleted": "Giochi eliminati: {{count}}",
+    "imageDeleted": "Immagine eliminata",
+    "imageSelected": "Immagine selezionata",
+    "imageUnlinked": "Immagine scollegata dal gioco (il file, esterno alle cartelle selezionate, non è stato toccato)",
+    "platformSelected": "Piattaforma {{name}}: percorsi di immagini e CSV compilati",
+    "scanFound": "Trovati: {{count}} {{noun}}",
+    "sdRootSelected": "Radice della scheda SD selezionata. Piattaforme: {{count}}",
+    "settingsSaved": "Impostazioni salvate",
+    "syncDone": "Sincronizzazione completata: +{{added}}, −{{removed}}",
+    "gameAddedCloneCd": " (immagine {{name}} da un set CloneCD)",
+    "gameAddedEcm": " ({{name}} estratto da ECM)",
+    "gameAddedZip": " (compresso in {{name}})",
+    "gameAddedGeneratedCover": " con una copertina generata",
+    "syncCsvCreated": "Il file CSV è stato creato",
+    "syncTagsColumn": "Colonna dei tag aggiunta (righe: {{count}})",
+    "sdRootUnavailable": "La scheda SD scelta in precedenza non è disponibile. Selezionala di nuovo.",
+    "sdRootMacAccess": " Consenti l’accesso in Impostazioni di Sistema → Privacy e sicurezza → File e cartelle."
+  },
+  "tour": {
+    "back": "Indietro",
+    "done": "Fine",
+    "next": "Avanti",
+    "position": "Passo {{current}} di {{total}}",
+    "skip": "Salta il tour",
+    "steps": {
+      "addGame": {
+        "text": "Qualsiasi file di gioco della piattaforma (vedi Impostazioni → File di gioco), un file .zip o un’immagine disco: .bin + .cue, CloneCD (.ccd + .img + .sub) o .ecm, convertita in un unico .img. Aggiungi una copertina (PNG, JPG, WEBP), altrimenti ne verrà disegnata una per te. I tag si impostano dopo, nella tabella.",
+        "title": "Aggiungi un gioco"
+      },
+      "delete": {
+        "text": "Spunta i giochi e fai clic su «Elimina selezionati», oppure usa «Elimina file del gioco» in «Dettagli». Il file del gioco viene eliminato dalla scheda e si può rimuovere anche la sua voce nel CSV. La copertina e i salvataggi vengono conservati: elimina la copertina con «Elimina immagine» in «Dettagli».",
+        "title": "Elimina giochi"
+      },
+      "edit": {
+        "text": "Fai doppio clic sul titolo, sul nome breve o sui tag di un gioco. Invio salva, Esc annulla. Il CSV viene aggiornato; un nuovo titolo rinomina anche il file del gioco, la copertina e i salvataggi.",
+        "title": "Modifica direttamente nella tabella"
+      },
+      "platform": {
+        "text": "Scegli la scheda di una piattaforma nella schermata principale, nell’elenco «Piattaforma» o in «Contenuto della scheda». I suoi giochi, le copertine e il filelist.csv si aprono nella tabella.",
+        "title": "Scegli una piattaforma"
+      },
+      "sdCard": {
+        "text": "Inserisci la scheda della console e fai clic su «Seleziona scheda SD». Scegli la radice della scheda: la cartella che contiene le cartelle delle piattaforme (FC, GBA, PS…).",
+        "title": "Scegli la scheda SD"
+      },
+      "search": {
+        "text": "Il campo di ricerca esamina tutte le cartelle delle piattaforme sulla scheda: titoli, nomi brevi, nomi dei file e tag. ↑ / ↓ scelgono un risultato, Invio apre la sua piattaforma e seleziona il gioco.",
+        "title": "Cerca in tutte le piattaforme"
+      }
+    },
+    "waitingForCard": "Il tour proseguirà non appena avrai scelto la scheda SD."
+  },
+  "units": {
+    "bytes": "B",
+    "gb": "GB",
+    "kb": "KB",
+    "mb": "MB",
+    "tb": "TB"
+  },
+  "update": {
+    "available": "È disponibile la versione {{version}}",
+    "close": "Chiudi l’avviso",
+    "download": "Scarica",
+    "label": "Nuova versione"
+  },
+  "validation": {
+    "latinOnly": "Sono consentiti solo lettere inglesi, numeri, spazi e trattini",
+    "nameRequired": "Inserisci un titolo con lettere inglesi o numeri."
+  }
+}

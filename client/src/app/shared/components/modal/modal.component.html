@@ -1,0 +1,12 @@
+<div class="modal-backdrop fixed inset-0 z-40 flex items-center justify-center bg-black/50 p-4" (mousedown)="onBackdrop($event)">
+  <div role="dialog" aria-modal="true" [attr.aria-label]="title()"
+    class="modal-window panel flex max-h-full w-full flex-col rounded-lg border shadow-2xl {{ full() ? 'max-w-6xl h-full' : wide() ? 'max-w-3xl' : 'max-w-lg' }}">
+    <header class="flex items-center justify-between border-b border-inherit px-4 py-3">
+      <h2 class="text-sm font-semibold">{{ title() }}</h2>
+      <button type="button" class="btn btn-icon h-7 w-7 border-transparent bg-transparent dark:bg-transparent" (click)="closed.emit()"
+        [attr.aria-label]="'buttons.close' | translate"><app-icon name="x" /></button>
+    </header>
+    <div class="min-h-0 flex-1 overflow-auto p-4"><ng-content /></div>
+    <footer class="flex justify-end gap-2 border-t border-inherit px-4 py-3 empty:hidden"><ng-content select="[footer]" /></footer>
+  </div>
+</div>

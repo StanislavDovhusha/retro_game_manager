@@ -1,0 +1,31 @@
+:host {
+  display: block;
+  flex: none;
+}
+
+// The strip unfolds by its height (a grid row from 0fr to 1fr): the interface below moves down with it.
+.fold {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 250ms ease-out;
+
+  > div {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &.open {
+    grid-template-rows: 1fr;
+  }
+}
+
+.bar {
+  border-color: rgb(207 47 98 / 0.35);
+  background: rgb(207 47 98 / 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fold {
+    transition: none;
+  }
+}

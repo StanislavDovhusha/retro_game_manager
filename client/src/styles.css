@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Global styles: Tailwind layers, page reset, typography and the UI primitives shared by every
+ * component (buttons, inputs, labels, panels). Everything that belongs to one component lives
+ * in that component's own .scss file.
+ */
+
+@layer base {
+  html, body { height: 100%; }
+  body { @apply bg-shell-100 text-shell-800 font-sans text-[13px] antialiased overflow-hidden; }
+  .dark body { @apply bg-shell-950 text-shell-200; }
+  /*
+   * Japanese, Simplified Chinese and Korean: the system fonts of each script after the Latin ones. Han characters are
+   * drawn differently in the three scripts, so the list depends on the language (the menu items carry their own `lang`).
+   */
+  :lang(ja) { font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", "Noto Sans CJK JP", sans-serif; }
+  :lang(zh-CN) { font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", sans-serif; }
+  :lang(ko) { font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, Roboto, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", "Noto Sans CJK KR", sans-serif; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { @apply bg-shell-300 rounded-full border-2 border-transparent bg-clip-padding; }
+  .dark ::-webkit-scrollbar-thumb { @apply bg-shell-700; }
+  :focus-visible { @apply outline outline-2 outline-offset-1 outline-btn-500; }
+}
+
+/* Shared UI primitives. */
+@layer components {
+  /* The note of LatinInputDirective under a title field (placed by the directive, above dialogs). */
+  .latin-hint { @apply fixed z-[60] max-w-[20rem] rounded-md border border-amber-500/50 bg-white px-2 py-1 text-xs text-amber-700 shadow-lg pointer-events-none; }
+  .dark .latin-hint { @apply bg-shell-900 text-amber-300; }
+  .panel { @apply bg-white border-shell-200; }
+  .dark .panel { @apply bg-shell-900 border-shell-800; }
+  .btn { @apply inline-flex items-center justify-center gap-1.5 h-8 px-3 rounded-md border border-shell-300 bg-white text-shell-700 font-medium
+    hover:bg-shell-100 disabled:opacity-45 disabled:pointer-events-none transition-colors whitespace-nowrap; }
+  .dark .btn { @apply border-shell-700 bg-shell-800 text-shell-200 hover:bg-shell-700; }
+  .btn-primary { @apply border-btn-600 bg-btn-500 text-white hover:bg-btn-600; }
+  .dark .btn-primary { @apply border-btn-600 bg-btn-600 text-white hover:bg-btn-500; }
+  .btn-danger { @apply border-red-300 text-red-700 hover:bg-red-50; }
+  .dark .btn-danger { @apply border-red-900 bg-transparent text-red-300 hover:bg-red-950; }
+  .btn-icon { @apply w-8 px-0; }
+  .input { @apply h-8 w-full rounded-md border border-shell-300 bg-white px-2.5 text-shell-800 placeholder:text-shell-400; }
+  .dark .input { @apply border-shell-700 bg-shell-950 text-shell-100; }
+  .label { @apply block mb-1 text-xs font-medium text-shell-500; }
+  .dark .label { @apply text-shell-400; }
+  .badge { @apply inline-flex items-center rounded px-1.5 py-0.5 text-[11px] font-mono bg-shell-100 text-shell-600; }
+  .dark .badge { @apply bg-shell-800 text-shell-300; }
+  .muted { @apply text-shell-500; }
+  .dark .muted { @apply text-shell-400; }
+}

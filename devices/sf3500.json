@@ -1,0 +1,6 @@
+{
+  "id": "sf3500",
+  "extends": "sf3000-family",
+  "name": "SF3500",
+  "order": 50
+}

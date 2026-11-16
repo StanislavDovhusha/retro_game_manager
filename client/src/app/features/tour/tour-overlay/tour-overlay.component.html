@@ -1,0 +1,28 @@
+@if (tour.visible()) {
+  <!-- The dimmed area around the highlight; it also catches the clicks. -->
+  @for (box of blockers(); track $index) {
+    <div class="blocker" [style.left.px]="box.x" [style.top.px]="box.y" [style.width.px]="box.width" [style.height.px]="box.height"
+      (mousedown)="swallow($event)" (click)="swallow($event)"></div>
+  }
+  @if (hole(); as h) {
+    <div class="spotlight" [style.left.px]="h.x" [style.top.px]="h.y" [style.width.px]="h.width" [style.height.px]="h.height"></div>
+  } @else {
+    <div class="dim"></div>
+  }
+
+  <div #tip class="tip panel" role="dialog" aria-labelledby="tour-title" aria-describedby="tour-text" [attr.data-side]="place().side"
+    [style.left.px]="place().x" [style.top.px]="place().y" [class.tip-placed]="place().x > -10000" [class.tip-moving]="settled()">
+    <div class="flex items-center justify-between gap-3">
+      <span class="badge tabular-nums">{{ tour.index() + 1 }} / {{ tour.steps.length }}</span>
+      <button type="button" class="muted text-xs underline-offset-2 hover:underline" (click)="tour.finish()">{{ 'tour.skip' | translate }}</button>
+    </div>
+    @let id = tour.step().id;
+    <h2 id="tour-title" class="mt-2 text-sm font-semibold">{{ 'tour.steps.' + id + '.title' | translate }}</h2>
+    <p id="tour-text" class="mt-1 leading-relaxed">{{ 'tour.steps.' + id + '.text' | translate }}</p>
+    <p class="sr-only" aria-live="polite">{{ 'tour.position' | translate: { current: tour.index() + 1, total: tour.steps.length } }}</p>
+    <div class="mt-3 flex justify-end gap-2">
+      <button type="button" class="btn" (click)="tour.back()" [disabled]="tour.isFirst()">{{ 'tour.back' | translate }}</button>
+      <button #primary type="button" class="btn btn-primary" (click)="tour.next()">{{ (tour.isLast() ? 'tour.done' : 'tour.next') | translate }}</button>
+    </div>
+  </div>
+}

@@ -1,0 +1,22 @@
+<section class="mx-auto w-full max-w-6xl px-4 py-5" aria-labelledby="platform-list-title">
+  <div class="mb-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+    <h2 id="platform-list-title" class="text-base font-semibold">{{ 'platforms.title' | translate }}</h2>
+    <p class="muted text-xs">{{ 'platforms.hint' | translate }}</p>
+  </div>
+  @if (error(); as message) {
+    <p class="mb-3 text-sm text-red-600 dark:text-red-400" role="alert">{{ message }}</p>
+  }
+  @if (items().length) {
+    <ul class="platform-grid" data-tour="platform-cards" [attr.aria-busy]="loading() || null" (keydown)="onKeydown($event)">
+      @for (item of items(); track item.name; let i = $index) {
+        <li>
+          <app-platform-card [item]="item" [current]="i === current()" [busy]="busy()" (choose)="choose.emit($event)" (focused)="current.set(i)" />
+        </li>
+      }
+    </ul>
+  } @else if (loading()) {
+    <p class="muted flex items-center gap-1.5 text-sm"><app-icon name="loader" [size]="14" class="animate-spin" /> {{ 'common.loading' | translate }}</p>
+  } @else if (!error()) {
+    <p class="muted text-sm">{{ 'sdCard.noPlatforms' | translate }}</p>
+  }
+</section>

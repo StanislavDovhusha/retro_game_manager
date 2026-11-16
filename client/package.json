@@ -1,0 +1,38 @@
+{
+  "name": "game-manager-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web interface of Retro Game Manager (Angular, standalone components)",
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --configuration development --watch",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit"
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.12.0 || >=24.0.0"
+  },
+  "author": "Dovhusha Stanislav",
+  "dependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/compiler": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/platform-browser": "^21.0.0",
+    "@ngx-translate/core": "^18.0.0",
+    "@ngx-translate/http-loader": "^18.0.0",
+    "qrcode": "1.5.4",
+    "rxjs": "~7.8.0",
+    "tslib": "^2.8.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^21.0.0",
+    "@angular/cli": "^21.0.0",
+    "@angular/compiler-cli": "^21.0.0",
+    "@types/qrcode": "1.5.6",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.39",
+    "tailwindcss": "^3.4.6",
+    "typescript": "~5.9.3"
+  },
+  "license": "GPL-3.0-or-later"
+}

@@ -1,0 +1,47 @@
+<div>
+  <label class="label">{{ 'settings.csv.fileLabel' | translate }}</label>
+  <p class="input flex items-center break-all font-mono text-xs">{{ csvPath() || ('settings.csv.notSelected' | translate) }}</p>
+</div>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+  <div>
+    <label class="label">{{ 'settings.csv.delimiter.label' | translate }}</label>
+    <select class="input" (change)="setDelimiter(valueOf($event))">
+      <option value="," [selected]="csv().delimiter === ','">{{ 'settings.csv.delimiter.comma' | translate }}</option>
+      <option value=";" [selected]="csv().delimiter === ';'">{{ 'settings.csv.delimiter.semicolon' | translate }}</option>
+      <option value="&#9;" [selected]="csv().delimiter === '\t'">{{ 'settings.csv.delimiter.tab' | translate }}</option>
+    </select>
+  </div>
+  <div>
+    <label class="label">{{ 'settings.csv.encoding' | translate }}</label>
+    <select class="input" (change)="setEncoding(valueOf($event))">
+      @for (encoding of encodings(); track encoding) { <option [value]="encoding" [selected]="encoding === csv().encoding">{{ encoding }}</option> }
+    </select>
+  </div>
+  <div>
+    <label class="label">{{ 'settings.csv.firstRow.label' | translate }}</label>
+    <select class="input" (change)="csvChange.emit({ hasHeader: valueOf($event) === '1' })">
+      <option value="1" [selected]="csv().hasHeader">{{ 'settings.csv.firstRow.header' | translate }}</option>
+      <option value="0" [selected]="!csv().hasHeader">{{ 'settings.csv.firstRow.data' | translate }}</option>
+    </select>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+  @for (key of columnNames; track key) {
+    <div>
+      <label class="label">{{ 'settings.columns.' + key | translate }}</label>
+      <select class="input" [disabled]="!headers().length" (change)="columnChange.emit({ key, value: valueOf($event) })">
+        <option value="" [selected]="!csv().columns[key]">— {{ autoLabel(key) }} —</option>
+        @for (header of headers(); track header) { <option [value]="header" [selected]="header === csv().columns[key]">{{ header }}</option> }
+        @if (csv().columns[key] && !headers().includes(csv().columns[key])) {
+          <option [value]="csv().columns[key]" selected>{{ csv().columns[key] }} {{ 'settings.columns.notFound' | translate }}</option>
+        }
+      </select>
+    </div>
+  }
+</div>
+<div>
+  <label class="label">{{ 'settings.prefix.label' | translate }}</label>
+  <input class="input font-mono text-xs" [value]="csv().pathPrefix" (input)="csvChange.emit({ pathPrefix: valueOf($event) })" [placeholder]="'settings.prefix.placeholder' | translate" />
+  <p class="muted mt-1 text-xs">{{ 'settings.prefix.hint' | translate }}</p>
+</div>

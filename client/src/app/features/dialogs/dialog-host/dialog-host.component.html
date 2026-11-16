@@ -1,0 +1,13 @@
+<!-- `*appPresent` instead of `@if`: a dialog leaves the DOM after its closing animation (see PresentDirective). -->
+<app-settings-dialog *appPresent="dialogs.settings()" [settings]="settings()" (closed)="dialogs.settings.set(false)" />
+<app-sync-dialog *appPresent="dialogs.sync()" (closed)="dialogs.sync.set(false)" />
+<app-add-game-dialog *appPresent="dialogs.addGame()" [extensions]="settings().extensions" (closed)="dialogs.addGame.set(false)" (added)="actions.handleAdded($event)" />
+<app-rename-game-dialog *appPresent="dialogs.renameGame() && view.selected() as game" [game]="game" (closed)="dialogs.renameGame.set(false)" (renamed)="actions.handleRenamed($event)" />
+<app-library-paths-dialog *appPresent="dialogs.libraryPaths()" [settings]="settings()" (closed)="dialogs.libraryPaths.set(false)" />
+<app-delete-games-dialog *appPresent="dialogs.deleteMany()" [games]="view.checkedGames()" [csvReady]="view.csvReady()" [busy]="actions.busy()"
+  (confirmed)="actions.deleteChecked($event)" (cancelled)="dialogs.deleteMany.set(false)" />
+<app-delete-game-dialog *appPresent="dialogs.deleteRequest() as request" [request]="request" [csvReady]="view.csvReady()" [busy]="actions.busy()"
+  (confirmed)="actions.deleteSelected($event)" (cancelled)="dialogs.deleteRequest.set(null)" />
+<app-tips-dialog *appPresent="dialogs.tips()" (closed)="dialogs.tips.set(false)" />
+
+<app-donate-popup *appPresent="donate.open()" (closed)="donate.close()" />

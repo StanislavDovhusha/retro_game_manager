@@ -1,0 +1,132 @@
+<app-modal [title]="'settings.title' | translate" [wide]="true" (closed)="requestClose()">
+  <div class="space-y-6">
+    <section class="space-y-2">
+      <h3 class="font-semibold">{{ 'settings.device.title' | translate }}</h3>
+      <label class="label" for="settings-device">{{ 'settings.device.label' | translate }}</label>
+      <select id="settings-device" class="input max-w-xs" (change)="state.setDevice(valueOf($event))">
+        @for (device of devices.devices(); track device.id) {
+          <option [value]="device.id" [selected]="device.id === state.draft().device">{{ device.name }}</option>
+        }
+      </select>
+      <p class="muted text-xs">{{ 'settings.device.hint' | translate }}</p>
+    </section>
+
+    <section class="space-y-3">
+      <h3 class="font-semibold">{{ 'settings.gameFiles.title' | translate }}</h3>
+      <p class="muted text-xs">{{ 'settings.gameFiles.hint' | translate }}</p>
+      <div>
+        <label class="label">{{ 'settings.extensions.label' | translate }}</label>
+        <input class="input font-mono text-xs" [value]="state.draft().extensions.join(', ')" (input)="state.setExtensions(valueOf($event))" />
+        <p class="muted mt-1 text-xs">{{ 'settings.extensions.hint' | translate }}</p>
+      </div>
+    </section>
+
+    <section class="space-y-3">
+      <h3 class="font-semibold">{{ 'settings.csv.title' | translate }}</h3>
+      <app-csv-settings-form [csv]="state.draft().csv" [csvPath]="state.draft().csvPath" [headers]="state.headers()" [encodings]="encodings()"
+        (csvChange)="state.patchCsv($event)" (columnChange)="state.setColumn($event.key, $event.value)" />
+      <div>
+        <app-csv-preview [csvPath]="state.draft().csvPath" [preview]="state.preview()" [loading]="state.loadingPreview()" [error]="state.previewError()"
+          [saved]="state.csvSaved()" (edit)="editing.set(true)" />
+      </div>
+    </section>
+  </div>
+
+  <section class="mt-6 space-y-2">
+    <h3 class="font-semibold">{{ 'settings.backups.title' | translate }}</h3>
+    <p class="muted text-xs">{{ 'settings.backups.hint' | translate }}</p>
+    <button type="button" class="btn" (click)="state.openBackups()" [disabled]="state.openingBackups()">
+      <app-icon [name]="state.openingBackups() ? 'loader' : 'folder-open'" [size]="15" [class.animate-spin]="state.openingBackups()" /> {{ 'settings.backups.open' | translate }}
+    </button>
+    @if (state.backupsPath(); as opened) { <p class="muted break-all font-mono text-xs">{{ opened }}</p> }
+    @if (state.backupsError(); as backupsError) { <p class="text-xs text-red-600 dark:text-red-400" role="alert">{{ backupsError }}</p> }
+  </section>
+
+  @if (emulator.enabled) {
+    @let status = emulator.status();
+    @let emulatorName = status?.emulator ?? '';
+    <section class="mt-6 space-y-2">
+      <h3 class="font-semibold">{{ 'settings.emulator.title' | translate }}</h3>
+      <label class="label" for="emulator-path">{{ 'settings.emulator.label' | translate: { emulator: emulatorName } }}</label>
+      <div class="flex gap-2">
+        <input id="emulator-path" class="input min-w-0 flex-1 font-mono text-xs" [value]="state.draft().emulatorPath" (change)="state.setEmulatorPath(valueOf($event))"
+          [placeholder]="'settings.emulator.placeholder' | translate" spellcheck="false" />
+        <button type="button" class="btn" (click)="state.pickEmulator()"><app-icon name="folder-open" [size]="15" /> {{ 'buttons.browse' | translate }}</button>
+        @if (state.draft().emulatorPath) {
+          <button type="button" class="btn" (click)="state.setEmulatorPath('')">{{ 'buttons.clear' | translate }}</button>
+        }
+      </div>
+      <p class="muted text-xs">{{ 'settings.emulator.hint' | translate: { emulator: emulatorName } }}</p>
+      @if (status) {
+        @if (status.settingsError) { <p class="text-xs text-amber-600 dark:text-amber-400">{{ status.settingsError }}</p> }
+        @if (status.path) {
+          <p class="muted break-all text-xs">{{ (status.source === 'settings' ? 'settings.emulator.chosen' : 'settings.emulator.found') | translate }} <span class="font-mono">{{ status.path }}</span></p>
+        } @else {
+          <p class="text-xs">{{ 'gameCard.emulator.notInstalled' | translate: { emulator: emulatorName } }}
+            <a class="font-medium text-btn-600 underline hover:text-btn-500 dark:text-btn-400" [href]="status.downloadUrl" target="_blank" rel="noopener noreferrer">{{ 'gameCard.emulator.download' | translate: { emulator: emulatorName } }}</a></p>
+        }
+      }
+    </section>
+  }
+
+  <section class="mt-6 space-y-2">
+    <h3 class="font-semibold">{{ 'settings.donate.title' | translate }}</h3>
+    <label class="flex items-start gap-2">
+      <input type="checkbox" class="mt-0.5" [checked]="state.draft().ui.donate.autoShow" (change)="state.setDonateAutoShow(checkedOf($event))" />
+      <span>{{ 'settings.donate.autoShow' | translate }}</span>
+    </label>
+  </section>
+
+  <section class="mt-6 space-y-2">
+    <h3 class="font-semibold">{{ 'settings.updates.title' | translate }}</h3>
+    <label class="flex items-start gap-2">
+      <input type="checkbox" class="mt-0.5" [checked]="state.draft().updates.checkOnStartup" (change)="state.setCheckUpdates(checkedOf($event))" />
+      <span>{{ 'settings.updates.checkOnStartup' | translate }}</span>
+    </label>
+    <p class="muted text-xs">{{ 'settings.updates.hint' | translate }}</p>
+    <div class="flex flex-wrap items-center gap-3">
+      <button type="button" class="btn" (click)="updates.checkNow()" [disabled]="updates.manual() === 'checking'">
+        <app-icon [name]="updates.manual() === 'checking' ? 'loader' : 'refresh'" [size]="15" [class.animate-spin]="updates.manual() === 'checking'" />
+        {{ 'settings.updates.checkNow' | translate }}
+      </button>
+      @if (updates.status()?.current; as current) { <span class="muted text-xs">{{ 'settings.updates.current' | translate: { version: current } }}</span> }
+    </div>
+    <p class="text-xs" role="status">
+      @switch (updates.manual()) {
+        @case ('latest') { <span class="text-emerald-600 dark:text-emerald-400">{{ 'settings.updates.latest' | translate }}</span> }
+        @case ('available') { <span class="font-medium">{{ 'settings.updates.available' | translate: { version: updates.status()?.available?.version ?? '' } }}</span> }
+        @case ('failed') { <span class="text-amber-600 dark:text-amber-400">{{ 'settings.updates.failed' | translate }}</span> }
+      }
+    </p>
+  </section>
+
+  <section class="mt-6 space-y-2">
+    <h3 class="font-semibold">{{ 'settings.tour.title' | translate }}</h3>
+    <p class="muted text-xs">{{ 'settings.tour.hint' | translate }}</p>
+    <button type="button" class="btn" (click)="restartTour()"><app-icon name="refresh" [size]="15" /> {{ 'settings.tour.restart' | translate }}</button>
+  </section>
+
+  <section class="mt-6 space-y-1">
+    <h3 class="font-semibold">{{ 'settings.about.title' | translate }}</h3>
+    <p>Retro Game Manager @if (updates.status()?.current; as current) { <span class="muted">{{ current }}</span> }</p>
+    <p class="muted text-xs">{{ about.copyright }}</p>
+    <p class="text-xs">
+      {{ 'settings.about.license' | translate }}
+      <a class="font-medium text-btn-600 hover:underline dark:text-btn-400" [href]="about.licenseUrl" target="_blank" rel="noopener noreferrer">{{ about.license }}</a>
+    </p>
+    <p class="text-xs">
+      {{ 'settings.about.source' | translate }}
+      <a class="font-medium text-btn-600 hover:underline dark:text-btn-400" [href]="about.repository" target="_blank" rel="noopener noreferrer">{{ about.repository }}</a>
+    </p>
+  </section>
+
+  <app-csv-editor-dialog *appPresent="editing()" [pathColumn]="state.draft().csv.columns.path" (closed)="editing.set(false)" (saved)="state.handleCsvSaved()" />
+
+  <div footer class="contents">
+    @if (state.error(); as error) { <span class="mr-auto self-center text-red-600 dark:text-red-400">{{ error }}</span> }
+    <button type="button" class="btn" (click)="closed.emit()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="state.saving()">
+      <app-icon [name]="state.saving() ? 'loader' : 'save'" [size]="15" [class.animate-spin]="state.saving()" /> {{ 'buttons.save' | translate }}
+    </button>
+  </div>
+</app-modal>

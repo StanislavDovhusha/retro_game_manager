@@ -1,0 +1,19 @@
+<app-modal [title]="'deleteGames.title' | translate" (closed)="close()">
+  <p class="mb-3">
+    {{ 'deleteGames.intro' | translate }} <b>{{ count() }} {{ noun() }}</b> ({{ fmt.size(total()) }}). {{ 'deleteGames.skipNote' | translate }}
+  </p>
+  <ul class="max-h-44 overflow-auto rounded-md bg-shell-100 p-3 font-mono text-xs dark:bg-shell-950">
+    @for (game of listed(); track game.rel) { <li class="break-all py-0.5">{{ game.rel }}</li> }
+    @if (hiddenCount() > 0) { <li class="muted py-0.5">{{ 'common.andMore' | translate: { count: hiddenCount() } }}</li> }
+  </ul>
+  <label class="mt-3 flex items-start gap-2 {{ csvReady() ? '' : 'opacity-50' }}">
+    <input type="checkbox" class="mt-0.5" [checked]="alsoCsv()" [disabled]="!csvReady()" (change)="alsoCsv.set(checkedOf($event))" />
+    <span>{{ 'deleteGames.alsoCsv' | translate }}@if (!csvReady()) { {{ 'deleteGame.csvNotConfigured' | translate }} }</span>
+  </label>
+  <div footer class="contents">
+    <button type="button" class="btn" (click)="cancelled.emit()" [disabled]="busy()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" [disabled]="busy() || count() === 0" (click)="confirmed.emit(alsoCsv())">
+      <app-icon [name]="busy() ? 'loader' : 'trash'" [size]="15" [class.animate-spin]="busy()" /> {{ 'deleteGames.confirm' | translate: { count: count() } }}
+    </button>
+  </div>
+</app-modal>

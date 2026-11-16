@@ -1,0 +1,32 @@
+@if (platforms.visible()) {
+  <!-- A card without a chosen platform: its platform folders as cards. -->
+  <div class="min-h-0 flex-1 overflow-auto">
+    <app-platform-list [items]="platforms.items()" [loading]="platforms.loading()" [error]="platforms.error()" [busy]="actions.working()"
+      [previous]="previousPlatform()" (choose)="choosePlatform($event)" />
+  </div>
+} @else if (!settings().gamesDir) {
+  <!-- Until an SD card is chosen, the start screen also carries the useful tips. -->
+  <!-- my-auto centres the block while it fits and lets it scroll from the top when the tips are opened. -->
+  <div class="flex min-h-0 flex-1 flex-col overflow-auto">
+    <div class="my-auto w-full">
+      <app-empty-state (selectGamesFolder)="dialogs.libraryPaths.set(true)" (selectSdCard)="actions.pickSdRoot()" />
+      @if (!settings().sdRoot) {
+        <app-start-tips class="px-4 pb-8" [device]="devices.active()" />
+      }
+    </div>
+  </div>
+} @else {
+  @if (settings().sdRoot && settings().platform) {
+    <app-platform-breadcrumbs [title]="platforms.title(settings().platform)" [folder]="settings().platform" [busy]="actions.busy() || actions.syncing()"
+      (allPlatforms)="backToPlatforms()" />
+  }
+  <app-library-banners [folderProblem]="view.folderProblem()" [gamesDir]="settings().gamesDir" [libraryError]="libraryStore.error()"
+    [library]="view.library()" [csvPath]="settings().csvPath" />
+  <app-game-list [games]="view.sorted()" [query]="view.term()" [scope]="view.scope()" [sort]="view.sort()" [checked]="view.checked()"
+    [selectedRel]="view.selectedRel()" [selectedDir]="view.selectedDir()" [csvReady]="view.csvReady()" [version]="view.version()"
+    [columnWidths]="settings().ui.columnWidths" (columnWidthsChange)="preferences.saveColumnWidths($event)" (sortBy)="view.changeSort($event)"
+    (rowSelect)="view.selectedRel.set($event)" (setCheckedRels)="view.setChecked($event.rels, $event.value)"
+    (clearChecked)="view.clearChecked()" (deleteChecked)="dialogs.deleteMany.set(true)" (clearDir)="view.selectedDir.set(null)"
+    [edit]="edits.active()" (editStart)="startEdit($event)" (editDraft)="edits.setDraft($event)" (editCommit)="edits.commit($event)"
+    (editCancel)="edits.cancel()" />
+}

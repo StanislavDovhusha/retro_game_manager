@@ -1,0 +1,21 @@
+<app-modal [title]="'csvEditor.missingTitle' | translate" (closed)="cancelled.emit()">
+  <p class="mb-3">
+    {{ 'csvEditor.missingIntro' | translate }} <b>{{ missing().count }}</b> {{ 'common.of' | translate }} {{ missing().managed }}. {{ 'csvEditor.missingNote' | translate }}
+  </p>
+  @if (missing().all) {
+    <p class="mb-3 flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-amber-700 dark:text-amber-300">
+      <app-icon name="alert" [size]="16" class="mt-0.5" />
+      {{ 'csvEditor.missingAll' | translate }}
+    </p>
+  }
+  <ul class="max-h-44 overflow-auto rounded-md bg-shell-100 p-3 font-mono text-xs dark:bg-shell-950">
+    @for (path of listed(); track $index) { <li class="break-all py-0.5">{{ path }}</li> }
+    @if (hiddenCount() > 0) { <li class="muted py-0.5">{{ 'common.andMore' | translate: { count: hiddenCount() } }}</li> }
+  </ul>
+  <div footer class="contents">
+    <button type="button" class="btn" (click)="cancelled.emit()" [disabled]="removing()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="confirmed.emit()" [disabled]="removing()">
+      <app-icon [name]="removing() ? 'loader' : 'trash'" [size]="15" [class.animate-spin]="removing()" /> {{ 'csvEditor.missingConfirm' | translate: { count: missing().count } }}
+    </button>
+  </div>
+</app-modal>

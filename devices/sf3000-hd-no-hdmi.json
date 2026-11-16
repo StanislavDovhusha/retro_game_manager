@@ -1,0 +1,10 @@
+{
+  "id": "sf3000-hd-no-hdmi",
+  "extends": "sf3000-family",
+  "name": "SF3000 HD (no HDMI)",
+  "order": 30,
+  "tips": {
+    "firmwareLink": "https://handhelds.wiki/SF3000",
+    "communityLink": "https://r36sx-hub.neocities.org/"
+  }
+}

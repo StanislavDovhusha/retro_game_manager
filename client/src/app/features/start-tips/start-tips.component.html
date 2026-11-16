@@ -1,0 +1,141 @@
+<!-- A program or site link; opens in the system browser. -->
+<ng-template #linkList let-links>
+  @for (link of links; track link.url) {
+    <a class="ml-1 inline-flex items-center gap-0.5 whitespace-nowrap font-medium text-btn-600 hover:underline dark:text-btn-400" [href]="link.url"
+      target="_blank" rel="noopener noreferrer">{{ link.name }}<app-icon name="external-link" [size]="11" /></a>
+  }
+</ng-template>
+
+<!-- A translated text whose {{name}} placeholders become links (the links of the console's profile). -->
+<ng-template #linkedLine let-text let-links="links">
+  @for (part of linkedText(text, links); track $index) {
+    @if (part.link; as link) {
+      <a class="inline-flex items-center gap-0.5 whitespace-nowrap font-medium text-btn-600 hover:underline dark:text-btn-400" [href]="link.url"
+        target="_blank" rel="noopener noreferrer">{{ link.name }}<app-icon name="external-link" [size]="11" /></a>
+    } @else {
+      {{ part.text }}
+    }
+  }
+</ng-template>
+
+<!-- The ids carry a per-instance prefix: the start screen and the tips window may show the block at the same time. -->
+<section class="mx-auto w-full max-w-2xl text-left" [attr.aria-labelledby]="heading() ? uid + '-title' : null">
+  @if (heading()) {
+    <h2 [id]="uid + '-title'" class="mb-2 flex items-center gap-1.5 text-sm font-semibold">
+      <app-icon name="lightbulb" [size]="16" class="text-amber-500" /> {{ 'startTips.title' | translate }}
+    </h2>
+  }
+
+  <div class="space-y-2">
+    <!-- Tip 1: the computer does not see the SD card. -->
+    <div class="panel overflow-hidden rounded-lg border">
+      <h3>
+        <button type="button" class="flex w-full items-center gap-2 px-3 py-2.5 text-left font-medium hover:bg-shell-100 dark:hover:bg-shell-800"
+          [id]="uid + '-sd-card-head'" [attr.aria-controls]="uid + '-sd-card'" [attr.aria-expanded]="isOpen('sdCard')" (click)="toggle('sdCard')">
+          <app-icon name="chevron-right" [size]="15" class="chevron shrink-0" [class.open-chevron]="isOpen('sdCard')" />
+          <app-icon name="hard-drive" [size]="15" class="muted shrink-0" /> {{ 'startTips.sdCard.title' | translate }}
+        </button>
+      </h3>
+      <div class="details" [class.open]="isOpen('sdCard')" [id]="uid + '-sd-card'" role="region" [attr.aria-labelledby]="uid + '-sd-card-head'"
+        [attr.inert]="isOpen('sdCard') ? null : ''">
+        <div>
+          <div class="space-y-3 border-t border-shell-200 px-3 pb-3 pt-2.5 leading-relaxed dark:border-shell-800">
+            <p>{{ 'startTips.sdCard.intro' | translate }}</p>
+            <ol class="steps space-y-3">
+              <li>
+                <p class="font-medium">{{ 'startTips.sdCard.checks.title' | translate }}</p>
+                <p class="muted">{{ 'startTips.sdCard.checks.text' | translate }}</p>
+              </li>
+              <li>
+                <p class="font-medium">{{ 'startTips.sdCard.device.title' | translate }}</p>
+                <ul class="muted mt-0.5 space-y-0.5">
+                  <li><strong class="font-medium">Windows:</strong> {{ 'startTips.sdCard.device.windows' | translate }}</li>
+                  <li><strong class="font-medium">macOS:</strong> {{ 'startTips.sdCard.device.macos' | translate }}</li>
+                  <li><strong class="font-medium">Linux:</strong> {{ 'startTips.sdCard.device.linux' | translate }} <code class="badge">lsblk</code></li>
+                </ul>
+              </li>
+              <li>
+                <p class="font-medium">{{ 'startTips.sdCard.dump.title' | translate }}</p>
+                <p class="muted">{{ 'startTips.sdCard.dump.text' | translate }}</p>
+                <ul class="muted mt-0.5 space-y-0.5">
+                  <li>
+                    <strong class="font-medium">Windows:</strong> {{ 'startTips.sdCard.dump.windows' | translate }}
+                    <ng-container *ngTemplateOutlet="linkList; context: { $implicit: links.dumpWindows }" />
+                  </li>
+                  <li>
+                    <strong class="font-medium">macOS / Linux:</strong> {{ 'startTips.sdCard.dump.macosLinux' | translate }}
+                    <ng-container *ngTemplateOutlet="linkList; context: { $implicit: links.dumpMacLinux }" />
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <p class="font-medium">{{ 'startTips.sdCard.recover.title' | translate }}</p>
+                <p class="muted">
+                  {{ 'startTips.sdCard.recover.text' | translate }}
+                  <ng-container *ngTemplateOutlet="linkList; context: { $implicit: links.recover }" />
+                </p>
+              </li>
+              <li>
+                <p class="font-medium">{{ 'startTips.sdCard.format.title' | translate }}</p>
+                <div class="my-1.5 flex items-start gap-2 rounded-md border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-300"
+                  role="note">
+                  <app-icon name="alert" [size]="18" class="mt-px shrink-0" /> {{ 'startTips.sdCard.format.warning' | translate }}
+                </div>
+                <ul class="muted space-y-0.5">
+                  <li>
+                    {{ 'startTips.sdCard.format.format' | translate }}
+                    <ng-container *ngTemplateOutlet="linkList; context: { $implicit: links.format }" />
+                  </li>
+                  <li>
+                    {{ 'startTips.sdCard.format.restore' | translate }}
+                    <ng-container *ngTemplateOutlet="linkList; context: { $implicit: links.restore }" />
+                  </li>
+                </ul>
+              </li>
+            </ol>
+            <p class="flex items-start gap-2 rounded-md bg-shell-100 px-3 py-2 dark:bg-shell-800">
+              <app-icon name="info" [size]="15" class="muted mt-0.5 shrink-0" /> {{ 'startTips.sdCard.future' | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tip 2: the stock firmware (from the console's profile). -->
+    @if (firmwareTip(); as tips) {
+    <div class="panel overflow-hidden rounded-lg border">
+      <h3>
+        <button type="button" class="flex w-full items-center gap-2 px-3 py-2.5 text-left font-medium hover:bg-shell-100 dark:hover:bg-shell-800"
+          [id]="uid + '-firmware-head'" [attr.aria-controls]="uid + '-firmware'" [attr.aria-expanded]="isOpen('firmware')" (click)="toggle('firmware')">
+          <app-icon name="chevron-right" [size]="15" class="chevron shrink-0" [class.open-chevron]="isOpen('firmware')" />
+          <app-icon name="gamepad" [size]="15" class="muted shrink-0" /> {{ 'startTips.firmware.title' | translate: { device: deviceName() } }}
+        </button>
+      </h3>
+      <div class="details" [class.open]="isOpen('firmware')" [id]="uid + '-firmware'" role="region" [attr.aria-labelledby]="uid + '-firmware-head'"
+        [attr.inert]="isOpen('firmware') ? null : ''">
+        <div>
+          <div class="space-y-3 border-t border-shell-200 px-3 pb-3 pt-2.5 leading-relaxed dark:border-shell-800">
+            @if (firmware(); as link) {
+              <p>
+                <ng-container *ngTemplateOutlet="linkedLine; context: { $implicit: 'startTips.firmware.stock' | translate, links: { firmwareLink: link } }" />
+              </p>
+            }
+            @if (community(); as link) {
+              <p class="muted">
+                <ng-container *ngTemplateOutlet="linkedLine; context: { $implicit: 'startTips.firmware.community' | translate, links: { communityLink: link } }" />
+              </p>
+            }
+            @if (tips.cpu) {
+              <div class="flex items-start gap-2 rounded-md border border-red-500/40 bg-red-500/10 px-3 py-2 text-sm font-semibold text-red-700 dark:text-red-300"
+                role="note">
+                <app-icon name="alert" [size]="18" class="mt-px shrink-0" />
+                {{ 'startTips.firmware.warning' | translate: { device: deviceName(), cpu: tips.cpu, firmware: tips.incompatibleFirmware } }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</section>

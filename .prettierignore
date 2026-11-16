@@ -1,0 +1,12 @@
+node_modules
+build
+dist
+coverage
+client
+README.md
+package-lock.json
+release
+resources
+
+# The license text is kept exactly as published.
+LICENSE.md

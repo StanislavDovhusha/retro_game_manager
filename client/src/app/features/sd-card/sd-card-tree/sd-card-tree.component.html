@@ -1,0 +1,39 @@
+<ul role="tree" [attr.aria-label]="'sdCard.contents' | translate" class="mt-1 max-h-60 overflow-auto rounded border border-shell-300 py-1 text-xs dark:border-shell-700">
+  @for (row of rows(); track rowKey(row)) {
+    @switch (row.kind) {
+      @case ('loading') {
+        <li class="muted flex items-center gap-1 py-1 text-xs" [style.padding-left.px]="8 + row.depth * 14"><app-icon name="loader" [size]="12" class="animate-spin" /> {{ 'common.loading' | translate }}</li>
+      }
+      @case ('error') {
+        <li class="px-2 py-1 text-xs text-red-600 dark:text-red-400" [style.padding-left.px]="8 + row.depth * 14">{{ row.message }}</li>
+      }
+      @case ('truncated') {
+        <li class="muted px-2 py-1 text-xs" [style.padding-left.px]="8 + row.depth * 14">{{ 'sdCard.truncated' | translate }}</li>
+      }
+      @case ('node') {
+        <li role="treeitem" [attr.aria-level]="row.depth + 1" [attr.aria-expanded]="row.node.hasChildren ? row.open : null" [attr.aria-selected]="isCurrent(row.node)">
+          <div class="flex h-7 items-center gap-1 rounded pr-2 {{ isCurrent(row.node) ? 'bg-btn-500/15 font-semibold' : 'hover:bg-shell-200/60 dark:hover:bg-shell-800' }} {{ row.node.kind === 'system' || row.node.kind === 'media' ? 'muted' : '' }}"
+            [style.padding-left.px]="4 + row.depth * 14">
+            @if (row.node.hasChildren) {
+              <button type="button" class="grid h-5 w-5 place-items-center rounded hover:bg-shell-300/50 dark:hover:bg-shell-700" (click)="toggleNode.emit(row.node.rel)"
+                [attr.aria-label]="(row.open ? 'buttons.collapse' : 'buttons.expand') | translate"><app-icon [name]="row.open ? 'chevron-down' : 'chevron-right'" [size]="14" /></button>
+            } @else { <span class="w-5"></span> }
+            @if (row.node.kind === 'platform') {
+              <button type="button" class="flex min-w-0 flex-1 items-center gap-1.5 text-left disabled:opacity-60" [title]="nodeTitle(row.node)" [disabled]="busy()"
+                (click)="choosePlatform.emit(row.node.name)">
+                <app-icon [name]="nodeIcon(row.node)" [size]="14" class="text-btn-500" />
+                <span class="shrink-0">{{ row.node.name }}</span>
+                @if (platformName(row.node); as fullName) {
+                  <!-- Drawn by CSS (::after): the full name cannot be selected and is not found by a text search. -->
+                  <span class="platform-name muted" [attr.data-name]="fullName"></span>
+                }
+              </button>
+            } @else {
+              <span class="flex min-w-0 flex-1 items-center gap-1.5" [title]="nodeTitle(row.node)"><app-icon [name]="nodeIcon(row.node)" [size]="14" /><span class="truncate">{{ row.node.name }}</span></span>
+            }
+          </div>
+        </li>
+      }
+    }
+  }
+</ul>

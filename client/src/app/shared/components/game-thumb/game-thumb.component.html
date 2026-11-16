@@ -1,0 +1,9 @@
+@if (!hasImage() || failed()) {
+  <span [style.width.px]="size()" [style.height.px]="size()" [attr.aria-label]="'gameThumb.noImage' | translate"
+    class="inline-flex shrink-0 items-center justify-center rounded bg-shell-200 text-shell-400 dark:bg-shell-800 dark:text-shell-600">
+    <app-icon name="gamepad" [size]="iconSize()" />
+  </span>
+} @else {
+  <img [src]="url()" alt="" loading="lazy" [style.width.px]="size()" [style.height.px]="size()" (error)="failed.set(true)"
+    class="shrink-0 rounded bg-shell-200 object-cover dark:bg-shell-800" />
+}

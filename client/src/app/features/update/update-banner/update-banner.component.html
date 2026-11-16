@@ -1,0 +1,19 @@
+<div class="fold" [class.open]="open()" [attr.inert]="open() ? null : ''" [attr.aria-hidden]="!open()">
+  <div>
+    @if (shown(); as release) {
+      <div class="bar flex items-center gap-3 border-b px-3 py-1.5" role="region" [attr.aria-label]="'update.label' | translate">
+        <app-icon name="download" [size]="15" class="shrink-0" />
+        <p class="min-w-0 flex-1 truncate">
+          <span class="font-medium">{{ 'update.available' | translate: { version: release.version } }}</span>
+          @if (title()) { <span class="opacity-80"> · {{ title() }}</span> }
+        </p>
+        <a class="btn btn-primary h-7" [href]="release.url" target="_blank" rel="noopener noreferrer">
+          <app-icon name="external-link" [size]="14" /> {{ 'update.download' | translate }}
+        </a>
+        <button type="button" class="btn btn-icon h-7 w-7" (click)="dismiss.emit()" [attr.aria-label]="'update.close' | translate" [title]="'update.close' | translate">
+          <app-icon name="x" [size]="14" />
+        </button>
+      </div>
+    }
+  </div>
+</div>

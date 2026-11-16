@@ -1,0 +1,63 @@
+// The modal look is built from Tailwind utilities and the shared `.panel` / `.btn` classes; the animations live here,
+// once for every modal window.
+//
+// Opening: the backdrop fades in, the window fades in while it grows from 95 % (ease-out).
+// Closing: the reverse (ease-in). The window is opened with `*appPresent` (shared/directives/present.directive.ts):
+// it puts `is-leaving` on the dialog element and removes it from the DOM when the `modal-*` animations below end.
+
+$enter: 200ms cubic-bezier(0.16, 1, 0.3, 1); // ease-out
+$leave: 150ms cubic-bezier(0.4, 0, 1, 1); // ease-in
+
+.modal-backdrop {
+  animation: modal-backdrop-in $enter both;
+}
+
+.modal-window {
+  animation: modal-window-in $enter both;
+}
+
+:host-context(.is-leaving) {
+  .modal-backdrop {
+    animation: modal-backdrop-out $leave both;
+    pointer-events: none; // the closing window takes no more clicks
+  }
+
+  .modal-window {
+    animation: modal-window-out $leave both;
+  }
+}
+
+@keyframes modal-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-window-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes modal-window-out {
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal-window,
+  :host-context(.is-leaving) .modal-backdrop,
+  :host-context(.is-leaving) .modal-window {
+    animation: none;
+  }
+}

@@ -1,0 +1,13 @@
+<div class="relative min-w-0">
+  <input #field type="text" autocomplete="off" spellcheck="false" [appLatinInput]="latin()" [value]="value()" [readOnly]="saving()" [attr.aria-label]="label()"
+    [attr.aria-invalid]="error() ? 'true' : null" [attr.aria-busy]="saving() ? 'true' : null" [attr.aria-describedby]="error() || hint() ? noteId : null"
+    (input)="draftChange.emit(val($event))" (keydown)="onKeydown($event)" (blur)="onBlur()"
+    (click)="$event.stopPropagation()" (dblclick)="$event.stopPropagation()"
+    class="input h-7 px-2 text-xs {{ mono() ? 'font-mono' : '' }} {{ error() ? 'border-red-500 dark:border-red-500' : 'border-btn-500 dark:border-btn-500' }} {{ saving() ? 'opacity-60' : '' }}" />
+  @if (error() || hint()) {
+    <div [id]="noteId" class="absolute left-0 top-full z-[5] mt-1 w-max max-w-[min(20rem,70vw)] space-y-0.5 rounded-md border border-shell-300 bg-white px-2 py-1.5 text-xs shadow-lg dark:border-shell-700 dark:bg-shell-900">
+      @if (error(); as message) { <p role="alert" class="text-red-600 dark:text-red-400">{{ message }}</p> }
+      @if (hint(); as note) { <p class="muted">{{ note }}</p> }
+    </div>
+  }
+</div>

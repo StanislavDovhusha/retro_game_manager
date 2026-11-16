@@ -1,0 +1,21 @@
+<footer class="panel flex flex-wrap items-center gap-x-5 gap-y-1 border-t px-3 py-1.5 text-xs">
+  @if (scanning() || syncing()) {
+    <span class="flex items-center gap-1.5 text-btn-600 dark:text-btn-400">
+      <app-icon name="loader" [size]="13" class="animate-spin" />{{ (syncing() ? 'statusBar.syncing' : 'statusBar.scanning') | translate }}
+    </span>
+  }
+  <span>{{ 'statusBar.totalGames' | translate }} <b>{{ library()?.counts?.games ?? 0 }}</b></span>
+  <span>{{ 'statusBar.filesFound' | translate }} <b>{{ shown() }}</b></span>
+  <span>{{ 'statusBar.totalSize' | translate }} <b>{{ fmt.size(library()?.counts?.totalSize ?? 0) }}</b></span>
+  <span>{{ 'statusBar.csvEntries' | translate }} <b>{{ csvEntries() }}</b></span>
+  @if (library()?.csv?.ok && (library()?.counts?.missingInCsv ?? 0) > 0) {
+    <span class="text-amber-600 dark:text-amber-400">{{ 'statusBar.notInCsv' | translate }} {{ library()?.counts?.missingInCsv }}</span>
+  }
+  <span [class]="syncFailed() ? 'text-red-600 dark:text-red-400' : ''" [title]="syncError()">{{ 'statusBar.sync' | translate }} {{ syncText() }}</span>
+  <div class="ml-auto flex items-center gap-2">
+    <button type="button" class="donate btn h-6 px-2 text-xs" [class.donate-nudge]="nudge()" (click)="support.emit()"><span class="donate-icon"><app-donate-icon [size]="14" /></span> {{ 'donate.button' | translate }}</button>
+    <button type="button" class="btn h-6 px-2 text-xs" (click)="toggleLog.emit()"><app-icon name="scroll-text" [size]="13" /> {{ 'statusBar.log' | translate }}</button>
+    <button type="button" class="btn btn-icon h-6 w-6 text-xs" (click)="tips.emit()" [title]="'statusBar.tips' | translate"
+      [attr.aria-label]="'statusBar.tips' | translate" aria-haspopup="dialog"><app-icon name="lightbulb" [size]="13" /></button>
+  </div>
+</footer>

@@ -1,0 +1,68 @@
+<section class="space-y-2" aria-roledescription="carousel" [attr.aria-label]="'donate.crypto.title' | translate">
+  <div class="flex items-baseline justify-between">
+    <h3 class="text-sm font-semibold">{{ 'donate.crypto.title' | translate }}</h3>
+    @if (coins().length > 1) { <span class="muted text-xs tabular-nums">{{ 'donate.crypto.position' | translate: { current: index() + 1, total: coins().length } }}</span> }
+  </div>
+
+  <!-- The viewport: ←/→ when focused, swipe with a finger or the mouse. -->
+  <div #viewport class="viewport overflow-hidden rounded-md border border-inherit" tabindex="0" [class.dragging]="dragging()"
+    [attr.aria-label]="'donate.crypto.keysHint' | translate" (keydown)="onKeydown($event)"
+    (pointerdown)="onPointerDown($event)" (pointermove)="onPointerMove($event)" (pointerup)="onPointerUp($event)" (pointercancel)="onPointerUp($event)"
+    (click.capture)="onClickCapture($event)">
+    <div class="track flex" [style.transform]="transform()">
+      @for (coin of coins(); track coin.id; let i = $index) {
+        <div class="slide w-full shrink-0 space-y-3 p-3" role="group" aria-roledescription="slide"
+          [attr.aria-label]="'donate.crypto.slide' | translate: { coin: coin.coin, current: i + 1, total: coins().length }"
+          [attr.aria-hidden]="i !== index()" [attr.inert]="i !== index() ? '' : null">
+          <div class="flex items-center gap-3">
+            <span class="coin grid h-9 w-9 shrink-0 place-items-center rounded-full text-[10px] font-bold text-white" [style.background]="coin.color" aria-hidden="true">{{ coin.ticker }}</span>
+            <div class="min-w-0">
+              <div class="truncate text-sm font-medium">{{ coin.coin }} <span class="muted">({{ coin.ticker }})</span></div>
+              <div class="truncate text-lg font-semibold leading-tight">{{ coin.network }}</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            @let qr = shapes()[i];
+            @if (qr) {
+              <svg class="qr h-32 w-32 shrink-0 rounded" [attr.viewBox]="'0 0 ' + qr.viewBox + ' ' + qr.viewBox" shape-rendering="crispEdges"
+                role="img" [attr.aria-label]="'donate.crypto.qr' | translate: { coin: coin.ticker }">
+                <rect [attr.width]="qr.viewBox" [attr.height]="qr.viewBox" fill="#fff" />
+                <path [attr.d]="qr.path" fill="#000" />
+              </svg>
+            }
+            <div class="min-w-0 flex-1 space-y-2">
+              <div>
+                <div class="muted text-xs">{{ 'donate.crypto.address' | translate }}</div>
+                <div class="address break-all font-mono text-xs">{{ coin.address }}</div>
+              </div>
+              <button type="button" class="btn min-w-24" (click)="copy(coin)" [attr.aria-label]="('donate.copy' | translate) + ': ' + coin.coin">
+                <app-icon [name]="copiedId() === coin.id ? 'check' : 'copy'" [size]="14" />
+                {{ (copiedId() === coin.id ? 'donate.copied' : 'donate.copy') | translate }}
+              </button>
+            </div>
+          </div>
+          <p class="flex items-start gap-1.5 text-xs text-amber-600 dark:text-amber-400">
+            <app-icon name="alert" [size]="13" class="mt-px shrink-0" />
+            <span>{{ 'donate.crypto.warning' | translate: { coin: coin.ticker, network: coin.network } }}</span>
+          </p>
+        </div>
+      }
+    </div>
+  </div>
+
+  @if (coins().length > 1) {
+    <div class="flex items-center justify-center gap-2">
+      <button type="button" class="btn btn-icon h-7 w-7" (click)="go(-1)" [attr.aria-label]="'donate.crypto.prev' | translate"><app-icon name="chevron-left" [size]="15" /></button>
+      <div class="flex flex-wrap items-center justify-center gap-1">
+        @for (coin of coins(); track coin.id; let i = $index) {
+          <button type="button" class="dot grid h-5 w-5 place-items-center" (click)="show(i)" [attr.aria-current]="i === index() ? 'true' : null"
+            [attr.aria-label]="'donate.crypto.goTo' | translate: { coin: coin.coin }" [title]="coin.coin + ' — ' + coin.network">
+            <span class="block h-2 rounded-full {{ i === index() ? 'w-4 bg-btn-500' : 'w-2 bg-shell-300 dark:bg-shell-600' }}"></span>
+          </button>
+        }
+      </div>
+      <button type="button" class="btn btn-icon h-7 w-7" (click)="go(1)" [attr.aria-label]="'donate.crypto.next' | translate"><app-icon name="chevron-right" [size]="15" /></button>
+    </div>
+  }
+  <p class="sr-only" role="status">{{ copiedId() ? ('donate.copied' | translate) : '' }}</p>
+</section>

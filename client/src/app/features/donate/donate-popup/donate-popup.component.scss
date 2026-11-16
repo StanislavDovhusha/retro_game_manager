@@ -1,0 +1,25 @@
+:host {
+  display: contents;
+}
+
+// The joke block keeps room for the icon and three lines, so the buttons below do not move when the text changes.
+.joke {
+  min-height: 9.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.joke-body {
+  transition: opacity 300ms ease;
+}
+
+.joke-hidden {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .joke-body {
+    transition: none;
+  }
+}

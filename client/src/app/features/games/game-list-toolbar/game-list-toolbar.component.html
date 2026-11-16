@@ -1,0 +1,21 @@
+<div class="panel flex flex-wrap items-center gap-3 border-b px-3 py-1.5">
+  <label class="flex cursor-pointer items-center gap-2">
+    <input #master type="checkbox" [checked]="allChecked()" [disabled]="!hasGames()" (change)="toggleAll.emit()" />
+    {{ 'gameList.selectAll' | translate }}
+  </label>
+  <span class="muted">
+    {{ 'gameList.selected' | translate }} <b class="text-inherit">{{ checkedCount() }}</b>@if (hiddenCount() > 0) { {{ 'gameList.hiddenByFilter' | translate: { count: hiddenCount() } }} }
+  </span>
+  @if (selectedDir() !== null) {
+    <span class="flex items-center gap-1.5">
+      <span class="muted">{{ 'gameList.folder' | translate }}</span><span class="badge">{{ selectedDir() }}</span>
+      <button type="button" class="muted inline-flex items-center gap-1 hover:text-inherit" (click)="clearDir.emit()"><app-icon name="x" [size]="13" /> {{ 'gameList.showAll' | translate }}</button>
+    </span>
+  }
+  <div class="ml-auto flex items-center gap-2">
+    @if (checkedCount() > 0) { <button type="button" class="btn h-7" (click)="clearChecked.emit()">{{ 'gameList.clearSelection' | translate }}</button> }
+    <button data-tour="delete-selected" type="button" class="btn btn-danger h-7" (click)="deleteChecked.emit()" [disabled]="checkedCount() === 0">
+      <app-icon name="trash" [size]="14" /> {{ (checkedCount() > 0 ? 'gameList.deleteSelectedCount' : 'gameList.deleteSelected') | translate: { count: checkedCount() } }}
+    </button>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+@if (resultsShown()) {
+  <app-search-results-panel [results]="search.results()" [term]="search.term()" [loading]="search.loading()" [selectedKey]="selectedKey()"
+    (openResult)="actions.revealGame($event)" (closed)="search.showAll.set(false)" />
+}
+<!-- The tree stays in the DOM under the results, so the expanded folders and the scroll position are not lost. -->
+<app-game-tree [style.display]="resultsShown() ? 'none' : null" [tree]="view.tree()" [visible]="view.visible()" [query]="view.term()" [scope]="view.scope()" [selectedRel]="view.selectedRel()"
+  [selectedDir]="view.selectedDir()" [version]="view.version()" (selectFile)="view.selectedRel.set($event)" (selectDir)="view.selectedDir.set($event)" />

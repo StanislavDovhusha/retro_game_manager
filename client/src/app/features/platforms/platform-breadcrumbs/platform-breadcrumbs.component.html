@@ -1,0 +1,13 @@
+<nav class="flex min-w-0 items-center gap-1.5 border-b border-shell-200 px-3 py-1.5 text-sm dark:border-shell-800" [attr.aria-label]="'platforms.breadcrumbs' | translate">
+  <ol class="flex min-w-0 items-center gap-1.5">
+    <li class="shrink-0">
+      <button type="button" class="rounded text-btn-500 underline-offset-2 hover:underline disabled:opacity-60" [disabled]="busy()" [title]="'platforms.backTitle' | translate" (click)="allPlatforms.emit()">
+        {{ 'platforms.allPlatforms' | translate }}
+      </button>
+    </li>
+    <li class="muted shrink-0" aria-hidden="true">›</li>
+    <li class="min-w-0 truncate font-semibold" aria-current="page">
+      {{ title() }}@if (folder() && folder() !== title()) {&ngsp;<span class="muted ml-1.5 text-xs font-normal">{{ folder() }}</span>}
+    </li>
+  </ol>
+</nav>

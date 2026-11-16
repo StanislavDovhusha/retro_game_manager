@@ -1,0 +1,15 @@
+<section class="panel h-52 overflow-hidden border-t" [attr.aria-label]="'log.title' | translate">
+  <div class="flex items-center justify-between border-b border-inherit px-3 py-1.5">
+    <h2 class="font-semibold">{{ 'log.title' | translate }}</h2>
+    <button type="button" class="muted" (click)="log.close()" [attr.aria-label]="'log.close' | translate"><app-icon name="x" [size]="14" /></button>
+  </div>
+  <ul class="h-[calc(100%-2rem)] overflow-auto px-3 py-1.5 font-mono text-xs">
+    @if (log.entries().length === 0) { <li class="muted">{{ 'log.empty' | translate }}</li> }
+    @for (entry of log.entries(); track entry.id) {
+      <li class="flex gap-3 py-0.5">
+        <span class="muted shrink-0">{{ fmt.time(entry.time) }}</span>
+        <span class="break-all {{ tone[entry.level] }}">{{ entry.message }}</span>
+      </li>
+    }
+  </ul>
+</section>

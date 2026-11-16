@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+/* The pencil next to an editable cell: shown on hover and when it has the keyboard focus. */
+.edit-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 0.25rem;
+  opacity: 0;
+  color: inherit;
+}
+.group:hover .edit-button,
+.edit-button:focus-visible {
+  opacity: 0.7;
+}
+.edit-button:hover,
+.edit-button:focus-visible {
+  opacity: 1;
+  background-color: rgb(127 127 127 / 0.2);
+}

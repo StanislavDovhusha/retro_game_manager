@@ -1,0 +1,37 @@
+<div class="space-y-3">
+  <p class="text-sm">{{ 'sync.previewNote' | translate }}</p>
+  @if (preview().created) { <p class="text-sm font-medium">{{ 'sync.created' | translate }}</p> }
+  <ul class="space-y-1 text-sm">
+    <li>{{ 'sync.toAdd' | translate }} <b>{{ preview().toAdd }}</b></li>
+    <li>{{ 'sync.toRemove' | translate }} <b>{{ preview().toRemove }}</b></li>
+    <li>{{ 'sync.unchanged' | translate }} <b>{{ preview().unchanged }}</b></li>
+    @if (preview().tagsColumnAdded > 0) { <li>{{ 'sync.tagsColumnAdded' | translate }} <b>{{ preview().tagsColumnAdded }}</b></li> }
+    @if (preview().unmanaged > 0) { <li class="muted">{{ 'sync.unmanaged' | translate }} {{ preview().unmanaged }}</li> }
+    @if (preview().duplicates > 0) {
+      <li class="text-amber-600 dark:text-amber-400">{{ 'sync.duplicates' | translate }} {{ preview().duplicates }} {{ 'sync.duplicatesKept' | translate }}</li>
+    }
+  </ul>
+  @if (preview().added.length > 0) {
+    <details class="rounded-md border border-shell-200 dark:border-shell-800">
+      <summary class="cursor-pointer px-3 py-2 font-medium">{{ 'sync.willBeAdded' | translate }}: {{ preview().added.length }}</summary>
+      <ul class="max-h-40 overflow-auto border-t border-inherit px-3 py-2 font-mono text-xs">
+        @for (item of addedShown(); track item) { <li class="break-all">+ {{ item }}</li> }
+        @if (addedHidden() > 0) { <li class="muted">{{ 'common.andMore' | translate: { count: addedHidden() } }}</li> }
+      </ul>
+    </details>
+  }
+  @if (preview().removed.length > 0) {
+    <details class="rounded-md border border-shell-200 dark:border-shell-800">
+      <summary class="cursor-pointer px-3 py-2 font-medium">{{ 'sync.willBeRemoved' | translate }}: {{ preview().removed.length }}</summary>
+      <ul class="max-h-40 overflow-auto border-t border-inherit px-3 py-2 font-mono text-xs">
+        @for (item of removedShown(); track item) { <li class="break-all">− {{ item }}</li> }
+        @if (removedHidden() > 0) { <li class="muted">{{ 'common.andMore' | translate: { count: removedHidden() } }}</li> }
+      </ul>
+    </details>
+  }
+  @if (upToDate()) {
+    <p class="muted">{{ 'sync.upToDate' | translate }}</p>
+  } @else {
+    <p class="muted">{{ 'sync.safety' | translate }}</p>
+  }
+</div>

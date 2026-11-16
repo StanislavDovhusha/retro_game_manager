@@ -1,0 +1,29 @@
+:host {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+// Sliding side panels: the container width changes smoothly, the inner panel keeps its size.
+.slide {
+  flex: none;
+  width: 20rem;
+  overflow: hidden;
+  transition: width 200ms ease;
+}
+
+.slide[data-open='false'] {
+  width: 0;
+}
+
+@media (max-width: 1023px) {
+  .slide[data-open='false'] {
+    width: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none;
+  }
+}

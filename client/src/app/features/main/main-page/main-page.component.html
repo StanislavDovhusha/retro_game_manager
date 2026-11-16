@@ -1,0 +1,38 @@
+@if (settingsStore.error(); as error) {
+  <div class="grid h-full place-items-center p-8 text-center">
+    <div>
+      <app-icon name="alert" [size]="24" class="mx-auto mb-3 text-red-500" />
+      <p>{{ error }}</p>
+      <p class="muted mt-1">{{ 'main.startCommand' | translate }} <code>npm run dev</code></p>
+    </div>
+  </div>
+} @else if (settingsStore.settings(); as settings) {
+  <app-shell [rightHidden]="panels.rightHidden()" (rightPanelToggle)="panels.toggleRight()">
+    <app-update-banner top [release]="updates.banner()" (dismiss)="updates.dismiss()" />
+    <app-header top [gamesDir]="settings.gamesDir" [sdRoot]="settings.sdRoot" [scanning]="libraryStore.scanning()" [syncing]="actions.syncing()"
+      [theme]="settings.theme" [lang]="preferences.lang()" (selectSdCard)="actions.pickSdRoot()"
+      (addGame)="dialogs.addGame.set(true)" (scan)="actions.scan()" (sync)="dialogs.sync.set(true)" (openSettings)="dialogs.settings.set(true)"
+      (toggleTheme)="preferences.toggleTheme()" (languageChange)="preferences.changeLanguage($event)">
+      <app-global-search search />
+    </app-header>
+
+    <app-folders-panel left />
+    <app-games-workspace center [settings]="settings" />
+
+    <app-game-card right [game]="view.selected()" [csvReady]="view.csvReady()" [version]="view.version()" [busy]="actions.busy()"
+      (renameGame)="dialogs.renameGame.set(true)" (deleteGame)="requestDelete('game')"
+      (deleteImage)="requestDelete('image')" (chooseImage)="actions.chooseImage()"
+      [emulator]="emulator.card()" (play)="emulator.launch()" />
+
+    @if (log.open()) { <app-log-panel drawer /> }
+
+    <app-status-bar bottom [library]="view.library()" [settings]="settings" [shown]="view.matching().length" [scanning]="libraryStore.scanning()"
+      [syncing]="actions.syncing()" [nudge]="donate.nudge()" (toggleLog)="log.toggle()" (tips)="dialogs.tips.set(true)" (support)="donate.show()" />
+  </app-shell>
+
+  <app-dialog-host [settings]="settings" />
+  <app-tour-overlay />
+} @else {
+  <div class="muted grid h-full place-items-center">{{ 'common.loading' | translate }}</div>
+}
+<app-toasts />

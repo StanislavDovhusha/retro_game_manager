@@ -1,0 +1,87 @@
+# electron-builder configuration (v26). The version comes from package.json; productName is repeated here on purpose
+# (the macOS menu bar, the Dock and the installer names show it) and must equal package.json's (checked by the tests).
+# appId stays as it was when the app was renamed: a new one would make the systems treat it as another application.
+appId: io.github.stanislavdovhusha.gamemanager
+productName: Retro Game Manager
+copyright: Copyright (C) 2026 Stanislav Dovhusha. License GPL-3.0-or-later
+
+directories:
+  output: release
+  buildResources: resources
+
+# Only what the application needs at run time. Production dependencies from package.json are added automatically.
+files:
+  - package.json
+  - build/electron/**/*.js
+  - build/src/**/*.js
+  - build/shared/**/*.js
+  - electron/preload.cjs
+  # Console model profiles: read at run time (adding a model is adding a file here).
+  - devices/*.json
+  # The license texts travel with the program (GPL-3.0, and the third-party components).
+  - LICENSE.md
+  - THIRD_PARTY_LICENSES.md
+  - dist/**/*
+  - '!**/*.map'
+  # What the dependencies ship for their own development is not needed at run time (their LICENSE files stay).
+  - '!**/node_modules/**/{test,tests,__tests__,spec,example,examples,benchmark,benchmarks,docs}/**'
+  - '!**/node_modules/**/*.{ts,mts,cts,tsx}'
+  - '!**/node_modules/**/{README,Readme,readme,HISTORY,History,CHANGELOG,Changelog,changelog,SECURITY}*'
+asar: true
+# The only native module is sharp (cover conversion to PNG). It ships prebuilt binaries for every system as separate
+# packages (@img/sharp-<system>-<cpu>, @img/sharp-libvips-<system>-<cpu>), so nothing is compiled here.
+# The binaries cannot be loaded from inside app.asar: they are unpacked next to it (app.asar.unpacked).
+npmRebuild: false
+asarUnpack:
+  - '**/node_modules/sharp/**/*'
+  - '**/node_modules/@img/**/*'
+
+# Artifact names: Retro-Game-Manager-<version>… (no spaces, so the files are easy to download and link to).
+artifactName: Retro-Game-Manager-${version}-${os}-${arch}.${ext}
+
+win:
+  icon: resources/icon.ico
+  # Only the sharp binaries of this system (a build machine may have those of every system, see the macOS step of the release workflow).
+  files: ['!**/node_modules/@img/sharp-{darwin,linux,linuxmusl}-*/**', '!**/node_modules/@img/sharp-libvips-{darwin,linux,linuxmusl}-*/**']
+  target:
+    - { target: nsis, arch: [x64] }
+    - { target: portable, arch: [x64] }
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  artifactName: Retro-Game-Manager-Setup-${version}.${ext}
+portable:
+  artifactName: Retro-Game-Manager-${version}-portable.${ext}
+
+mac:
+  # Both Mac architectures stay (x64 and arm64 builds share the file list); Windows and Linux binaries go.
+  files: ['!**/node_modules/@img/sharp-{win32,linux,linuxmusl}-*/**', '!**/node_modules/@img/sharp-libvips-{linux,linuxmusl}-*/**']
+  # Every size from 16 to 1024 px, made by scripts/build-mac-icon.ts (npm run icons).
+  icon: resources/icon.icns
+  category: public.app-category.utilities
+  target:
+    - { target: dmg, arch: [x64, arm64] }
+  # Without an Apple Developer certificate the app is signed ad hoc ("-"): Apple Silicon refuses to run unsigned code.
+  # With a certificate, pass its name: npm run build:mac -- -c.mac.identity="Developer ID Application: ..." (and enable hardenedRuntime).
+  identity: '-'
+  hardenedRuntime: false
+  gatekeeperAssess: false
+dmg:
+  # Two builds (Intel x64 and Apple Silicon arm64): the architecture keeps their names apart.
+  artifactName: Retro-Game-Manager-${version}-${arch}.${ext}
+
+linux:
+  icon: resources/icon.png
+  files: ['!**/node_modules/@img/sharp-{darwin,win32}-*/**', '!**/node_modules/@img/sharp-libvips-darwin-*/**']
+  category: Utility
+  synopsis: Game library manager for the SD cards of retro handheld consoles
+  # The .deb format requires a maintainer: the contact shown in the package information.
+  maintainer: Stanislav Dovhusha <dovhusha.stanislav@yahoo.com>
+  target:
+    - { target: AppImage, arch: [x64] }
+    - { target: deb, arch: [x64] }
+deb:
+  artifactName: Retro-Game-Manager-${version}.${ext}
+appImage:
+  artifactName: Retro-Game-Manager-${version}.${ext}

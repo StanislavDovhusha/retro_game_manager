@@ -1,0 +1,671 @@
+{
+  "addGame": {
+    "discTarget": ".bin + .cue로 이미지를 만듭니다:",
+    "errors": {
+      "binNeedsCue": ".bin 파일에는 .cue 파일이 필요해요. 함께 선택해 주세요(.img 이미지가 만들어져요).",
+      "binRequired": ".cue 파일에 해당하는 .bin 파일을 추가해 주세요.",
+      "cueRequired": ".bin 파일에는 트랙 정보를 담은 .cue 파일이 필요해요.",
+      "emptyFile": "파일 중 하나가 비어 있어요",
+      "emptyImage": "파일이 비어 있어요",
+      "extensionNotAllowed": ".{{ext}} 확장자는 게임 확장자 목록({{extensions}})에 없어요.",
+      "imageFormats": "지원하는 이미지: PNG, JPG, JPEG, WEBP.",
+      "imageTooLarge": "이미지가 너무 커요(최대 20 MB).",
+      "isImage": "이건 이미지예요. 게임 파일은 첫 번째 칸에, 이미지는 세 번째 칸에 넣어 주세요.",
+      "multipleCue": ".cue 파일이 여러 개 선택됐어요. 게임은 한 번에 하나씩 추가해 주세요: .cue 하나와 그에 딸린 .bin 파일.",
+      "onlyDiscFormats": "하나의 디스크 이미지를 이루는 파일만 함께 추가할 수 있어요: .bin + .cue, .ccd + .img + .sub 또는 그 .ecm 압축 파일.",
+      "tooManyFiles": "파일이 너무 많아요(최대 {{max}}개).",
+      "unknownType": "파일 형식을 확인할 수 없어요. 폴더가 아니라 게임 파일을 끌어다 놓아 주세요.",
+      "multipleCcd": ".ccd 파일이 여러 개 선택됐어요. 게임은 한 번에 하나씩 추가해 주세요: .ccd 하나와 그에 딸린 .img, .sub.",
+      "missingFiles": "디스크 이미지 파일이 다 갖춰지지 않았어요. 빠진 파일: {{files}}. .img나 .bin은 .ecm 압축 파일이어도 돼요.",
+      "duplicateFiles": "{{files}} 파일은 같은 데이터예요. 그중 하나만 선택해 주세요.",
+      "extraFiles": "{{files}} 파일은 이 디스크 이미지에 속하지 않아요. 빼 주세요."
+    },
+    "fileTarget": "파일 저장 이름:",
+    "gameFile": "게임 파일",
+    "gameHint": "파일 또는 디스크 이미지 세트(.bin + .cue, .ccd + .img + .sub, .ecm)를 여기로 끌어다 놓거나 ‘찾아보기’를 클릭하세요",
+    "imageDefault": "이미지가 없으면 커버가 자동으로 만들어져요. 플랫폼 색상의 패키지에 플랫폼 이름과 게임 제목이 들어가요. 나중에 원하는 이미지로 바꿀 수 있어요.",
+    "imageHint": "PNG, JPG, JPEG, WEBP 파일을 여기로 끌어다 놓거나 ‘찾아보기’를 클릭하세요",
+    "imageLabel": "게임 이미지(선택 사항)",
+    "imageNameInvalid": "이 제목으로는 파일 이름을 만들 수 없어요. 제목을 바꿔 주세요.",
+    "imageTarget": "이미지 폴더에 저장될 이름:",
+    "progress": {
+      "copying": "파일을 복사하고 CSV를 업데이트하는 중…",
+      "creatingDisc": ".img 이미지를 만들고 CSV를 업데이트하는 중…",
+      "uploadingFile": "파일 업로드 중({{current}}/{{total}})…",
+      "uploadingGame": "게임 파일 업로드 중…",
+      "uploadingImage": "이미지 업로드 중…",
+      "copyingFile": "게임 파일 복사 중…",
+      "unpacking": "ECM 압축 푸는 중…",
+      "building": "IMG 만드는 중…",
+      "finishing": "커버를 저장하고 CSV를 업데이트하는 중…",
+      "compressing": ".zip으로 압축하고 CSV를 업데이트하는 중…",
+      "compressingFile": "게임 파일을 .zip으로 압축하는 중…"
+    },
+    "shortNeedsLetter": "제목에는 글자나 숫자가 하나 이상 있어야 해요.",
+    "shortPlaceholder": "자동으로 만들어져요",
+    "shortReadonly": "공백 없는 camelCase 형식이며, 수정할 수 없어요.",
+    "title": "게임 추가",
+    "titleHint": "파일 이름에서 자동으로 채워지며, 바꿀 수 있어요. 제목은 중복되면 안 돼요.",
+    "titleLabel": "게임 제목",
+    "titlePipe": "제목에는 ‘|’ 문자를 쓸 수 없어요. 게임기가 게임 목록의 항목을 구분하는 데 쓰는 문자예요.",
+    "titlePlaceholder": "예: The Legend of Zelda",
+    "cloneCdTarget": "CloneCD 세트의 .img 저장 이름:",
+    "ecmTarget": "ECM 압축 파일을 풀 위치:",
+    "compressZip": ".zip으로 압축",
+    "compressZipHint": "게임 파일을 게임 이름으로 된 압축 파일에 담아요. 압축 파일 안의 파일 이름은 그대로 유지돼요.",
+    "zipAlready": "이미 ZIP 압축 파일이라 압축할 필요가 없어요.",
+    "zipTarget": "압축 파일 이름:",
+    "zipInside": "안에 들어갈 파일:"
+  },
+  "buttons": {
+    "add": "추가",
+    "browse": "찾아보기",
+    "cancel": "취소",
+    "clear": "지우기",
+    "close": "닫기",
+    "collapse": "접기",
+    "delete": "삭제",
+    "dismiss": "닫기",
+    "done": "완료",
+    "expand": "펼치기",
+    "rename": "이름 바꾸기",
+    "save": "저장",
+    "scan": "스캔",
+    "selectGamesFolder": "게임 폴더 선택",
+    "selectSdCard": "SD 카드 선택",
+    "sync": "동기화"
+  },
+  "common": {
+    "andMore": "…외 {{count}}개",
+    "loading": "불러오는 중…",
+    "of": "/",
+    "readingFile": "파일을 읽는 중…"
+  },
+  "csvEditor": {
+    "addRow": "행 추가",
+    "cellLabel": "{{column}}, {{row}}행",
+    "deleteRow": "{{row}}행 삭제",
+    "duplicate": "중복",
+    "duplicatesHint": "중복은 ‘{{column}}’ 열을 기준으로 찾고, 첫 번째 항목을 남겨요",
+    "duplicatesRemoved": "중복 {{count}}개를 제거했어요. ‘저장’을 클릭하면 변경 내용이 파일에 기록돼요.",
+    "filterPlaceholder": "행 필터링",
+    "firstColumn": "첫 번째 열",
+    "keyMarker": "(키)",
+    "missingAll": "모든 항목이 제거돼요. 게임 폴더를 사용할 수 있는지 확인해 주세요(예: 드라이브나 SD 카드가 연결되어 있는지).",
+    "missingConfirm": "항목 삭제({{count}})",
+    "missingIntro": "CSV에서 제거될 항목:",
+    "missingNote": "게임 폴더에서 이 항목들의 게임 파일을 찾지 못했어요. 디스크의 파일과 폴더는 삭제되지 않으며, 변경 전에 CSV 백업이 만들어져요.",
+    "missingTitle": "없는 게임의 항목을 제거할까요?",
+    "noMissing": "없는 게임이 없어요. 모든 항목의 파일을 찾았어요.",
+    "noMissingToast": "없는 게임이 없어요. CSV의 모든 항목이 파일과 일치해요.",
+    "noRows": "행이 없어요",
+    "removeDuplicates": "중복 제거",
+    "removeDuplicatesCount": "중복 제거({{count}})",
+    "removeMissing": "없는 게임 제거",
+    "removeMissingDirty": "먼저 변경 내용을 저장해 주세요. 검사는 디스크에 있는 파일을 기준으로 해요",
+    "removeMissingHint": "게임 파일이 없는 항목을 찾아 CSV에서 제거해요(디스크의 파일은 삭제되지 않아요)",
+    "removed": "항목 {{count}}개를 제거했어요. CSV 파일 옆에 백업을 만들었어요.",
+    "removedToast": "없는 게임의 항목을 CSV에서 제거했어요: {{count}}개",
+    "saved": "저장했어요. CSV 파일 옆에 백업을 만들었어요.",
+    "savedToast": "CSV를 저장했어요",
+    "showMore": "더 보기({{count}})",
+    "summary": "행: {{count}}개 · 중복은 ‘{{column}}’ 열에서 찾아요",
+    "summaryFiltered": "행: {{count}}개, 표시: {{shown}}개 · 중복은 ‘{{column}}’ 열에서 찾아요",
+    "title": "CSV 편집",
+    "unsaved": "저장되지 않은 변경 내용",
+    "unsavedConfirm": "저장하지 않은 변경 내용이 있어요. 저장하지 않고 편집기를 닫을까요?"
+  },
+  "deleteGame": {
+    "alsoCsv": "CSV에서 이 게임의 항목도 제거(변경 전에 백업이 만들어져요)",
+    "csvNotConfigured": " — CSV가 설정되지 않았어요",
+    "descriptionGame": "파일이 디스크에서 영구적으로 삭제돼요.",
+    "descriptionImage": "이미지만 삭제되고, 게임 파일은 그대로 남아요.",
+    "name": "이름",
+    "path": "경로",
+    "titleGame": "게임 파일을 삭제할까요?",
+    "titleImage": "이미지를 삭제할까요?"
+  },
+  "deleteGames": {
+    "alsoCsv": "CSV에서 이 게임들의 항목도 제거(변경 전에 백업이 만들어져요)",
+    "confirm": "삭제({{count}})",
+    "intro": "디스크에서 영구적으로 삭제돼요:",
+    "skipNote": "이미 없는 파일은 건너뛰어요.",
+    "title": "선택한 게임을 삭제할까요?"
+  },
+  "donate": {
+    "beer": {
+      "1": "INSERT COIN to continue… 아니면 동전 대신 개발자에게 맥주 한 잔은 어때요?",
+      "2": "개발자의 HP가 1 남았어요. 맥주 한 잔이면 체력이 가득 회복돼요.",
+      "3": "도전 과제 달성: 통 큰 플레이어. 보상: 개발자의 영원한 감사와 시원한 맥주 한 잔.",
+      "4": "소액 결제도, 확률형 아이템도 없어요. 이 앱을 만든 사람에게 건네는 정직한 맥주 한 잔이면 충분해요."
+    },
+    "button": "프로젝트 후원하기",
+    "copied": "복사했어요!",
+    "copy": "복사",
+    "crypto": {
+      "address": "지갑 주소",
+      "goTo": "{{coin}} 보기",
+      "keysHint": "암호화폐 지갑: ← → 키로 전환할 수 있어요",
+      "next": "다음 코인",
+      "position": "{{current}} / {{total}}",
+      "prev": "이전 코인",
+      "qr": "{{coin}} 주소 QR 코드",
+      "slide": "{{coin}}, {{current}} / {{total}}",
+      "title": "암호화폐",
+      "warning": "{{coin}}만 {{network}}를 통해 보내 주세요. 다른 네트워크로 보내면 자금을 잃을 수 있어요."
+    },
+    "dev": {
+      "1": "후원 한 번마다 프로젝트 개발 속도가 +1 올라가요.",
+      "2": "프로젝트의 레벨 업을 도와주세요. 다음 스테이지에서 새로운 기능이 기다리고 있어요.",
+      "3": "버그는 후원을 무서워해요. 후원 한 번이 코드와 벌이는 보스전 한 판의 자금이 돼요.",
+      "4": "진행 상황 저장 중… 여러분의 후원이 이 프로젝트를 게임 오버에서 지켜 줘요."
+    },
+    "kinds": {
+      "beer": "개발자에게 맥주 한 잔 🍺",
+      "dev": "프로젝트 개발 응원하기 🚀"
+    },
+    "links": {
+      "github": "GitHub에서 Star 주기",
+      "kofi": "Ko-fi에서 후원하기"
+    },
+    "title": "프로젝트 후원하기"
+  },
+  "dropZone": {
+    "browseLabel": "{{label}}: 시스템 대화 상자에서 선택",
+    "clear": "파일 빼기",
+    "summary": "파일: {{count}}개 · {{size}}"
+  },
+  "errors": {
+    "network": "서버에 연결할 수 없어요. 앱이 실행 중인지 확인해 주세요.",
+    "server": "서버 오류({{status}})",
+    "upload": "업로드 오류({{status}})"
+  },
+  "fields": {
+    "shortName": "짧은 이름"
+  },
+  "foldersPanel": {
+    "gamesDir": "게임 폴더",
+    "notSelected": "선택 안 됨"
+  },
+  "gameCard": {
+    "actions": {
+      "chooseImage": "이미지 선택",
+      "deleteGame": "게임 파일 삭제",
+      "deleteImage": "이미지 삭제",
+      "play": "에뮬레이터에서 플레이",
+      "rename": "게임 이름 바꾸기",
+      "replaceImage": "이미지 바꾸기"
+    },
+    "coverAlt": "커버: {{title}}",
+    "csv": {
+      "missing": "항목 없음 — 동기화 필요",
+      "notConfigured": "CSV가 설정되지 않았어요",
+      "present": "항목 있음"
+    },
+    "csvTitleFallback": "— (파일 이름을 사용해요)",
+    "empty": "게임을 선택하면 상세 정보가 표시돼요",
+    "emulator": {
+      "download": "{{emulator}} 다운로드",
+      "notInstalled": "이 컴퓨터에 {{emulator}}가 설치되어 있지 않아요."
+    },
+    "fields": {
+      "csv": "CSV",
+      "csvTitle": "CSV의 제목",
+      "extension": "확장자",
+      "file": "파일",
+      "fullPath": "전체 경로",
+      "image": "이미지",
+      "modified": "수정한 날짜",
+      "relativePath": "상대 경로",
+      "shortName": "짧은 이름",
+      "size": "크기",
+      "tags": "태그"
+    },
+    "image": {
+      "auto": "자동으로 찾음",
+      "manual": "직접 선택함",
+      "none": "없음"
+    }
+  },
+  "gameList": {
+    "ascending": "오름차순",
+    "clearSelection": "선택 해제",
+    "columns": {
+      "csv": "CSV",
+      "game": "게임",
+      "path": "경로",
+      "size": "크기",
+      "tags": "태그"
+    },
+    "deleteSelected": "선택 항목 삭제",
+    "deleteSelectedCount": "선택 항목 삭제({{count}})",
+    "descending": "내림차순",
+    "empty": "(비어 있음)",
+    "entryWithoutTitles": "제목이 없는 항목",
+    "folder": "폴더:",
+    "hiddenByFilter": " (필터로 숨겨짐: {{count}})",
+    "noData": "데이터 없음",
+    "noGames": "게임을 찾지 못했어요. 필터를 바꾸거나 다른 폴더를 선택해 주세요.",
+    "noTags": "태그 없음",
+    "notInCsv": "CSV에 없음",
+    "resizeHint": "끌어서 너비를 조절해요. 두 번 클릭하면 기본값으로 돌아가요",
+    "resizeLabel": "‘{{label}}’ 열 너비: {{width}}픽셀. 왼쪽·오른쪽 화살표 키로 너비를 조절해요",
+    "selectAll": "모두 선택",
+    "selectRow": "‘{{title}}’ 선택",
+    "selected": "선택됨:",
+    "showAll": "모두 보기",
+    "sort": "정렬",
+    "sortTitle": "정렬: {{direction}} — 클릭하면 바뀌어요",
+    "unsupportedTitle": "제목에 지원하지 않는 문자가 있어요. 게임 이름을 바꿔 주세요."
+  },
+  "gameThumb": {
+    "noImage": "이미지 없음"
+  },
+  "gameTree": {
+    "noFiles": "게임 파일이 없어요",
+    "nothingFound": "찾은 결과가 없어요"
+  },
+  "header": {
+    "addGameDisabled": "먼저 게임 폴더를 선택해 주세요",
+    "addGameHint": "게임을 게임 폴더로 복사하고 CSV에 추가해요",
+    "language": "인터페이스 언어",
+    "search": {
+      "clear": "필터 지우기",
+      "found": "찾음:",
+      "foundHint": "열려 있는 폴더에서 필터와 일치하는 게임",
+      "nothing": "카드에서 게임을 찾지 못했어요",
+      "placeholder": "게임 검색",
+      "results": "카드에서 찾은 게임",
+      "scope": {
+        "all": "전체",
+        "dir": "폴더 이름으로",
+        "ext": "확장자로",
+        "name": "파일 이름으로",
+        "path": "전체 경로로",
+        "tags": "태그로"
+      },
+      "scopeHint": "열려 있는 폴더의 필터가 검색하는 범위예요. 입력란 아래 목록은 항상 모든 플랫폼의 제목, 짧은 이름, 태그를 검색해요",
+      "scopeLabel": "검색 범위",
+      "searching": "모든 플랫폼을 검색하는 중…",
+      "showAll": "모든 결과 보기({{count}})",
+      "unreadable": "일부 폴더를 읽지 못했어요: {{folders}}",
+      "updating": "결과를 업데이트하는 중…"
+    },
+    "selectSdCardTitle": "SD 카드 루트 선택",
+    "settings": "설정",
+    "syncCsv": "CSV 동기화",
+    "toggleTheme": "테마 전환"
+  },
+  "inlineEdit": {
+    "edit": "편집: {{field}}",
+    "errors": {
+      "emptyName": "제목은 비워 둘 수 없어요.",
+      "emptyShort": "짧은 이름은 비워 둘 수 없어요.",
+      "pipe": "‘|’ 문자는 쓸 수 없어요. 게임기가 게임 목록의 항목을 구분하는 데 쓰는 문자예요.",
+      "shortSpace": "짧은 이름에는 공백을 쓸 수 없어요.",
+      "tagTooLong": "태그가 너무 길어요(최대 {{max}}자): ‘{{tag}}’.",
+      "renameFirst": "먼저 게임 이름을 바꿔 주세요. 제목에 지원하지 않는 문자가 있어요."
+    },
+    "hints": {
+      "name": "게임 파일, 커버, 세이브 데이터의 이름도 함께 바뀌어요. Enter — 저장, Esc — 취소.",
+      "short": "공백 없이 한 단어로 입력해요. Enter — 저장, Esc — 취소.",
+      "tags": "태그는 공백으로 구분해요. 태그 안에는 공백을 쓸 수 없어요. Enter — 저장, Esc — 취소."
+    },
+    "labels": {
+      "name": "게임 제목",
+      "short": "짧은 이름",
+      "tags": "태그"
+    }
+  },
+  "libraryPaths": {
+    "csv": {
+      "hint": "자동으로 정해져요: ‘게임 폴더’/filelist.csv. 파일이 없으면 동기화할 때 만들어져요. 열: 경로, 전체 제목, 짧은 이름.",
+      "label": "CSV 파일",
+      "placeholder": "게임 목록과 제목이 들어 있는 파일"
+    },
+    "gamesDir": {
+      "label": "게임 폴더",
+      "placeholder": "게임이 저장된 기본 폴더"
+    },
+    "imagesDir": {
+      "hint": "자동으로 정해져요: ‘게임 폴더’/images. 직접 바꿀 수도 있어요.",
+      "label": "이미지 폴더",
+      "placeholder": "게임 이미지 폴더"
+    },
+    "title": "폴더와 CSV 파일"
+  },
+  "log": {
+    "close": "로그 닫기",
+    "empty": "아직 아무것도 없어요",
+    "title": "작업 로그"
+  },
+  "main": {
+    "csvProblem": "CSV: {{error}}",
+    "empty": {
+      "description": "하위 폴더까지 모두 스캔해서 게임기의 CSV와 비교해요.",
+      "title": "게임 폴더를 선택하세요"
+    },
+    "readErrors": "읽지 못한 폴더: {{count}}개(자세한 내용은 로그에 있어요)",
+    "startCommand": "다음 명령으로 앱을 실행하세요:"
+  },
+  "panels": {
+    "allGames": "모든 게임",
+    "details": "상세 정보",
+    "folders": "폴더",
+    "hide": "패널 숨기기: {{label}}",
+    "resizeHint": "끌어서 높이를 조절해요. 두 번 클릭하면 초기화돼요. 화살표 키로 경계를 옮길 수 있어요",
+    "resizeLabel": "‘폴더’ 패널과 ‘모든 게임’ 패널의 높이",
+    "show": "패널 보기: {{label}}"
+  },
+  "platforms": {
+    "allPlatforms": "모든 플랫폼",
+    "backTitle": "모든 플랫폼으로 돌아가기(Backspace 또는 Esc)",
+    "breadcrumbs": "현재 위치",
+    "count": "{{count}}{{noun}}",
+    "empty": "아직 게임이 없어요",
+    "hint": "플랫폼을 선택하면 게임이 표시돼요. 화살표 키로 카드를 이동하고 Enter로 열어요.",
+    "title": "플랫폼"
+  },
+  "plural": {
+    "game": {
+      "few": "개의 게임",
+      "many": "개의 게임",
+      "one": "개의 게임",
+      "other": "개의 게임"
+    }
+  },
+  "renameGame": {
+    "checking": "바뀌는 내용을 확인하는 중…",
+    "fileNameHint": "게임 파일과 커버의 새 이름:",
+    "kinds": {
+      "cores": "코어 연결",
+      "csv": "CSV 항목",
+      "game": "게임 파일",
+      "image": "커버",
+      "list": "게임기 목록",
+      "save": "세이브 데이터",
+      "state": "상태 저장",
+      "cover": "자동 생성된 커버를 새 제목으로 다시 그림"
+    },
+    "newTitle": "새 게임 제목",
+    "note": "문제가 생기면 이미 적용된 변경 내용은 되돌려져요. 게임기 목록의 사본은 앱 데이터 폴더에 보관돼요.",
+    "replacements": "바꾼 횟수",
+    "title": "게임 이름 바꾸기",
+    "willBeRenamed": "이름이 바뀔 항목"
+  },
+  "sdCard": {
+    "choosePlatform": "— 플랫폼 선택 —",
+    "contents": "카드 내용",
+    "csvFile": "CSV 파일",
+    "device": "게임기 모델: {{name}}",
+    "imagesDir": "이미지 폴더",
+    "noPlatforms": "카드에서 게임 폴더를 찾지 못했어요.",
+    "noRoot": "카드 루트가 선택되지 않았어요. 상단 바의 ‘SD 카드 선택’을 클릭하면 내용을 보고 플랫폼을 고를 수 있어요.",
+    "notGameFolder": "게임 폴더가 아니에요",
+    "platform": "플랫폼",
+    "selectPlatform": "{{name}} 플랫폼 선택",
+    "systemFolder": "시스템 폴더 — 절대 수정하지 않아요",
+    "title": "SD 카드",
+    "truncated": "일부 폴더는 표시되지 않아요"
+  },
+  "searchResults": {
+    "close": "폴더 트리로 돌아가기",
+    "title": "카드에서 찾은 ‘{{query}}’: {{count}}개"
+  },
+  "settings": {
+    "about": {
+      "license": "라이선스:",
+      "source": "소스 코드:",
+      "title": "정보"
+    },
+    "columns": {
+      "auto": {
+        "column": "기본값({{number}}번째 열)",
+        "path": "기본값(1번째 열)",
+        "unused": "사용 안 함"
+      },
+      "name": "게임 전체 제목이 있는 열",
+      "notFound": "(찾을 수 없음)",
+      "path": "파일 경로가 있는 열",
+      "short": "짧은 이름(camelCase)이 있는 열",
+      "tags": "태그(공백으로 구분)가 있는 열"
+    },
+    "csv": {
+      "delimiter": {
+        "comma": "쉼표(,)",
+        "label": "구분 기호",
+        "semicolon": "세미콜론(;)",
+        "tab": "탭"
+      },
+      "encoding": "인코딩",
+      "fileLabel": "파일(SD 카드에서 플랫폼을 선택하면 설정돼요)",
+      "firstRow": {
+        "data": "데이터(헤더 없음)",
+        "header": "열 제목",
+        "label": "첫 번째 행"
+      },
+      "notSelected": "선택 안 됨",
+      "title": "CSV 파일"
+    },
+    "device": {
+      "hint": "플랫폼, 시스템 폴더, 게임 목록 형식, 도움말은 모델에 따라 달라요. SD 카드를 선택하면 가능한 경우 폴더 구성으로 모델을 알아내요.",
+      "label": "게임기 모델",
+      "title": "게임기"
+    },
+    "donate": {
+      "title": "후원 안내 창",
+      "autoShow": "게임 작업(추가, 삭제, 편집) 후에 가끔 후원 안내 창을 자동으로 표시"
+    },
+    "emulator": {
+      "chosen": "사용 중:",
+      "found": "찾음:",
+      "hint": "비워 두면 {{emulator}}를 자동으로 찾아요. 다른 곳에 설치했다면 여기에서 지정해 주세요.",
+      "label": "에뮬레이터 경로({{emulator}})",
+      "placeholder": "자동으로 찾아요",
+      "title": "에뮬레이터"
+    },
+    "extensions": {
+      "hint": "쉼표로 구분해요. 목록이 비어 있으면 이미지를 제외한 모든 파일이 대상이에요.",
+      "label": "게임 파일 확장자"
+    },
+    "gameFiles": {
+      "hint": "플랫폼, 게임 폴더, 이미지 폴더, CSV 파일은 상단 바의 ‘SD 카드 선택’ 버튼으로 선택해요.",
+      "title": "게임 파일"
+    },
+    "prefix": {
+      "hint": "예: CSV의 경로가 다른 디렉터리를 기준으로 한 상대 경로라면 ‘Games/GBA/’. 접두사로 시작하지 않는 항목은 동기화에서 건드리지 않아요.",
+      "label": "CSV의 경로 접두사",
+      "placeholder": "접두사 없음"
+    },
+    "preview": {
+      "choose": "CSV 파일을 선택하면 내용이 표시돼요.",
+      "count": "(전체 {{total}}개 중 처음 {{shown}}개)",
+      "edit": "CSV 편집",
+      "editHint": "CSV를 편집하려면 먼저 선택한 파일, 구분 기호, 인코딩을 저장해 주세요.",
+      "notExists": "파일이 아직 없어요. 첫 동기화 때 만들어져요.",
+      "saveFirst": "먼저 CSV 설정을 저장해 주세요",
+      "title": "미리 보기"
+    },
+    "title": "설정",
+    "backups": {
+      "title": "백업",
+      "hint": "게임 목록(CSV)과 게임기 목록의 사본은 SD 카드가 아니라 이 컴퓨터에 보관돼요. 카드와 플랫폼마다 폴더가 따로 있고, 파일마다 최근 10개의 사본을 남겨요.",
+      "open": "백업 폴더 열기"
+    },
+    "tour": {
+      "hint": "주요 기능을 차근차근 소개하는 둘러보기예요: SD 카드, 플랫폼, 게임 추가·편집·삭제, 검색.",
+      "restart": "둘러보기 다시 시작",
+      "title": "인터페이스 둘러보기"
+    },
+    "updates": {
+      "available": "{{version}} 버전을 사용할 수 있어요. 창 위쪽의 알림을 확인해 주세요.",
+      "checkNow": "지금 확인",
+      "checkOnStartup": "시작할 때 업데이트 확인",
+      "current": "현재 버전: {{version}}",
+      "failed": "업데이트를 확인하지 못했어요. 인터넷 연결을 확인하고 나중에 다시 시도해 주세요.",
+      "hint": "하루에 최대 한 번, GitHub에서 최신 릴리스를 확인해요.",
+      "latest": "최신 버전을 사용하고 있어요",
+      "title": "업데이트"
+    }
+  },
+  "startTips": {
+    "firmware": {
+      "community": "커뮤니티 자료: {{communityLink}}",
+      "stock": "순정 펌웨어 복구 방법과 기기 정보는 {{firmwareLink}}에서 볼 수 있어요. 이 프로젝트는 제조사와 관련이 없어요. 무엇이든 바꾸기 전에 카드를 백업해 두세요.",
+      "title": "{{device}} 순정 펌웨어",
+      "warning": "{{device}}는 {{cpu}} 프로세서로 작동해요. 다른 휴대용 게임기용으로 만든 커스텀 펌웨어({{firmware}})는 맞지 않으며, 카드를 망가뜨려요."
+    },
+    "sdCard": {
+      "checks": {
+        "text": "다른 카드 리더기와 다른 USB 포트를 써 보고, 카드를 다시 연결해 보세요.",
+        "title": "간단한 확인"
+      },
+      "device": {
+        "linux": "터미널에서 실행:",
+        "macos": "디스크 유틸리티 → 보기 → 모든 기기 보기를 여세요. 카드가 목록에 있지만 마운트되지 않았다면 ‘마운트’를 클릭하세요.",
+        "title": "시스템이 카드를 장치로 인식하는지 확인하기",
+        "windows": "디스크 관리(diskmgmt.msc)를 여세요. 카드가 드라이브 문자 없이 표시되어 있다면 드라이브 문자를 할당하세요."
+      },
+      "dump": {
+        "macosLinux": "dd 명령 또는 macOS에서는",
+        "text": "카드가 장치로는 보이는데 열리지 않는다면, 무엇보다 먼저 카드를 통째로 복사해 두세요. 사본에는 게임, 세이브 데이터, 펌웨어가 그대로 보존돼요.",
+        "title": "먼저 카드 전체의 사본(RAW 덤프) 만들기",
+        "windows": "다음 프로그램의 ‘Read’ 버튼:"
+      },
+      "format": {
+        "format": "SD Association의 공식 도구로 카드를 포맷하세요:",
+        "restore": "그런 다음 저장해 둔 덤프(Win32 Disk Imager의 ‘Write’ 버튼 또는 balenaEtcher)나 순정 펌웨어(순정 펌웨어 도움말 참고)를 다시 기록하세요:",
+        "title": "마지막 수단: 카드 포맷하기(데이터가 사라져요)",
+        "warning": "포맷하면 카드의 모든 데이터가 삭제돼요."
+      },
+      "future": "앞으로를 위해: 기본 제공 카드를 잘 알려진 브랜드의 카드로 바꾸고, 바로 백업해 두세요.",
+      "intro": "저렴한 레트로 게임기에 딸려 오는 카드는 품질이 낮은 경우가 많아서 컴퓨터가 인식하지 못할 수 있어요. 아래 단계를 순서대로 시도해 보세요:",
+      "recover": {
+        "text": "TestDisk는 사라진 파티션을, PhotoRec은 개별 파일을 복구해요:",
+        "title": "손상된 카드에서 파일 복구하기"
+      },
+      "title": "컴퓨터가 SD 카드를 인식하지 못할 때"
+    },
+    "title": "유용한 도움말"
+  },
+  "statusBar": {
+    "csvEntries": "CSV 항목:",
+    "filesFound": "찾은 파일:",
+    "log": "로그",
+    "notInCsv": "CSV에 없음:",
+    "scanning": "스캔 중…",
+    "sync": "동기화:",
+    "syncError": "{{time}}: 오류",
+    "syncNever": "아직 실행 안 함",
+    "syncing": "동기화 중…",
+    "tips": "도움말",
+    "totalGames": "전체 게임:",
+    "totalSize": "게임 전체 크기:"
+  },
+  "sync": {
+    "added": "추가됨:",
+    "backup": "백업:",
+    "comparing": "폴더와 CSV를 비교하는 중…",
+    "done": "동기화 완료",
+    "duplicates": "이미 CSV에 있는 중복:",
+    "duplicatesKept": "(그대로 둬요)",
+    "lists": "게임기의 게임 목록(.lst): 추가 {{added}}, 제거 {{removed}}",
+    "previewNote": "미리 보기 — 아직 아무것도 바뀌지 않았어요.",
+    "removed": "제거됨:",
+    "safety": "게임 파일과 이미지는 삭제되지 않아요. 기록하기 전에 CSV 백업이 만들어져요.",
+    "title": "CSV 동기화",
+    "toAdd": "추가될 새 게임:",
+    "toRemove": "제거될 오래된 항목:",
+    "unchanged": "변경 없음:",
+    "unmanaged": "관리 폴더 밖의 항목(영향 없음):",
+    "upToDate": "CSV가 이미 폴더와 일치해요. 동기화할 필요가 없어요.",
+    "willBeAdded": "추가될 항목",
+    "willBeRemoved": "CSV에서 제거될 항목",
+    "created": "CSV 파일이 아직 없어요. 폴더의 모든 게임을 담아 새로 만들어져요.",
+    "tagsColumnAdded": "태그 열이 없는 행에 빈 태그 열(4번째)이 추가돼요:"
+  },
+  "toasts": {
+    "alreadyMissing": "이미 없음: {{count}}",
+    "csvEntriesRemoved": "제거한 CSV 항목: {{count}}",
+    "csvNotChanged": "CSV는 바뀌지 않았어요: {{reason}}",
+    "deleteFailed": "{{summary}}. 삭제하지 못함: {{count}} ({{rel}}: {{error}})",
+    "deviceDetected": "카드로 게임기를 알아냈어요: {{name}}",
+    "emulatorStarted": "‘{{title}}’을(를) {{emulator}}에서 시작하는 중이에요",
+    "fileDeleted": "‘{{fileName}}’ 파일을 삭제했어요",
+    "fileDeletedCsv": "; CSV에서 항목도 제거했어요",
+    "fileDeletedCsvNotChanged": "; CSV는 바뀌지 않았어요: {{reason}}",
+    "gameAdded": "‘{{title}}’ 게임을 추가했어요",
+    "gameAddedCsvUpdated": "; 기존 CSV 항목을 업데이트했어요",
+    "gameAddedDisc": " (.bin + .cue로 만든 이미지 {{name}})",
+    "gameAddedImage": " (이미지 포함)",
+    "gameRenamed": "게임 이름을 바꿨어요: ‘{{title}}’",
+    "gamesDeleted": "삭제한 게임: {{count}}",
+    "imageDeleted": "이미지를 삭제했어요",
+    "imageSelected": "이미지를 선택했어요",
+    "imageUnlinked": "이미지와 게임의 연결을 해제했어요(선택한 폴더 밖에 있는 파일은 건드리지 않았어요)",
+    "platformSelected": "{{name}} 플랫폼: 이미지와 CSV 경로를 채웠어요",
+    "scanFound": "{{count}} {{noun}}을 찾았어요",
+    "sdRootSelected": "SD 카드 루트를 선택했어요. 플랫폼: {{count}}개",
+    "settingsSaved": "설정을 저장했어요",
+    "syncDone": "동기화 완료: +{{added}}, −{{removed}}",
+    "gameAddedCloneCd": " (CloneCD 세트로 만든 이미지 {{name}})",
+    "gameAddedEcm": " (ECM에서 {{name}} 압축 해제)",
+    "gameAddedZip": " ({{name}}(으)로 압축)",
+    "gameAddedGeneratedCover": " (커버 자동 생성)",
+    "syncCsvCreated": "CSV 파일을 만들었어요",
+    "syncTagsColumn": "태그 열을 추가했어요({{count}}개 행)",
+    "sdRootUnavailable": "이전에 선택한 SD 카드를 사용할 수 없어요. 다시 선택해 주세요.",
+    "sdRootMacAccess": " 시스템 설정 → 개인정보 보호 및 보안 → 파일 및 폴더에서 접근을 허용해 주세요."
+  },
+  "tour": {
+    "back": "이전",
+    "done": "완료",
+    "next": "다음",
+    "position": "{{current}}/{{total}}단계",
+    "skip": "둘러보기 건너뛰기",
+    "steps": {
+      "addGame": {
+        "text": "플랫폼의 게임 파일(설정 → 게임 파일 참고), .zip, 또는 디스크 이미지(.bin + .cue, CloneCD(.ccd + .img + .sub), .ecm)를 추가할 수 있어요. 디스크 이미지는 하나의 .img로 합쳐져요. 커버(PNG, JPG, WEBP)를 넣지 않으면 자동으로 그려 줘요. 태그는 나중에 표에서 설정해요.",
+        "title": "게임 추가하기"
+      },
+      "delete": {
+        "text": "게임을 체크하고 ‘선택 항목 삭제’를 클릭하거나, ‘상세 정보’에서 ‘게임 파일 삭제’를 사용하세요. 게임 파일이 카드에서 삭제되고, CSV 항목도 함께 제거할 수 있어요. 커버와 세이브 데이터는 남아요. 커버는 ‘상세 정보’의 ‘이미지 삭제’로 지울 수 있어요.",
+        "title": "게임 삭제하기"
+      },
+      "edit": {
+        "text": "게임의 제목, 짧은 이름, 태그를 두 번 클릭하세요. Enter로 저장하고 Esc로 취소해요. CSV가 업데이트되고, 제목을 바꾸면 게임 파일, 커버, 세이브 데이터의 이름도 함께 바뀌어요.",
+        "title": "표에서 바로 편집하기"
+      },
+      "platform": {
+        "text": "메인 화면의 플랫폼 카드, ‘플랫폼’ 목록 또는 ‘카드 내용’에서 플랫폼을 선택하세요. 해당 플랫폼의 게임, 표지, filelist.csv가 표에 열려요.",
+        "title": "플랫폼 선택하기"
+      },
+      "sdCard": {
+        "text": "게임기의 카드를 넣고 ‘SD 카드 선택’을 클릭하세요. 카드의 루트, 즉 플랫폼 폴더(FC, GBA, PS…)가 들어 있는 폴더를 선택하면 돼요.",
+        "title": "SD 카드 선택하기"
+      },
+      "search": {
+        "text": "검색란은 카드의 모든 플랫폼 폴더에서 제목, 짧은 이름, 파일 이름, 태그를 찾아요. ↑ / ↓로 결과를 고르고, Enter를 누르면 해당 플랫폼이 열리면서 게임이 선택돼요.",
+        "title": "모든 플랫폼에서 검색하기"
+      }
+    },
+    "waitingForCard": "SD 카드를 선택하면 둘러보기가 이어져요."
+  },
+  "units": {
+    "bytes": "B",
+    "gb": "GB",
+    "kb": "KB",
+    "mb": "MB",
+    "tb": "TB"
+  },
+  "update": {
+    "available": "{{version}} 버전을 사용할 수 있어요",
+    "close": "알림 닫기",
+    "download": "다운로드",
+    "label": "새 버전"
+  },
+  "validation": {
+    "latinOnly": "영문자, 숫자, 공백, 하이픈만 쓸 수 있어요",
+    "nameRequired": "제목을 영문자나 숫자로 입력해 주세요."
+  }
+}

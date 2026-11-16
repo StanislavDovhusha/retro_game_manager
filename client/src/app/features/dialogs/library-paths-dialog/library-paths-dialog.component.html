@@ -1,0 +1,37 @@
+<app-modal [title]="'libraryPaths.title' | translate" (closed)="close()">
+  <div class="space-y-4">
+    <div>
+      <label class="label" for="games-dir">{{ 'libraryPaths.gamesDir.label' | translate }}</label>
+      <div class="flex gap-2">
+        <input id="games-dir" class="input font-mono text-xs" [value]="state.paths().gamesDir" (input)="state.setGamesDir(valueOf($event))"
+          [placeholder]="'libraryPaths.gamesDir.placeholder' | translate" />
+        <button type="button" class="btn" (click)="state.pickFolder('games')"><app-icon name="folder-open" [size]="15" /> {{ 'buttons.browse' | translate }}</button>
+      </div>
+    </div>
+    <div>
+      <label class="label" for="images-dir">{{ 'libraryPaths.imagesDir.label' | translate }}</label>
+      <div class="flex gap-2">
+        <input id="images-dir" class="input font-mono text-xs" [value]="state.paths().imagesDir" (input)="state.patch({ imagesDir: valueOf($event) })"
+          [placeholder]="'libraryPaths.imagesDir.placeholder' | translate" />
+        <button type="button" class="btn" (click)="state.pickFolder('images')"><app-icon name="folder-open" [size]="15" /> {{ 'buttons.browse' | translate }}</button>
+      </div>
+      <p class="muted mt-1 text-xs">{{ 'libraryPaths.imagesDir.hint' | translate }}</p>
+    </div>
+    <div>
+      <label class="label" for="csv-path">{{ 'libraryPaths.csv.label' | translate }}</label>
+      <div class="flex gap-2">
+        <input id="csv-path" class="input font-mono text-xs" [value]="state.paths().csvPath" (input)="state.patch({ csvPath: valueOf($event) })"
+          [placeholder]="'libraryPaths.csv.placeholder' | translate" />
+        <button type="button" class="btn" (click)="state.pickCsv()"><app-icon name="file-spreadsheet" [size]="15" /> {{ 'buttons.browse' | translate }}</button>
+      </div>
+      <p class="muted mt-1 text-xs">{{ 'libraryPaths.csv.hint' | translate }}</p>
+    </div>
+  </div>
+  <div footer class="contents">
+    @if (state.error(); as error) { <span class="mr-auto self-center text-xs text-red-600 dark:text-red-400">{{ error }}</span> }
+    <button type="button" class="btn" (click)="closed.emit()" [disabled]="state.saving()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="state.saving() || !state.paths().gamesDir.trim()">
+      <app-icon [name]="state.saving() ? 'loader' : 'save'" [size]="15" [class.animate-spin]="state.saving()" /> {{ 'buttons.save' | translate }}
+    </button>
+  </div>
+</app-modal>

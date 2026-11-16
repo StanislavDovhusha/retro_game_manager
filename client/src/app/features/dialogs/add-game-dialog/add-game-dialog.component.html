@@ -1,0 +1,81 @@
+<app-modal [title]="'addGame.title' | translate" (closed)="close()">
+  <form class="space-y-4" (submit)="onSubmit($event)">
+    <div>
+      <app-drop-zone [label]="'addGame.gameFile' | translate" [hint]="'addGame.gameHint' | translate" icon="gamepad"
+        [multiple]="true" [picked]="state.games()" [error]="state.gameError()" [disabled]="state.busy()" [autoFocus]="true"
+        (browse)="state.browseGame()" (dropFiles)="state.dropGames($event)" (clear)="state.clearGames()" />
+      @if (state.target(); as target) {
+        <p class="muted mt-1 text-xs">
+          {{ targetLabels[target.kind] | translate }} <span class="font-mono">{{ target.name }}</span>
+          @if (target.inner) { {{ 'addGame.zipInside' | translate }} <span class="font-mono">{{ target.inner }}</span> }
+        </p>
+      }
+      @for (warning of state.gameWarnings(); track warning) { <p class="mt-1 text-xs text-amber-600 dark:text-amber-400">{{ warning }}</p> }
+    </div>
+
+    @if (state.zipOffered()) {
+      <div>
+        <label class="flex w-fit items-start gap-2 {{ state.alreadyZip() ? 'opacity-50' : '' }}"
+          [title]="state.alreadyZip() ? ('addGame.zipAlready' | translate) : ''">
+          <input type="checkbox" class="mt-0.5" [checked]="state.compress()" [disabled]="state.busy() || state.alreadyZip()"
+            aria-describedby="add-compress-hint" (change)="state.setCompress(checkedOf($event))" />
+          <span>{{ 'addGame.compressZip' | translate }}</span>
+        </label>
+        <p id="add-compress-hint" class="muted mt-1 text-xs">{{ (state.alreadyZip() ? 'addGame.zipAlready' : 'addGame.compressZipHint') | translate }}</p>
+      </div>
+    }
+
+    <div>
+      <label class="label" for="add-title">{{ 'addGame.titleLabel' | translate }}</label>
+      <input id="add-title" class="input" appLatinInput [value]="state.title()" maxlength="200" [disabled]="state.busy()" [placeholder]="'addGame.titlePlaceholder' | translate"
+        [attr.aria-invalid]="state.titleError() ? 'true' : null" (input)="state.setTitle(valueOf($event))" />
+      @if (state.titleHasPipe()) {
+        <p class="mt-1 text-xs text-red-600 dark:text-red-400" role="alert">{{ 'addGame.titlePipe' | translate }}</p>
+      } @else if (state.titleError(); as key) {
+        <p class="mt-1 text-xs text-red-600 dark:text-red-400" role="alert">{{ key | translate }}</p>
+      } @else {
+        <p class="muted mt-1 text-xs">{{ 'addGame.titleHint' | translate }}</p>
+      }
+    </div>
+
+    <div>
+      <app-drop-zone [label]="'addGame.imageLabel' | translate" [hint]="'addGame.imageHint' | translate" icon="image-plus"
+        [picked]="state.imageList()" [preview]="state.previewUrl()" [error]="state.imageError()" [disabled]="state.busy()"
+        (browse)="state.browseImage()" (dropFiles)="state.dropImage($event)" (clear)="state.clearImage()" />
+      <p class="muted mt-1 text-xs">
+        @if (state.image(); as image) {
+          @if (state.imageBase()) {
+            {{ 'addGame.imageTarget' | translate }} <span class="font-mono">{{ state.imageBase() }}.{{ extensionOf(image.name) }}</span>
+          } @else {
+            {{ 'addGame.imageNameInvalid' | translate }}
+          }
+        } @else {
+          {{ 'addGame.imageDefault' | translate }}
+        }
+      </p>
+    </div>
+
+    <div>
+      <label class="label" for="add-short">{{ 'fields.shortName' | translate }}</label>
+      <input id="add-short" class="input font-mono text-xs" [value]="state.shortName()" disabled readonly [placeholder]="'addGame.shortPlaceholder' | translate" />
+      <p class="muted mt-1 text-xs">{{ shortHint() | translate }}</p>
+    </div>
+
+    @if (state.busy() && state.phase()) {
+      <div role="status">
+        <p class="muted mb-1 text-xs">{{ state.phase() }}{{ state.progress() < 1 ? ' ' + state.percent() + '%' : '' }}</p>
+        <div class="h-1.5 overflow-hidden rounded bg-shell-200 dark:bg-shell-800">
+          <div class="h-full rounded bg-btn-500 transition-[width]" [style.width.%]="state.percent()"></div>
+        </div>
+      </div>
+    }
+    <button type="submit" hidden></button>
+  </form>
+  <div footer class="contents">
+    @if (state.error(); as error) { <span class="mr-auto max-w-[70%] self-center text-xs text-red-600 dark:text-red-400" role="alert">{{ error }}</span> }
+    <button type="button" class="btn" (click)="closed.emit()" [disabled]="state.busy()">{{ 'buttons.cancel' | translate }}</button>
+    <button type="button" class="btn btn-primary" (click)="submit()" [disabled]="!state.canAdd()">
+      <app-icon [name]="state.busy() ? 'loader' : 'plus'" [size]="15" [class.animate-spin]="state.busy()" /> {{ 'buttons.add' | translate }}
+    </button>
+  </div>
+</app-modal>

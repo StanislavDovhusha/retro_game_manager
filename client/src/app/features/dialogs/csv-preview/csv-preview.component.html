@@ -1,0 +1,31 @@
+<div class="mb-1 flex items-center justify-between gap-2">
+  <p class="label !mb-0">{{ 'settings.preview.title' | translate }}
+    @if (preview(); as data) { {{ 'settings.preview.count' | translate: { shown: data.rows.length, total: data.total } }} }</p>
+  <button type="button" class="btn h-7" (click)="edit.emit()" [disabled]="!csvPath() || !saved()"
+    [attr.title]="!saved() ? ('settings.preview.saveFirst' | translate) : null">
+    <app-icon name="pencil" [size]="14" /> {{ 'settings.preview.edit' | translate }}
+  </button>
+</div>
+@if (csvPath() && !saved()) { <p class="muted mb-2 text-xs">{{ 'settings.preview.editHint' | translate }}</p> }
+@if (loading()) {
+  <p class="muted flex items-center gap-2"><app-icon name="loader" [size]="14" class="animate-spin" /> {{ 'common.readingFile' | translate }}</p>
+}
+@if (error(); as message) { <p class="text-red-600 dark:text-red-400">{{ message }}</p> }
+@if (preview(); as data) {
+  @if (!data.exists) { <p class="muted">{{ 'settings.preview.notExists' | translate }}</p> }
+}
+@if (!csvPath()) { <p class="muted">{{ 'settings.preview.choose' | translate }}</p> }
+@if (preview(); as data) {
+  <div class="max-h-56 overflow-auto rounded-md border border-shell-200 dark:border-shell-800">
+    <table class="w-full text-left font-mono text-xs">
+      <thead class="sticky top-0 bg-shell-100 dark:bg-shell-800"><tr>@for (header of data.headers; track $index) { <th class="whitespace-nowrap px-2 py-1.5">{{ header }}</th> }</tr></thead>
+      <tbody>
+        @for (row of data.rows; track $index) {
+          <tr class="border-t border-shell-200 dark:border-shell-800">
+            @for (header of data.headers; track $index) { <td class="max-w-[16rem] truncate whitespace-nowrap px-2 py-1" [title]="row[$index] ?? ''">{{ row[$index] }}</td> }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

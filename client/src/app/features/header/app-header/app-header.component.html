@@ -1,0 +1,33 @@
+<header class="panel flex flex-wrap items-center gap-2 border-b px-3 py-2">
+  <div class="mr-2 flex items-center gap-2 font-semibold tracking-tight">
+    <span class="grid h-7 w-7 place-items-center rounded-md bg-btn-500 text-xs font-bold text-white">GM</span>
+    <span class="hidden lg:inline">Retro Game Manager</span>
+  </div>
+
+  <button type="button" class="btn btn-primary" data-tour="sd-card" (click)="selectSdCard.emit()" [title]="sdRoot() || ('header.selectSdCardTitle' | translate)">
+    <app-icon name="hard-drive" [size]="15" /> {{ 'buttons.selectSdCard' | translate }}
+  </button>
+
+  <button type="button" class="btn" data-tour="add-game" (click)="addGame.emit()" [disabled]="!gamesDir()"
+    [title]="gamesDir() ? ('header.addGameHint' | translate) : ('header.addGameDisabled' | translate)">
+    <app-icon name="plus" [size]="15" /> {{ 'addGame.title' | translate }}
+  </button>
+
+  <ng-content select="[search]" />
+
+  <div class="ml-auto flex items-center gap-2">
+    <button type="button" class="btn" (click)="scan.emit()" [disabled]="scanning() || (!gamesDir() && !sdRoot())">
+      <app-icon [name]="scanning() ? 'loader' : 'refresh'" [size]="15" [class.animate-spin]="scanning()" /> {{ 'buttons.scan' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary" (click)="sync.emit()" [disabled]="syncing() || !gamesDir()">
+      <app-icon [name]="syncing() ? 'loader' : 'file-spreadsheet'" [size]="15" [class.animate-spin]="syncing()" /> {{ 'header.syncCsv' | translate }}
+    </button>
+
+    <app-language-switcher [current]="lang()" (languageChange)="languageChange.emit($event)" />
+
+    <button type="button" class="btn btn-icon" (click)="toggleTheme.emit()" [attr.aria-label]="'header.toggleTheme' | translate" [title]="'header.toggleTheme' | translate">
+      <app-icon [name]="theme() === 'dark' ? 'sun' : 'moon'" [size]="15" />
+    </button>
+    <button type="button" class="btn" (click)="openSettings.emit()"><app-icon name="settings" [size]="15" /> {{ 'header.settings' | translate }}</button>
+  </div>
+</header>

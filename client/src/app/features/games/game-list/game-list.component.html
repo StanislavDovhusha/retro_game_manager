@@ -1,0 +1,26 @@
+<app-game-list-toolbar [hasGames]="games().length > 0" [allChecked]="allChecked()" [partiallyChecked]="partiallyChecked()" [checkedCount]="checked().size"
+  [hiddenCount]="hiddenChecked()" [selectedDir]="selectedDir()" (toggleAll)="toggleAll()" (clearDir)="clearDir.emit()"
+  (clearChecked)="clearChecked.emit()" (deleteChecked)="deleteChecked.emit()" />
+
+<app-virtual-list [count]="games().length" [rowHeight]="rowHeight" [headerHeight]="headerHeight" [minWidth]="contentWidth()"
+  [resetKey]="resetKey()" [itemKey]="itemKey">
+  <ng-template #header>
+    <app-game-list-header [widths]="widths()" [gridTemplate]="gridTemplate()" [sort]="sort()" (sortBy)="sortBy.emit($event)"
+      (widthChange)="setWidths($event)" (widthCommit)="commitWidths($event)" />
+  </ng-template>
+
+  <ng-template #empty>
+    <p class="muted p-8 text-center">{{ 'gameList.noGames' | translate }}</p>
+  </ng-template>
+
+  <ng-template #row let-i>
+    @let game = games()[i];
+    @if (game) {
+      <app-game-row [game]="game" [gridTemplate]="gridTemplate()" [selected]="game.rel === selectedRel()" [checked]="checked().has(game.rel)"
+        [csvReady]="csvReady()" [version]="version()" [nameQuery]="nameQuery()" [pathQuery]="pathQuery()"
+        [tagsQuery]="tagsQuery()" [edit]="edit()?.rel === game.rel ? edit() : null" (rowSelect)="rowSelect.emit($event)" (checkClick)="onCheck(i, $event)"
+        (editStart)="editStart.emit({ rel: game.rel, field: $event })" (editDraft)="editDraft.emit($event)" (editCommit)="editCommit.emit($event)"
+        (editCancel)="editCancel.emit()" />
+    }
+  </ng-template>
+</app-virtual-list>

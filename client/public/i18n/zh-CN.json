@@ -1,0 +1,671 @@
+{
+  "addGame": {
+    "discTarget": "将由 .bin + .cue 创建镜像：",
+    "errors": {
+      "binNeedsCue": ".bin 文件需要配套的 .cue 文件，请一起选择（将创建 .img 镜像）。",
+      "binRequired": "请添加 .cue 文件对应的 .bin 文件。",
+      "cueRequired": ".bin 文件需要一个描述音轨的 .cue 文件。",
+      "emptyFile": "其中一个文件是空的",
+      "emptyImage": "文件是空的",
+      "extensionNotAllowed": "扩展名 .{{ext}} 不在游戏扩展名列表中（{{extensions}}）。",
+      "imageFormats": "支持的图片格式：PNG、JPG、JPEG、WEBP。",
+      "imageTooLarge": "图片太大（最大 20 MB）。",
+      "isImage": "这是一张图片。请把游戏文件放在第一栏，图片放在第三栏。",
+      "multipleCue": "选择了多个 .cue 文件。请一次添加一个游戏：一个 .cue 及其 .bin 文件。",
+      "onlyDiscFormats": "只能同时添加同一个光盘镜像的各个部分：.bin + .cue、.ccd + .img + .sub，或它们的 .ecm 压缩包。",
+      "tooManyFiles": "文件太多（最多 {{max}} 个）。",
+      "unknownType": "无法识别文件类型。请拖入游戏文件，而不是文件夹。",
+      "multipleCcd": "选择了多个 .ccd 文件。请一次添加一个游戏：一个 .ccd 及其 .img 和 .sub。",
+      "missingFiles": "光盘镜像文件不完整。缺少：{{files}}。.img 或 .bin 也可以是 .ecm 压缩包。",
+      "duplicateFiles": "文件 {{files}} 的数据相同，请只选择其中一个。",
+      "extraFiles": "文件 {{files}} 不属于这个光盘镜像，请将其移除。"
+    },
+    "fileTarget": "文件将保存为",
+    "gameFile": "游戏文件",
+    "gameHint": "将文件或光盘镜像文件组（.bin + .cue、.ccd + .img + .sub、.ecm）拖到这里，或点击“浏览”",
+    "imageDefault": "没有图片时会自动生成封面：在平台配色的包装盒上显示平台名称和游戏名称。之后可以换成你自己的图片。",
+    "imageHint": "将 PNG、JPG、JPEG 或 WEBP 图片拖到这里，或点击“浏览”",
+    "imageLabel": "游戏图片（可选）",
+    "imageNameInvalid": "无法用这个名称生成文件名，请修改名称。",
+    "imageTarget": "将保存到图片文件夹，文件名为",
+    "progress": {
+      "copying": "正在复制文件并更新 CSV…",
+      "creatingDisc": "正在创建 .img 镜像并更新 CSV…",
+      "uploadingFile": "正在上传第 {{current}} 个文件，共 {{total}} 个…",
+      "uploadingGame": "正在上传游戏文件…",
+      "uploadingImage": "正在上传图片…",
+      "copyingFile": "正在复制游戏文件…",
+      "unpacking": "正在解压 ECM…",
+      "building": "正在生成 IMG…",
+      "finishing": "正在保存封面并更新 CSV…",
+      "compressing": "正在压缩为 .zip 并更新 CSV…",
+      "compressingFile": "正在将游戏文件压缩为 .zip…"
+    },
+    "shortNeedsLetter": "名称至少需要包含一个字母或数字。",
+    "shortPlaceholder": "自动生成",
+    "shortReadonly": "camelCase 格式，不含空格；不可编辑。",
+    "title": "添加游戏",
+    "titleHint": "根据文件名自动填写，可以修改。名称不能重复。",
+    "titleLabel": "游戏名称",
+    "titlePipe": "名称不能包含“|”字符：游戏机用它来分隔游戏列表中的字段。",
+    "titlePlaceholder": "例如：The Legend of Zelda",
+    "cloneCdTarget": "CloneCD 文件组中的 .img 将保存为",
+    "ecmTarget": "ECM 压缩包将解压为",
+    "compressZip": "压缩为 .zip",
+    "compressZipHint": "游戏文件会被打包成以游戏名称命名的压缩包，包内的文件名保持不变。",
+    "zipAlready": "该文件已经是 ZIP 压缩包，无需再压缩。",
+    "zipTarget": "将打包为",
+    "zipInside": "内含"
+  },
+  "buttons": {
+    "add": "添加",
+    "browse": "浏览",
+    "cancel": "取消",
+    "clear": "清除",
+    "close": "关闭",
+    "collapse": "收起",
+    "delete": "删除",
+    "dismiss": "关闭",
+    "done": "完成",
+    "expand": "展开",
+    "rename": "重命名",
+    "save": "保存",
+    "scan": "扫描",
+    "selectGamesFolder": "选择游戏文件夹",
+    "selectSdCard": "选择 SD 卡",
+    "sync": "同步"
+  },
+  "common": {
+    "andMore": "…以及另外 {{count}} 个",
+    "loading": "正在加载…",
+    "of": "/",
+    "readingFile": "正在读取文件…"
+  },
+  "csvEditor": {
+    "addRow": "添加行",
+    "cellLabel": "{{column}}，第 {{row}} 行",
+    "deleteRow": "删除第 {{row}} 行",
+    "duplicate": "重复",
+    "duplicatesHint": "根据“{{column}}”列检测重复项，保留第一条",
+    "duplicatesRemoved": "已移除重复项：{{count}}。点击“保存”将更改写入文件。",
+    "filterPlaceholder": "筛选行",
+    "firstColumn": "第一列",
+    "keyMarker": "（键）",
+    "missingAll": "所有条目都将被移除。请确认游戏文件夹可以访问（例如磁盘或 SD 卡已连接）。",
+    "missingConfirm": "删除条目（{{count}}）",
+    "missingIntro": "将从 CSV 中移除的条目：",
+    "missingNote": "在游戏文件夹中没有找到它们对应的游戏文件。磁盘上的文件和文件夹不会被删除；更改前会创建 CSV 备份。",
+    "missingTitle": "要移除缺失游戏的条目吗？",
+    "noMissing": "没有缺失的游戏：所有条目都找到了对应文件。",
+    "noMissingToast": "没有缺失的游戏，所有 CSV 条目都有对应文件。",
+    "noRows": "没有行",
+    "removeDuplicates": "移除重复项",
+    "removeDuplicatesCount": "移除重复项（{{count}}）",
+    "removeMissing": "移除缺失的游戏",
+    "removeMissingDirty": "请先保存更改：检查针对的是磁盘上的文件",
+    "removeMissingHint": "查找没有对应游戏文件的条目，并将其从 CSV 中移除（磁盘上的文件不会被删除）",
+    "removed": "已移除条目：{{count}}。已在 CSV 文件旁创建备份。",
+    "removedToast": "已从 CSV 中移除缺失游戏的条目：{{count}}",
+    "saved": "已保存。已在 CSV 文件旁创建备份。",
+    "savedToast": "CSV 已保存",
+    "showMore": "显示更多（{{count}}）",
+    "summary": "行数：{{count}} · 按“{{column}}”列查找重复项",
+    "summaryFiltered": "行数：{{count}}，已显示：{{shown}} · 按“{{column}}”列查找重复项",
+    "title": "编辑 CSV",
+    "unsaved": "有未保存的更改",
+    "unsavedConfirm": "你有未保存的更改。要不保存就关闭编辑器吗？"
+  },
+  "deleteGame": {
+    "alsoCsv": "同时从 CSV 中移除该游戏的条目（更改前会创建备份）",
+    "csvNotConfigured": "（未配置 CSV）",
+    "descriptionGame": "该文件将从磁盘中永久删除。",
+    "descriptionImage": "只会删除图片，游戏文件保持不变。",
+    "name": "名称",
+    "path": "路径",
+    "titleGame": "要删除游戏文件吗？",
+    "titleImage": "要删除图片吗？"
+  },
+  "deleteGames": {
+    "alsoCsv": "同时从 CSV 中移除这些游戏的条目（更改前会创建备份）",
+    "confirm": "删除（{{count}}）",
+    "intro": "以下内容将从磁盘中永久删除：",
+    "skipNote": "已不存在的文件将被跳过。",
+    "title": "要删除所选游戏吗？"
+  },
+  "donate": {
+    "beer": {
+      "1": "请投币以继续……或者更棒一点，请作者喝一杯。",
+      "2": "作者只剩 1 点 HP 了。一杯啤酒就能回满血。",
+      "3": "成就解锁：慷慨的玩家。奖励：作者永远的感激，外加一杯冰啤酒。",
+      "4": "没有内购，没有开箱抽奖。只是给做出这个工具的人，实实在在的一杯啤酒。"
+    },
+    "button": "支持本项目",
+    "copied": "已复制！",
+    "copy": "复制",
+    "crypto": {
+      "address": "钱包地址",
+      "goTo": "显示 {{coin}}",
+      "keysHint": "加密货币钱包：使用 ← 和 → 键切换",
+      "next": "下一个币种",
+      "position": "{{current}} / {{total}}",
+      "prev": "上一个币种",
+      "qr": "{{coin}} 地址的二维码",
+      "slide": "{{coin}}，{{current}} / {{total}}",
+      "title": "加密货币",
+      "warning": "请仅通过 {{network}} 发送 {{coin}}。使用其他网络可能导致资金丢失。"
+    },
+    "dev": {
+      "1": "每一笔捐赠，都会让项目的开发速度 +1。",
+      "2": "帮项目升个级吧：新功能就在下一关等着。",
+      "3": "Bug 最怕捐赠。每一笔都是又一场和代码的 Boss 战的经费。",
+      "4": "正在存档……有你的支持，这个项目就不会 Game Over。"
+    },
+    "kinds": {
+      "beer": "请作者喝一杯 🍺",
+      "dev": "支持项目继续开发 🚀"
+    },
+    "links": {
+      "github": "在 GitHub 上点 Star",
+      "kofi": "在 Ko-fi 上支持"
+    },
+    "title": "支持本项目"
+  },
+  "dropZone": {
+    "browseLabel": "{{label}}：通过系统对话框选择",
+    "clear": "移除文件",
+    "summary": "文件：{{count}} · {{size}}"
+  },
+  "errors": {
+    "network": "无法连接到服务器。请确认应用正在运行。",
+    "server": "服务器错误（{{status}}）",
+    "upload": "上传出错（{{status}}）"
+  },
+  "fields": {
+    "shortName": "短名称"
+  },
+  "foldersPanel": {
+    "gamesDir": "游戏文件夹",
+    "notSelected": "未选择"
+  },
+  "gameCard": {
+    "actions": {
+      "chooseImage": "选择图片",
+      "deleteGame": "删除游戏文件",
+      "deleteImage": "删除图片",
+      "play": "在模拟器中运行",
+      "rename": "重命名游戏",
+      "replaceImage": "更换图片"
+    },
+    "coverAlt": "封面：{{title}}",
+    "csv": {
+      "missing": "没有条目，需要同步",
+      "notConfigured": "未配置 CSV",
+      "present": "已有条目"
+    },
+    "csvTitleFallback": "—（使用文件名）",
+    "empty": "选择一个游戏以查看详情",
+    "emulator": {
+      "download": "下载 {{emulator}}",
+      "notInstalled": "这台电脑上没有安装 {{emulator}}。"
+    },
+    "fields": {
+      "csv": "CSV",
+      "csvTitle": "CSV 中的名称",
+      "extension": "扩展名",
+      "file": "文件",
+      "fullPath": "完整路径",
+      "image": "图片",
+      "modified": "修改时间",
+      "relativePath": "相对路径",
+      "shortName": "短名称",
+      "size": "大小",
+      "tags": "标签"
+    },
+    "image": {
+      "auto": "自动找到",
+      "manual": "手动选择",
+      "none": "无"
+    }
+  },
+  "gameList": {
+    "ascending": "升序",
+    "clearSelection": "取消选择",
+    "columns": {
+      "csv": "CSV",
+      "game": "游戏",
+      "path": "路径",
+      "size": "大小",
+      "tags": "标签"
+    },
+    "deleteSelected": "删除所选",
+    "deleteSelectedCount": "删除所选（{{count}}）",
+    "descending": "降序",
+    "empty": "（空）",
+    "entryWithoutTitles": "没有名称的条目",
+    "folder": "文件夹：",
+    "hiddenByFilter": "（被筛选隐藏：{{count}}）",
+    "noData": "无数据",
+    "noGames": "没有找到游戏。请更改筛选条件或选择其他文件夹。",
+    "noTags": "无标签",
+    "notInCsv": "不在 CSV 中",
+    "resizeHint": "拖动以调整宽度，双击恢复默认宽度",
+    "resizeLabel": "“{{label}}”列的宽度：{{width}} 像素。用左右方向键调整宽度",
+    "selectAll": "全选",
+    "selectRow": "选择“{{title}}”",
+    "selected": "已选择：",
+    "showAll": "显示全部",
+    "sort": "排序",
+    "sortTitle": "排序：{{direction}}，点击切换",
+    "unsupportedTitle": "名称包含不支持的字符。请重命名游戏。"
+  },
+  "gameThumb": {
+    "noImage": "无图片"
+  },
+  "gameTree": {
+    "noFiles": "没有游戏文件",
+    "nothingFound": "未找到任何内容"
+  },
+  "header": {
+    "addGameDisabled": "请先选择游戏文件夹",
+    "addGameHint": "将游戏复制到游戏文件夹并添加到 CSV",
+    "language": "界面语言",
+    "search": {
+      "clear": "清除筛选",
+      "found": "找到：",
+      "foundHint": "当前打开的文件夹中符合筛选条件的游戏",
+      "nothing": "卡上没有找到游戏",
+      "placeholder": "搜索游戏",
+      "results": "在卡上找到的游戏",
+      "scope": {
+        "all": "全部",
+        "dir": "按文件夹名",
+        "ext": "按扩展名",
+        "name": "按文件名",
+        "path": "按完整路径",
+        "tags": "按标签"
+      },
+      "scopeHint": "当前文件夹筛选的搜索范围；输入框下方的列表始终搜索所有平台的名称、短名称和标签",
+      "scopeLabel": "搜索范围",
+      "searching": "正在搜索所有平台…",
+      "showAll": "显示全部结果（{{count}}）",
+      "unreadable": "部分文件夹无法读取：{{folders}}",
+      "updating": "正在更新结果…"
+    },
+    "selectSdCardTitle": "选择 SD 卡根目录",
+    "settings": "设置",
+    "syncCsv": "同步 CSV",
+    "toggleTheme": "切换主题"
+  },
+  "inlineEdit": {
+    "edit": "编辑：{{field}}",
+    "errors": {
+      "emptyName": "名称不能为空。",
+      "emptyShort": "短名称不能为空。",
+      "pipe": "不能使用“|”字符：游戏机用它来分隔游戏列表中的字段。",
+      "shortSpace": "短名称不能包含空格。",
+      "tagTooLong": "标签太长（最多 {{max}} 个字符）：“{{tag}}”。",
+      "renameFirst": "请先重命名游戏：其名称包含不支持的字符。"
+    },
+    "hints": {
+      "name": "游戏文件、封面和存档也会一并重命名。Enter 保存，Esc 取消。",
+      "short": "一个单词，不含空格。Enter 保存，Esc 取消。",
+      "tags": "标签之间用空格分隔，标签本身不能包含空格。Enter 保存，Esc 取消。"
+    },
+    "labels": {
+      "name": "游戏名称",
+      "short": "短名称",
+      "tags": "标签"
+    }
+  },
+  "libraryPaths": {
+    "csv": {
+      "hint": "自动生成：“游戏文件夹”/filelist.csv。如果文件不存在，会在同步时创建。列：路径、完整名称、短名称。",
+      "label": "CSV 文件",
+      "placeholder": "保存游戏列表及其名称的文件"
+    },
+    "gamesDir": {
+      "label": "游戏文件夹",
+      "placeholder": "存放游戏的主文件夹"
+    },
+    "imagesDir": {
+      "hint": "自动生成：“游戏文件夹”/images。也可以手动修改。",
+      "label": "图片文件夹",
+      "placeholder": "游戏图片文件夹"
+    },
+    "title": "文件夹和 CSV 文件"
+  },
+  "log": {
+    "close": "关闭日志",
+    "empty": "这里还没有内容",
+    "title": "操作日志"
+  },
+  "main": {
+    "csvProblem": "CSV：{{error}}",
+    "empty": {
+      "description": "管理器会扫描该文件夹及其所有子文件夹，并与游戏机的 CSV 进行比对。",
+      "title": "选择游戏文件夹"
+    },
+    "readErrors": "无法读取的文件夹：{{count}} 个（详见日志）",
+    "startCommand": "请使用以下命令启动应用："
+  },
+  "panels": {
+    "allGames": "所有游戏",
+    "details": "详情",
+    "folders": "文件夹",
+    "hide": "隐藏面板：{{label}}",
+    "resizeHint": "拖动以调整高度，双击重置。方向键可移动分隔线",
+    "resizeLabel": "“文件夹”和“所有游戏”面板的高度",
+    "show": "显示面板：{{label}}"
+  },
+  "platforms": {
+    "allPlatforms": "所有平台",
+    "backTitle": "返回所有平台（Backspace 或 Esc）",
+    "breadcrumbs": "当前位置",
+    "count": "{{count}} {{noun}}",
+    "empty": "还没有游戏",
+    "hint": "选择一个平台即可查看其游戏。用方向键在卡片之间移动，按 Enter 打开。",
+    "title": "平台"
+  },
+  "plural": {
+    "game": {
+      "few": "个游戏",
+      "many": "个游戏",
+      "one": "个游戏",
+      "other": "个游戏"
+    }
+  },
+  "renameGame": {
+    "checking": "正在检查将会更改的内容…",
+    "fileNameHint": "游戏文件和封面将命名为",
+    "kinds": {
+      "cores": "核心关联",
+      "csv": "CSV 条目",
+      "game": "游戏文件",
+      "image": "封面",
+      "list": "游戏机列表",
+      "save": "存档",
+      "state": "即时存档",
+      "cover": "自动生成的封面已按新名称重新绘制"
+    },
+    "newTitle": "新的游戏名称",
+    "note": "如果中途出错，已做的更改会被撤销。游戏机列表的副本保存在应用的数据文件夹中。",
+    "replacements": "替换数",
+    "title": "重命名游戏",
+    "willBeRenamed": "将被重命名"
+  },
+  "sdCard": {
+    "choosePlatform": "— 选择平台 —",
+    "contents": "卡内容",
+    "csvFile": "CSV 文件",
+    "device": "游戏机型号：{{name}}",
+    "imagesDir": "图片文件夹",
+    "noPlatforms": "卡上没有找到游戏文件夹。",
+    "noRoot": "尚未选择卡的根目录。点击顶部栏的“选择 SD 卡”，即可查看其内容并选择平台。",
+    "notGameFolder": "不是游戏文件夹",
+    "platform": "平台",
+    "selectPlatform": "选择平台 {{name}}",
+    "systemFolder": "系统文件夹，绝不会被修改",
+    "title": "SD 卡",
+    "truncated": "未显示全部文件夹"
+  },
+  "searchResults": {
+    "close": "返回文件夹树",
+    "title": "卡上的“{{query}}”：{{count}} 个"
+  },
+  "settings": {
+    "about": {
+      "license": "许可证：",
+      "source": "源代码：",
+      "title": "关于"
+    },
+    "columns": {
+      "auto": {
+        "column": "默认（第 {{number}} 列）",
+        "path": "默认（第 1 列）",
+        "unused": "不使用"
+      },
+      "name": "游戏完整名称所在的列",
+      "notFound": "（未找到）",
+      "path": "文件路径所在的列",
+      "short": "短名称（camelCase）所在的列",
+      "tags": "标签（以空格分隔）所在的列"
+    },
+    "csv": {
+      "delimiter": {
+        "comma": "逗号 (,)",
+        "label": "分隔符",
+        "semicolon": "分号 (;)",
+        "tab": "制表符"
+      },
+      "encoding": "编码",
+      "fileLabel": "文件（在 SD 卡上选择平台后自动设置）",
+      "firstRow": {
+        "data": "数据（无表头）",
+        "header": "列标题",
+        "label": "第一行"
+      },
+      "notSelected": "未选择",
+      "title": "CSV 文件"
+    },
+    "device": {
+      "hint": "平台、系统文件夹、游戏列表格式和提示都取决于型号。选择 SD 卡时，会尽可能根据卡上的文件夹识别型号。",
+      "label": "游戏机型号",
+      "title": "游戏机"
+    },
+    "donate": {
+      "title": "支持弹窗",
+      "autoShow": "在对游戏进行操作（添加、删除、编辑）后，偶尔自动显示支持弹窗"
+    },
+    "emulator": {
+      "chosen": "当前使用：",
+      "found": "已找到：",
+      "hint": "留空则自动查找 {{emulator}}。如果它安装在其他位置，请在这里指定。",
+      "label": "模拟器路径（{{emulator}}）",
+      "placeholder": "自动查找",
+      "title": "模拟器"
+    },
+    "extensions": {
+      "hint": "以逗号分隔。列表为空表示除图片外的所有文件。",
+      "label": "游戏文件扩展名"
+    },
+    "gameFiles": {
+      "hint": "平台、游戏文件夹、图片文件夹和 CSV 文件通过顶部栏的“选择 SD 卡”按钮来选择。",
+      "title": "游戏文件"
+    },
+    "prefix": {
+      "hint": "例如“Games/GBA/”（当 CSV 中的路径相对于另一个目录时）。不以该前缀开头的条目不会被同步改动。",
+      "label": "CSV 中的路径前缀",
+      "placeholder": "无前缀"
+    },
+    "preview": {
+      "choose": "选择一个 CSV 文件以查看其内容。",
+      "count": "（共 {{total}} 行，显示前 {{shown}} 行）",
+      "edit": "编辑 CSV",
+      "editHint": "要编辑 CSV，请先保存所选的文件、分隔符和编码。",
+      "notExists": "文件尚不存在，将在首次同步时创建。",
+      "saveFirst": "请先保存 CSV 设置",
+      "title": "预览"
+    },
+    "title": "设置",
+    "backups": {
+      "title": "备份",
+      "hint": "游戏列表（CSV）和游戏机列表的副本保存在这台电脑上，而不是 SD 卡上：每张卡、每个平台各有一个文件夹，每个文件保留最近 10 份副本。",
+      "open": "打开备份文件夹"
+    },
+    "tour": {
+      "hint": "逐步介绍主要功能：SD 卡、平台、添加、编辑和删除游戏，以及搜索。",
+      "restart": "重新开始引导",
+      "title": "界面引导"
+    },
+    "updates": {
+      "available": "版本 {{version}} 已可用：请查看窗口顶部的通知。",
+      "checkNow": "立即检查",
+      "checkOnStartup": "启动时检查更新",
+      "current": "当前版本：{{version}}",
+      "failed": "无法检查更新。请检查网络连接，稍后再试。",
+      "hint": "每天最多一次：从 GitHub 查询最新版本。",
+      "latest": "已是最新版本",
+      "title": "更新"
+    }
+  },
+  "startTips": {
+    "firmware": {
+      "community": "社区资源：{{communityLink}}",
+      "stock": "原厂固件的恢复方法和设备信息请见 {{firmwareLink}}。本项目与制造商无关。在做任何更改之前，请先备份存储卡。",
+      "title": "{{device}} 的原厂固件",
+      "warning": "{{device}} 使用的是 {{cpu}} 处理器。为其他掌机制作的自制固件（{{firmware}}）并不适用，而且会损坏存储卡。"
+    },
+    "sdCard": {
+      "checks": {
+        "text": "换一个读卡器和 USB 接口试试，并重新插入存储卡。",
+        "title": "简单检查"
+      },
+      "device": {
+        "linux": "在终端中运行：",
+        "macos": "打开“磁盘工具”→“显示”→“显示所有设备”。如果卡已列出但未装载，请点击“装载”。",
+        "title": "检查系统是否将存储卡识别为设备",
+        "windows": "打开“磁盘管理”（diskmgmt.msc）。如果卡已列出但没有盘符，请为它分配一个。"
+      },
+      "dump": {
+        "macosLinux": "使用 dd 命令，或在 macOS 上使用",
+        "text": "如果存储卡能作为设备被识别但无法打开，请先把整张卡完整复制下来。副本会保留游戏、存档和固件。",
+        "title": "先为存储卡制作完整副本（RAW 镜像）",
+        "windows": "使用以下软件的“Read”按钮："
+      },
+      "format": {
+        "format": "使用 SD Association 的官方工具格式化存储卡：",
+        "restore": "然后写回之前保存的镜像（Win32 Disk Imager 的“Write”按钮，或 balenaEtcher），或者写入原厂固件（参见关于原厂固件的提示）：",
+        "title": "最后的办法：格式化存储卡（数据将丢失）",
+        "warning": "格式化会删除存储卡上的所有数据。"
+      },
+      "future": "今后的建议：把随机附带的存储卡换成知名品牌的卡，并立即做好备份。",
+      "intro": "廉价复古游戏机附带的存储卡质量往往不佳，电脑可能识别不到。请按顺序尝试以下步骤：",
+      "recover": {
+        "text": "TestDisk 可恢复丢失的分区，PhotoRec 可恢复单个文件：",
+        "title": "从损坏的存储卡中恢复文件"
+      },
+      "title": "电脑识别不到 SD 卡"
+    },
+    "title": "实用提示"
+  },
+  "statusBar": {
+    "csvEntries": "CSV 条目：",
+    "filesFound": "找到的文件：",
+    "log": "日志",
+    "notInCsv": "不在 CSV 中：",
+    "scanning": "正在扫描…",
+    "sync": "同步：",
+    "syncError": "{{time}}：出错",
+    "syncNever": "尚未运行",
+    "syncing": "正在同步…",
+    "tips": "提示",
+    "totalGames": "游戏总数：",
+    "totalSize": "游戏总大小："
+  },
+  "sync": {
+    "added": "已添加：",
+    "backup": "备份：",
+    "comparing": "正在将文件夹与 CSV 进行比对…",
+    "done": "同步完成",
+    "duplicates": "CSV 中已有的重复项：",
+    "duplicatesKept": "（保持原样）",
+    "lists": "游戏机的游戏列表（.lst）：添加 {{added}}，移除 {{removed}}",
+    "previewNote": "预览：尚未做任何更改。",
+    "removed": "已移除：",
+    "safety": "游戏文件和图片不会被删除。写入前会创建 CSV 备份。",
+    "title": "CSV 同步",
+    "toAdd": "将添加的新游戏：",
+    "toRemove": "将移除的过时条目：",
+    "unchanged": "未更改：",
+    "unmanaged": "受管理文件夹之外的条目（不受影响）：",
+    "upToDate": "CSV 已与文件夹一致，无需同步。",
+    "willBeAdded": "将添加",
+    "willBeRemoved": "将从 CSV 中移除",
+    "created": "CSV 文件尚不存在，将创建并写入文件夹中的所有游戏。",
+    "tagsColumnAdded": "将为缺少标签列的行添加空的标签列（第 4 列）："
+  },
+  "toasts": {
+    "alreadyMissing": "原本就不存在：{{count}}",
+    "csvEntriesRemoved": "已移除 CSV 条目：{{count}}",
+    "csvNotChanged": "CSV 未更改：{{reason}}",
+    "deleteFailed": "{{summary}}。未能删除：{{count}}（{{rel}}：{{error}}）",
+    "deviceDetected": "已根据存储卡识别出游戏机：{{name}}",
+    "emulatorStarted": "正在 {{emulator}} 中启动“{{title}}”",
+    "fileDeleted": "已删除文件“{{fileName}}”",
+    "fileDeletedCsv": "；条目已从 CSV 中移除",
+    "fileDeletedCsvNotChanged": "；CSV 未更改：{{reason}}",
+    "gameAdded": "已添加游戏“{{title}}”",
+    "gameAddedCsvUpdated": "；已更新 CSV 中的现有条目",
+    "gameAddedDisc": "（由 .bin + .cue 生成镜像 {{name}}）",
+    "gameAddedImage": "，含图片",
+    "gameRenamed": "游戏已重命名：“{{title}}”",
+    "gamesDeleted": "已删除游戏：{{count}}",
+    "imageDeleted": "图片已删除",
+    "imageSelected": "已选择图片",
+    "imageUnlinked": "已取消图片与游戏的关联（位于所选文件夹之外的文件未被改动）",
+    "platformSelected": "平台 {{name}}：已填入图片和 CSV 的路径",
+    "scanFound": "找到 {{count}} {{noun}}",
+    "sdRootSelected": "已选择 SD 卡根目录。平台数：{{count}}",
+    "settingsSaved": "设置已保存",
+    "syncDone": "同步完成：+{{added}}，−{{removed}}",
+    "gameAddedCloneCd": "（由 CloneCD 文件组生成镜像 {{name}}）",
+    "gameAddedEcm": "（{{name}} 由 ECM 解压而来）",
+    "gameAddedZip": "（已打包为 {{name}}）",
+    "gameAddedGeneratedCover": "，封面已自动生成",
+    "syncCsvCreated": "已创建 CSV 文件",
+    "syncTagsColumn": "已为 {{count}} 行添加标签列",
+    "sdRootUnavailable": "之前选择的 SD 卡不可用。请重新选择。",
+    "sdRootMacAccess": "请在“系统设置 → 隐私与安全性 → 文件和文件夹”中允许访问。"
+  },
+  "tour": {
+    "back": "上一步",
+    "done": "完成",
+    "next": "下一步",
+    "position": "第 {{current}} 步，共 {{total}} 步",
+    "skip": "跳过引导",
+    "steps": {
+      "addGame": {
+        "text": "可以添加该平台的任意游戏文件（见 设置 → 游戏文件）、.zip，或光盘镜像：.bin + .cue、CloneCD（.ccd + .img + .sub）或 .ecm，它们会被转换成单个 .img。可以添加封面（PNG、JPG、WEBP），否则会自动为你绘制一张。标签稍后在表格中设置。",
+        "title": "添加游戏"
+      },
+      "delete": {
+        "text": "勾选游戏后点击“删除所选”，或在“详情”中使用“删除游戏文件”。游戏文件会从卡上删除，也可以同时移除它的 CSV 条目。封面和存档会保留：封面可在“详情”中用“删除图片”删除。",
+        "title": "删除游戏"
+      },
+      "edit": {
+        "text": "双击游戏的名称、短名称或标签即可编辑。Enter 保存，Esc 取消。CSV 会随之更新；修改名称时，游戏文件、封面和存档也会一并重命名。",
+        "title": "直接在表格中编辑"
+      },
+      "platform": {
+        "text": "在主屏幕的平台卡片、“平台”列表或“存储卡内容”中选择一个平台。该平台的游戏、封面和 filelist.csv 会在表格中打开。",
+        "title": "选择平台"
+      },
+      "sdCard": {
+        "text": "插入游戏机的存储卡，然后点击“选择 SD 卡”。选择卡的根目录，也就是包含各平台文件夹（FC、GBA、PS…）的那个文件夹。",
+        "title": "选择 SD 卡"
+      },
+      "search": {
+        "text": "搜索框会在卡上的所有平台文件夹中查找：名称、短名称、文件名和标签。用 ↑ / ↓ 选择结果，按 Enter 打开对应平台并选中该游戏。",
+        "title": "搜索所有平台"
+      }
+    },
+    "waitingForCard": "选择 SD 卡后，引导会继续。"
+  },
+  "units": {
+    "bytes": "B",
+    "gb": "GB",
+    "kb": "KB",
+    "mb": "MB",
+    "tb": "TB"
+  },
+  "update": {
+    "available": "版本 {{version}} 已可用",
+    "close": "关闭通知",
+    "download": "下载",
+    "label": "新版本"
+  },
+  "validation": {
+    "latinOnly": "只能使用英文字母、数字、空格和连字符",
+    "nameRequired": "请用英文字母或数字输入名称。"
+  }
+}

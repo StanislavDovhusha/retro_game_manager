@@ -1,0 +1,19 @@
+<ng-content select="[top]" />
+<main class="flex min-h-0 flex-1">
+  <aside id="panel-left" class="panel flex h-full w-80 shrink-0 flex-col border-r max-md:hidden max-lg:w-64"><ng-content select="[left]" /></aside>
+  <section class="panel flex min-w-0 flex-1 flex-col border-inherit bg-shell-50 dark:bg-shell-950"><ng-content select="[center]" /></section>
+  <div class="slide max-lg:hidden" [attr.data-open]="rightOpen()" [attr.aria-hidden]="rightHidden()" [attr.inert]="rightHidden() ? '' : null">
+    <aside id="panel-right" class="panel h-full w-80 border-l"><ng-content select="[right]" /></aside>
+  </div>
+  <!-- Right tab -->
+  <div class="panel relative z-10 flex w-6 shrink-0 items-start justify-center border-l pt-3 max-lg:hidden">
+    <button type="button" (click)="rightPanelToggle.emit()" [attr.aria-expanded]="rightOpen()" aria-controls="panel-right"
+      [title]="(rightHidden() ? 'panels.show' : 'panels.hide') | translate: { label: ('panels.details' | translate) }"
+      class="flex w-6 flex-col items-center gap-2 rounded-l-md border-y border-l border-shell-300 bg-shell-100 py-3 text-shell-600 hover:bg-shell-200 dark:border-shell-700 dark:bg-shell-800 dark:text-shell-300 dark:hover:bg-shell-700">
+      <app-icon [name]="rightHidden() ? 'chevron-left' : 'chevron-right'" [size]="14" />
+      <span class="text-[11px] font-medium [writing-mode:vertical-rl]">{{ 'panels.details' | translate }}</span>
+    </button>
+  </div>
+</main>
+<ng-content select="[drawer]" />
+<ng-content select="[bottom]" />

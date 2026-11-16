@@ -1,0 +1,40 @@
+<div class="flex h-full min-h-0 flex-col border-inherit">
+  <!-- Folders: the SD card and the games folder. It scrolls when it is shorter than its content. -->
+  <div #foldersBlock id="panel-folders" role="region" [attr.aria-label]="'panels.folders' | translate" class="min-h-0 overflow-y-auto border-inherit" [style.flex]="foldersFlex()" [style.min-height.px]="layout.gamesOpen() ? minFolders : null">
+    <app-sd-card-panel data-tour="platform" />
+    <div class="border-b border-inherit px-3 py-2">
+      <p class="muted text-xs">{{ 'foldersPanel.gamesDir' | translate }}</p>
+      <p class="break-all font-mono text-xs {{ settings()?.gamesDir ? '' : 'muted' }}" [title]="settings()?.gamesDir ?? ''">{{ settings()?.gamesDir || ('foldersPanel.notSelected' | translate) }}</p>
+    </div>
+  </div>
+
+  <!-- Splitter: moves the border between "Folders" and "All games" (only while "All games" is open). -->
+  @if (layout.gamesOpen()) {
+    <div role="separator" aria-orientation="horizontal" tabindex="0" aria-controls="panel-folders panel-games"
+      [attr.aria-label]="'panels.resizeLabel' | translate" [attr.aria-valuenow]="percent()" [attr.aria-valuemin]="minPercent" [attr.aria-valuemax]="maxPercent"
+      [title]="'panels.resizeHint' | translate"
+      (pointerdown)="onSplitDown($event)" (pointermove)="onSplitMove($event)" (pointerup)="onSplitUp()" (pointercancel)="onSplitUp()"
+      (dblclick)="layout.resetSplit()" (keydown)="onSplitKey($event)"
+      class="group relative z-10 -my-0.5 flex h-2 shrink-0 cursor-row-resize touch-none select-none items-center">
+      <span class="h-px w-full bg-shell-200 group-hover:h-0.5 group-hover:bg-btn-500 group-focus-visible:h-0.5 group-focus-visible:bg-btn-500 dark:bg-shell-700
+        {{ dragging() ? '!h-0.5 !bg-btn-500' : '' }}"></span>
+    </div>
+  }
+
+  <!-- The "All games" tab: a click opens or closes the panel under it. -->
+  <div class="flex h-9 shrink-0 items-center gap-1 border-y border-inherit bg-shell-100 pr-1.5 dark:bg-shell-900">
+    <button type="button" (click)="layout.toggleGames()" [attr.aria-expanded]="layout.gamesOpen()" aria-controls="panel-games"
+      [title]="(layout.gamesOpen() ? 'panels.hide' : 'panels.show') | translate: { label: ('panels.allGames' | translate) }"
+      class="flex h-full min-w-0 flex-1 items-center gap-1.5 px-3 text-left font-semibold hover:bg-shell-200 dark:hover:bg-shell-800">
+      <app-icon [name]="layout.gamesOpen() ? 'chevron-down' : 'chevron-right'" [size]="14" />
+      <span class="truncate">{{ 'panels.allGames' | translate }}</span>
+      <span class="badge">{{ view.tree().total }}</span>
+    </button>
+  </div>
+
+  <!-- All games: kept in the DOM while closed, so the expanded folders and the scroll position are not lost. -->
+  <div #gamesBlock id="panel-games" role="region" [attr.aria-label]="'panels.allGames' | translate" class="flex min-h-0 flex-col" [style.flex]="gamesFlex()" [style.min-height.px]="layout.gamesOpen() ? minGames : null"
+    [style.display]="layout.gamesOpen() ? null : 'none'" [attr.aria-hidden]="layout.gamesOpen() ? null : 'true'" [attr.inert]="layout.gamesOpen() ? null : ''">
+    <app-games-panel />
+  </div>
+</div>

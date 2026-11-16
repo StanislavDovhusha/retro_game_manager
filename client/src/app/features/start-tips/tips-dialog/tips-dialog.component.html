@@ -1,0 +1,6 @@
+<app-modal [title]="'startTips.title' | translate" [wide]="true" (closed)="closed.emit()">
+  <app-start-tips [device]="devices.active()" [heading]="false" />
+  <div footer class="contents">
+    <button type="button" class="btn" (click)="closed.emit()">{{ 'buttons.close' | translate }}</button>
+  </div>
+</app-modal>

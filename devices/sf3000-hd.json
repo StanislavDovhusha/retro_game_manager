@@ -1,0 +1,10 @@
+{
+  "id": "sf3000-hd",
+  "extends": "sf3000-family",
+  "name": "SF3000 HD",
+  "order": 20,
+  "tips": {
+    "firmwareLink": "https://handhelds.wiki/SF3000",
+    "communityLink": "https://r36sx-hub.neocities.org/"
+  }
+}
