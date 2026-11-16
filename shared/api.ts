@@ -431,7 +431,7 @@ export interface RenameGameResponse extends RenamePlanResponse {
 
 // ── New version of the application ────────────────────────────────────────
 export interface UpdateRelease {
-  /** `1.0.1` (read from the tag: `v1.0.1_final` → `1.0.1`). */
+  /** `1.0.1` (read from the tag: `v1.0.1-rc.1` → `1.0.1`). */
   version: string;
   /** The release page on GitHub. */
   url: string;

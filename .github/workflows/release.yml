@@ -34,12 +34,16 @@ jobs:
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
 
+      # The tag is v<version> with any suffix (v1.0.0, v1.0.0_final, v1.0.0-rc.1). The suffix may not continue the
+      # version itself: v1.0.10 or v1.0.0.1 do not match version 1.0.1 / 1.0.0.
       - name: Check that the tag matches the version in package.json
         if: github.event_name == 'push'
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          if [ "v${VERSION}" != "${GITHUB_REF_NAME}" ]; then
+          prefix="v${VERSION}"
+          tail="${GITHUB_REF_NAME#"$prefix"}"
+          if [ "$tail" = "$GITHUB_REF_NAME" ] || [[ "$tail" =~ ^\.?[0-9] ]]; then
             echo "Tag ${GITHUB_REF_NAME} does not match package.json version ${VERSION}" >&2
             exit 1
           fi
@@ -162,3 +166,5 @@ jobs:
           files: files/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+          # A tag with a suffix (v1.0.1-rc.1) is a pre-release: the update check in the app skips it.
+          prerelease: ${{ contains(github.ref_name, '-') }}

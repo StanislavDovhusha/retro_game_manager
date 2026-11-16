@@ -2,7 +2,7 @@ import semver from 'semver';
 
 /**
  * The version of a release tag: the `v` prefix and anything after the main version are dropped
- * (`v1.0.1` → `1.0.1`, `v1.0.1_final` → `1.0.1`, `1.2.3-beta.1` → `1.2.3`). Null when the tag does not start with a
+ * (`v1.0.1` → `1.0.1`, `v1.0.1-rc.1` → `1.0.1`, `1.2.3-beta.1` → `1.2.3`). Null when the tag does not start with a
  * full `major.minor.patch` version (`latest`, `v1.0`, `release-3`): such a tag is not treated as an update.
  */
 export function releaseVersion(tag: string): string | null {

@@ -51,14 +51,14 @@ test('switched off: the start does not ask GitHub', async () => {
 });
 
 test('a newer release: shown with its version, page and title; the request is the documented one', async () => {
-  answer = release('v1.0.1_final');
+  answer = release('v1.0.1-rc.1');
   const status = await startup();
   assert.equal(status.check, 'checked');
   assert.equal(status.current, '1.0.0', 'the version of package.json');
   assert.deepEqual(status.available, {
     version: '1.0.1',
-    url: 'https://github.com/StanislavDovhusha/retro_game_manager/releases/tag/v1.0.1_final',
-    name: 'Release v1.0.1_final',
+    url: 'https://github.com/StanislavDovhusha/retro_game_manager/releases/tag/v1.0.1-rc.1',
+    name: 'Release v1.0.1-rc.1',
   });
   assert.equal(status.dismissed, false);
   assert.equal(calls.length, 1);

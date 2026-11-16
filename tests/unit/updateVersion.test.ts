@@ -5,7 +5,7 @@ import { isNewer, releaseVersion } from '../../src/services/update/version.ts';
 
 test('release tags: the v prefix and anything after the main version are dropped', () => {
   assert.equal(releaseVersion('v1.0.1'), '1.0.1');
-  assert.equal(releaseVersion('v1.0.1_final'), '1.0.1');
+  assert.equal(releaseVersion('v1.0.1-rc.1'), '1.0.1');
   assert.equal(releaseVersion('1.2.3'), '1.2.3');
   assert.equal(releaseVersion('V2.0.0-beta.1'), '2.0.0');
   assert.equal(releaseVersion(' v1.10.0 '), '1.10.0');
