@@ -27,7 +27,11 @@ Download the latest version for **Windows**, **macOS** and **Linux** from the [R
 | macOS, Intel | `Retro-Game-Manager-<version>-x64.dmg` |
 | Linux | `Retro-Game-Manager-<version>.AppImage` or `Retro-Game-Manager-<version>.deb` (Debian, Ubuntu, Mint) |
 
-`SHA256SUMS.txt` on the release page holds the checksums of the files.
+`SHA256SUMS.txt` on the release page holds the SHA-256 checksums of the files. To check a download, compare its checksum with the one in that file:
+
+- **Windows (PowerShell):** `Get-FileHash .\Retro-Game-Manager-Setup-<version>.exe`
+- **macOS:** `shasum -a 256 Retro-Game-Manager-<version>-arm64.dmg`
+- **Linux:** `sha256sum -c SHA256SUMS.txt --ignore-missing` (run it in the folder with the downloaded files)
 
 ### First start of an app without a signature
 

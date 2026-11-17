@@ -27,7 +27,11 @@
 | macOS, Intel                       | `Retro-Game-Manager-<версія>-x64.dmg`                                                                                         |
 | Linux                              | `Retro-Game-Manager-<версія>.AppImage` або `Retro-Game-Manager-<версія>.deb` (Debian, Ubuntu, Mint)                           |
 
-Контрольні суми файлів — у `SHA256SUMS.txt` на сторінці релізу.
+Контрольні суми SHA-256 файлів — у `SHA256SUMS.txt` на сторінці релізу. Щоб перевірити завантажений файл, порівняйте його суму з тією, що в цьому файлі:
+
+- **Windows (PowerShell):** `Get-FileHash .\Retro-Game-Manager-Setup-<version>.exe`
+- **macOS:** `shasum -a 256 Retro-Game-Manager-<version>-arm64.dmg`
+- **Linux:** `sha256sum -c SHA256SUMS.txt --ignore-missing` (запустіть у теці із завантаженими файлами)
 
 ### Перший запуск застосунку без підпису
 
